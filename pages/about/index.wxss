@@ -1,0 +1,17 @@
+/* pages/about/index.wxss */
+.appname {
+  font-weight: 900;
+}
+.container {
+  background-color: #eee;
+  height: 100vh;
+  display:flex;
+  flex-direction: column; 
+  justify-content: space-around;
+  align-items: center;
+}
+
+.about-banner {
+  width: 375rpx;
+  height: 375rpx;
+}

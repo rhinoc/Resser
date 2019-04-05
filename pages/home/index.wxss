@@ -1,0 +1,87 @@
+/**index.wxss**/
+.rss-info {
+  display: flex;
+  position: relative;
+  flex-direction: row;
+  justify-content: flex-end;
+  margin-right: 20rpx;
+}
+
+.info-title {
+  font-size: 20rpx;
+  margin-left:0.2ch;
+}
+.favicon {
+  height:20rpx;
+  width: 20rpx;
+}
+.unread {
+  align-items: left;
+  margin-left:10%;
+  padding-bottom: 20rpx;
+}
+
+text.unread-number {
+  font-size: 32px;
+}
+
+text.unread-sign {
+  color: gray;
+  font-size:15px;
+  margin-left:0.5ch;
+}
+
+.title {
+  font-size: 28rpx;
+  font-weight: bold;
+  padding: 0 24rpx;
+  color: #666;
+}
+
+.info-box {
+  padding: 0 24rpx;
+  font-size: 18rpx;
+  color: #666;
+  margin: 24rpx 0;
+}
+
+.avatar {
+  width: 31rpx;
+  height: 31rpx;
+  margin-right: 12rpx;
+}
+
+.info-box text + text {
+  margin-left: 12rpx;
+}
+
+.rss-item {
+  padding: 12rpx 12rpx 12rpx 24rpx;
+  background-color: #fff; 
+  position: relative;
+  border-bottom: 1rpx solid #F3F3F3;
+}
+
+.rss-item-title {
+  font-size: 30rpx;
+  padding: 12rpx 12rpx 12rpx 0rpx;
+  position: relative;
+  font-weight: bold;
+  color: #000;
+}
+
+.rss-item-des {
+  font-size: 24rpx;
+  padding: 12rpx 12rpx 12rpx 0rpx;
+  position: relative;
+  color: #666;
+  line-height: 36rpx;
+}
+
+.rss-item + .rss-item {
+  margin-top: 10rpx;
+}
+
+.rss-item text {
+  text-align: left;
+}

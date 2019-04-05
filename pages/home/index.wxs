@@ -1,0 +1,78 @@
+
+var convertHtmlToText = function (inputText) {
+  var returnText = "" + inputText;
+  var reg = getRegExp("<\/div>", "g");
+  returnText = returnText.replace(reg, '\r\n');
+
+  reg = getRegExp("<\/li>", "g");
+  returnText = returnText.replace(reg, '\r\n');
+
+  reg = getRegExp("<li>", "g");
+  returnText = returnText.replace(reg, '  *  ');
+
+  reg = getRegExp("<\/ul>", "g");
+  returnText = returnText.replace(reg, '\r\n');
+  //-- remove BR tags and replace them with line break
+  reg = getRegExp("<br\s*[\/]?>", "g");
+  returnText = returnText.replace(reg, "\r\n");
+
+  //-- remove P and A tags but preserve what's inside of them
+  reg = getRegExp("<p.*?>", "g");
+  returnText = returnText.replace(reg, "\r\n");
+
+  reg = getRegExp('<a.*href="(.*?)".*>(.*?)<\/a>', "g");
+  returnText = returnText.replace(reg, " $2 ($1)");
+
+  //-- remove all inside SCRIPT and STYLE tags
+  reg = getRegExp("<script.*>[\w\W]{1,}(.*?)[\w\W]{1,}<\/script>", "g");
+  returnText = returnText.replace(reg, "");
+
+  reg = getRegExp("<style.*>[\w\W]{1,}(.*?)[\w\W]{1,}<\/style>", "g");
+  returnText = returnText.replace(reg, "");
+  //-- remove all else
+  reg = getRegExp("<(?:.|\s)*?>", "g");
+  returnText = returnText.replace(reg, "");
+
+  //-- get rid of more than 2 multiple line breaks:
+  reg = getRegExp("(?:(?:\r\n|\r|\n)\s*){2,}", "g");
+  returnText = returnText.replace(reg, "\r\n\r\n");
+
+  //-- get rid of more than 2 spaces:
+  reg = getRegExp(" +(?= )", "g");
+  returnText = returnText.replace(reg, '');
+
+  //-- get rid of html-encoded characters:
+  // returnText = returnText.replace(/ /gi, " ");
+  // returnText = returnText.replace(/&/gi, "&");
+  // returnText = returnText.replace(/"/gi, '"');
+  // returnText = returnText.replace(/</gi, '<');
+  // returnText = returnText.replace(/>/gi, '>');
+
+  return returnText;
+}
+
+var removetxt = function (inputtext, detailType) {
+
+  var ret = inputtext;
+  //console.log(detailType);
+
+  if (detailType == 'crawl' || detailType == 'content:encoded') {
+    var pos = ret.search("<strong>阅读全文</strong>");
+    if (pos < 0) {
+      return ret;
+    }
+    ret = ret.substring(0, pos) + "</a>";
+
+  } else {
+    ret = convertHtmlToText(ret);
+    ret = inputtext.substring(0, 200);
+    // console.log(ret);
+    ret = ret + "......";
+  }
+
+  return ret;
+}
+
+module.exports = {
+  removetxt: removetxt
+};

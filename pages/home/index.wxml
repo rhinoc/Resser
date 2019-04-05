@@ -1,0 +1,31 @@
+<!--index.wxml-->
+<wxs src="index.wxs" module="index" />
+<view>
+  <view class="unread">
+    <text class="unread-number">{{unreadNumber}}</text>
+    <text class="unread-sign">未读</text>
+  </view>
+</view>
+<view
+  class='rss-item'
+  bindtap='handleRssItemTap'
+  data-rss-item-data='{{idx}}'
+  wx:for="{{rss_list}}"
+  wx:for-index="idx"
+  wx:for-item="itemName"
+  wx:key="text">
+  <!-- <text>{{itemName.name}}</text> -->
+    <view class='rss-item-title'
+    wx:for="{{itemName.rssData.item}}" 
+    wx:key="unique">
+      <text>{{item.title.text}}</text>
+    </view>
+  <view class='right-arrow'></view>
+  <view class='rss-item-des'>
+    <rich-text nodes="{{index.removetxt(itemName.description.text,detailType)}}" bindtap="tap"></rich-text>
+  </view>
+  <view class='rss-info'>
+    <image class='favicon' src="{{favicon}}"></image>
+    <text class='info-title'>{{title}}</text>
+  </view>
+</view>

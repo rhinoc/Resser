@@ -1,0 +1,32 @@
+<!--pages/rss/center.wxml-->
+<view class='category'>RSS订阅中心</view>
+<view class='spliter-line'></view>
+<view class="zan-row">
+  <block wx:for="{{rssDataComputed}}" wx:key="{{index}}">
+    <view class="zan-col zan-col-8" bindtap='handleRssItemTap' data-rss-item-data='{{item}}'>
+      <view class='rssed' wx:if='{{item.rssed}}'>
+        <icon class='rssed-icon' type="success" size="20" />
+      </view>
+      <image class='avatar' mode='aspectFit' src='{{item.favicon}}'></image>
+      <view class='rss-author'>{{item.title}}</view>
+    </view>
+  </block>
+</view>
+
+<!-- <view class='spliter-line'></view> -->
+
+<!--简介弹框 start  -->
+<view class="zan-popup {{ showPopup ? 'zan-popup--show' : ''}}">
+  <view class="zan-popup__mask" bindtap="togglePopup"></view>
+  <view class="zan-popup__container rss-item-popup__container">
+    <view class='rss-header'>
+      <image class='avatar' mode='aspectFit' src='{{rssItemData.favicon}}'></image>
+      <text class='rss-author'>{{rssItemData.title}}</text>
+      <view class='sub' bindtap='handleRssAdd' wx:if='{{!rssItemData.rssed}}'>关注</view>
+      <view class='sub subed' wx:if='{{rssItemData.rssed}}'>已关注</view>
+      <view><text selectable='true'>{{rssItemData.link}}</text></view>
+    </view>
+    <view class='description'>{{rssItemData.description}}</view>
+  </view>
+</view>
+<!--简介弹框 end  -->
