@@ -1,0 +1,27 @@
+<!--index.wxml-->
+<view wx:if="{{openid}}">
+  <view class='source-item' wx:for="{{rss_list}}" wx:for-item="rssItem" wx:for-index="idxf" wx:key="unique">
+    <view class='rss-item' bindtap='handleRssItemTap' data-article-index='{{idx}}' data-source-index='{{idxf}}' wx:for="{{rssItem.rssData.entry||rssItem.rssData.item}}" wx:for-index="idx" wx:key="text">
+      <van-panel title="{{item.title.text}}" desc="{{item.description.text}}">
+      <view class='rss-info'>
+        <image class='favicon' src="{{rssItem.favicon}}"></image>
+        <text class='info-title'>{{rssItem.name}}</text>
+      </view>
+</van-panel>
+
+
+      <!-- <text>{{item.title.text}}</text>
+      <view class='right-arrow'></view>
+      <view class='rss-item-des'>
+          <wxparser rich-text="{{item.description.text}}" />
+        </view>
+      <view class='rss-info'>
+        <image class='favicon' src="{{rssItem.favicon}}"></image>
+        <text class='info-title'>{{rssItem.name}}</text>
+      </view> -->
+    </view>
+  </view>
+</view>
+<view wx:else>
+<van-toast id="van-toast" />
+</view>

@@ -1,0 +1,55 @@
+{
+  "cloud":true,
+  "pages": [
+    "pages/home/index",
+    "pages/discover/index",
+    "pages/user/index",
+    "pages/rss/list",
+    "pages/settings/index",
+    "pages/about/index",
+    "pages/home/article",
+    "pages/rss/center"
+  ],
+  "window": {
+    "pageOrientation": "auto",
+    "resizable": true,
+    "backgroundTextStyle": "dark",
+    "navigationBarBackgroundColor": "#3281ff",
+    "navigationBarTitleText": "阅见",
+    "navigationBarTextStyle": "white"
+  },
+  "sitemapLocation": "sitemap.json",
+  "tabBar": {
+    "color": "#707070",
+    "selectedColor": "#3281ff",
+    "borderStyle": "white",
+    "list": [
+      {
+        "selectedIconPath": "images/home.png",
+        "iconPath": "images/home_u.png",
+        "pagePath": "pages/home/index",
+        "text": "首页"
+      },
+      {
+        "selectedIconPath": "images/discover.png",
+        "iconPath": "images/discover_u.png",
+        "pagePath": "pages/discover/index",
+        "text": "发现"
+      },
+      {
+        "selectedIconPath": "images/user.png",
+        "iconPath": "images/user_u.png",
+        "pagePath": "pages/user/index",
+        "text": "我的"
+      }
+    ]
+  },
+
+  "plugins": {
+    "wxparserPlugin": {
+      "version": "0.2.1",
+      "provider": "wx9d4d4ffa781ff3ac"
+    }
+  }
+
+}

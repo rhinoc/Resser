@@ -1,0 +1,38 @@
+  <view class='content'>
+    <view class='item'>
+      <view class='title'>声明</view>
+      <view>仅用于学习交流，禁止用于其他用途。</view>
+    </view>
+    <view class='item'>
+      <view class='title'>有关阅见</view>
+        <view class='text'>
+          <view>一款年轻的RSS阅读器。</view>
+        </view>
+      </view>
+    </view>
+    <view class='item'>
+      <view class='title'>开发团队</view>
+        <view class='text'>
+          <view>DeveSA</view>
+          <view>由来自哈尔滨工业大学（深圳）的两名本科生组成。</view>
+        </view>
+      <view class='i' catchtap='copy' data-title='邮箱' data-content='{{email}}'>
+        <view class='icon'>
+          <image src='/images/email.png'></image>
+        </view>
+        <view class='text'>
+          <view>通过 Email 反馈</view>
+          <view>{{email}}</view>
+        </view>
+      </view>
+      <view class='i' catchtap='copy' data-title='QQ' data-content='{{qq}}'>
+        <view class='icon'>
+          <image src='/images/qq.png'></image>
+        </view>
+        <view class='text'>
+          <view>通过 QQ 反馈</view>
+          <view>{{qq}}</view>
+        </view>
+      </view>
+  </view>
+  <view class='footer'>我们 · DeveSA</view>

@@ -1,0 +1,49 @@
+<!--pages/rsscenter/rsscenter.wxml-->
+
+<!--  搜索框start  -->
+<view class='search'>
+  <input type='text' placeholder='搜索 / 输入订阅网址' confirm-type='search' value="{{inputValue}}" bindinput='inputBind' bindconfirm='query'></input>
+  <view class='rss-info'>
+    <image class='search image' src='/images/find.png'></image>
+  </view>
+</view>
+<!--  搜索框end  -->
+
+<!-- 有赞普通输入框
+<van-cell-group>
+  <van-field
+    value="{{ value }}"
+    placeholder="搜索或输入订阅网址"
+    border="{{ false }}"
+    bind:change="onChange"
+  />
+    <view class='rss-info'>
+        <image class='favicon' src='/images/find.png'></image>
+    </view>
+</van-cell-group> -->
+
+<!-- 订阅源模块 -->
+
+<view class="zan-row">
+  <block wx:for="{{rssDataComputed}}" wx:key="{{index}}">
+    <view class="zan-col zan-col-6" bindtap='handleRssAdd' data-rss-item-data='{{item}}'>
+      <!-- <view class='rssed' wx:if='{{item.rssed}}'>
+        <icon class='rssed-icon' type="success" size="20" />
+      </view> -->
+      <image class='avatar' mode='aspectFit' src='{{item.favicon}}'></image>
+      <!-- <view> -->
+        <view class='rss-title'>{{item.title}}</view>
+        <view class='rss-description'>{{item.description}}</view>
+      <!-- </view> -->
+      <view class='van-button--default' wx:if="{{!item.rssed}}">＋订阅</view>
+    </view>
+  </block>
+</view>
+
+
+
+<view class='spliter-line'></view>
+
+<!-- 简介弹框 start  --> 
+<!-- van-button {{ rssfollow ? 'van-button--default' : 'van-button--info'}}" -->
+<!--简介弹框 end -->

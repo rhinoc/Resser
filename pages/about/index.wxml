@@ -1,7 +1,0 @@
-<!--pages/about/index.wxml-->
-<view class="container">
-  <image class = "about-banner" src="https://rhinoc.top/images/ava.png"></image>
-  <text class="appname">阅见</text>
-  <text>Produced by DeveSA</text>
-  <text>Version 0.1</text>
-</view>

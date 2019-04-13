@@ -1,0 +1,16 @@
+{
+  "name": "resser",
+  "version": "1.0.0",
+  "description": "a simple rss reader",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "DeveSA",
+  "license": "ISC",
+  "dependencies": {
+    "feedme": "latest",
+    "http": "latest",
+    "events": "latest"
+  }
+}

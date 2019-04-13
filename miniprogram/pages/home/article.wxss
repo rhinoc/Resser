@@ -1,0 +1,77 @@
+/* pages/home/article.wxss */
+.avatar {
+  
+}
+.container {
+  display: block;
+}
+
+.serif {
+  font-family: Palatino, Optima, Georgia, serif;
+}
+
+.title {
+  margin-top: 20rpx;
+  font-family: PingFang SC, Verdana, Helvetica Neue, Microsoft Yahei, Hiragino Sans GB, Microsoft Sans Serif, WenQuanYi Micro Hei, sans-serif;
+  font-size: 42rpx;
+  padding: 0 24rpx;
+  font-weight: bold;
+  color: #000;
+  line-height: 1.35;
+}
+
+.info-box {
+  padding: 20rpx 20rpx;
+  font-size: 20rpx;
+  color: #666;
+  margin: 15rpx 0;
+}
+
+.pubTime {
+  margin-left: 24rpx ;
+}
+
+.summary {
+  background-color: #447EB9; 
+  position: relative;
+  border: 1rpx solid #447EB9;
+  font-size: 24rpx;
+  color: #fff;
+  margin-left: 12rpx;
+  margin-right: 12rpx;
+  border-radius: 10rpx;
+  line-height: 35rpx;
+}
+
+.progressbar{
+  position:fixed;
+  top:0;
+  width:750rpx;
+  margin-left:-20rpx;
+}
+
+.article {
+  padding: 15rpx 20rpx 12rpx 20rpx;
+  background-color: #fff; 
+  position: relative;
+  font-size: 30rpx;
+  line-height: 50rpx;
+  color: #333;
+  letter-spacing: 2rpx;
+  /* text-indent: 40rpx; */
+  /* margin-bottom: 150rpx; */
+}
+
+.textattr {
+  user-select: true ;
+}
+
+.footer {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 80rpx;
+  font-size: 24rpx;
+  color: #333;
+  margin-top: 30rpx;
+}

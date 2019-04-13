@@ -1,0 +1,27 @@
+<!--index.wxml-->
+<view class="container">
+  <!--头像&昵称-->
+  <view>
+    <label>
+      <image class='userinfo-avatar' src='{{avatar}}'></image>
+      <button open-type='getUserInfo' bindgetuserinfo='getUserInfoHandler'></button>
+  </label>
+  </view>
+  <view class="userinfo-nickname">
+    <text>{{username||"点击头像登陆"}}</text>
+  </view>
+  <!--选项-->
+  <view class="user-list">
+    <van-cell-group>
+      <van-cell title="稍后阅读" is-link url="/pages/dashboard/index" icon="underway-o" />
+      <van-cell title="收藏集" is-link url="/pages/dashboard/index" icon="star-o" />
+      <van-cell title="阅历" url="/pages/dashboard/index" icon="bar-chart-o" />
+    </van-cell-group>
+  </view>
+  <view class="user-list" style="margin-top:10rpx">
+    <van-cell-group>
+      <van-cell title="设置" is-link url="/pages/dashboard/index" icon="setting-o" />
+      <van-cell title="关于" url="/pages/about/index" icon="share" />
+    </van-cell-group>
+  </view>
+</view>

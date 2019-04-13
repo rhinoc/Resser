@@ -1,0 +1,105 @@
+/**index.wxss**/
+.userinfo-avatar {
+  width: 128rpx;
+  height: 128rpx;
+  margin: 20rpx;
+}
+
+.userinfo-nickname {
+  color: #aaa;
+}
+
+.rss-info {
+  display: flex;
+  position: relative;
+  flex-direction: row;
+  justify-content: flex-end;
+  margin-right: 20rpx;
+}
+
+.info-title {
+  margin-top:20rpx;
+  font-size: 22rpx;
+  margin-left:0.4ch;
+}
+.favicon {
+  margin-top:20rpx;
+  height: 22rpx;
+  width: 22rpx;
+}
+
+.unread {
+  align-items: left;
+  margin-left:10%;
+  padding-bottom: 20rpx;
+}
+
+text.unread-number {
+  font-size: 32px;
+}
+
+text.unread-sign {
+  color: gray;
+  font-size:15px;
+  margin-left:0.5ch;
+}
+
+.title {
+  font-size: 28rpx;
+  font-weight: bold;
+  padding: 0 24rpx;
+  color: #666;
+}
+
+.info-box {
+  padding: 0 24rpx;
+  font-size: 18rpx;
+  color: #666;
+  margin: 24rpx 0;
+}
+
+.avatar {
+  width: 31rpx;
+  height: 31rpx;
+  margin-right: 12rpx;
+}
+
+.info-box text + text {
+  margin-left: 12rpx;
+}
+
+.rss-item {
+  padding: 12rpx 12rpx 12rpx 24rpx;
+  background-color: #fff; 
+  position: relative;
+  border-bottom: 1rpx solid #F3F3F3;
+  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.rss-item-title {
+  font-size: 30rpx;
+  padding: 12rpx 12rpx 12rpx 0rpx;
+  position: relative;
+  font-weight: bold;
+  color: #000;
+}
+
+.rss-item + .rss-item {
+  margin-top: 10rpx;
+}
+
+.rss-item text {
+  text-align: left;
+}
+
+.rss-item-des{
+  margin-top:3%;
+  color: #4d4d4d;
+  font-size: 26rpx;
+  display: -webkit-box;
+  word-break: break-all;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp:1; 
+}
