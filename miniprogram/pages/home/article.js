@@ -41,7 +41,6 @@ Page({
 
     if ('content:encoded' in rssDataItem) {
       article = rssDataItem["content:encoded"].text;
-      summary = (rssDataItem.content || rssDataItem.description).text || '';
     }
     const title = rssDataItem.title.text;
     // console.log('title',title,'author',author,'pubTime',pubTime)
