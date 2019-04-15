@@ -90,8 +90,8 @@ Page({
   onPullDownRefresh: function() {
     const linkurl = this.data.linkurl || '';
     this.setData({ webview: true,})
-    // const that = this;
-    // this.getArticle(linkurl);
+    const that = this;
+    this.getArticle(linkurl);
   },
 
   /**
