@@ -23,6 +23,18 @@ Page({
    * 打开小程序时
    */
   onLoad: function(options) {
+
+
+  },
+
+  onPullDownRefresh: function () {
+    this.setData({
+      rss_list: [{}],
+      rss_pool: [{}]
+    })
+  },
+
+  onShow: function() {
     const that = this;
     wx.showLoading({
       title: '加载中',
@@ -39,39 +51,29 @@ Page({
       that.setData({
         userData
       })
-      that.setData({openid:userData._openid})
+      that.setData({ openid: userData._openid })
       //读取用户数据
-      var feeds = new Array(); //新建数组 用以存放rss订阅链接
-      var titles = new Array(); //新建数组 用以存放每个源的名称
-      var links = new Array(); //新建数组 用以存放每个源的名称
-      var favicons = new Array(); //新建数组 用以存放每个源的图标
       var tags = new Array();
 
-      let rss_list = that.data.rss_list;
+      let rss_list = [{}];
       for (var i in userData.subscribe) {
-        feeds.push(userData.subscribe[i].rssUrl);
-        titles.push(userData.subscribe[i].title);
-        links.push(userData.subscribe[i].link);
-        favicons.push(userData.subscribe[i].favicon);
-        tags.push(userData.subscribe[i].tag[0]);
-      }
-      var cates = Array.from(new Set(tags));
-      that.setData({cates});
-
-      //将读取到的用户数据赋值给Page中rss_list
-      for (var i = 0; i < feeds.length; i++) {
         var obj = {};
-        obj.name = titles[i];
-        obj.url = feeds[i];
-        obj.favicon = favicons[i];
-        obj.link = links[i];
-        obj.tag = tags[i];
+        obj.title = userData.subscribe[i].title;
+        obj.url = userData.subscribe[i].rssUrl;
+        obj.link = userData.subscribe[i].link;
+        obj.favicon = userData.subscribe[i].favicon;
+        obj.tag = userData.subscribe[i].tag[0];
+        tags[i] = obj.tag;
         rss_list.push(obj);
       }
+      var cates = Array.from(new Set(tags));
+      that.setData({ cates });
+
+      //将读取到的用户数据赋值给Page中rss_list
       rss_list.splice(0, 1);
       that.setData({
         rss_list,
-        length:feeds.length,
+        length: tags.length,
       });
 
       wx.setStorage({
@@ -80,10 +82,8 @@ Page({
       })
 
       // console.log(rss_list);
-      that.getRss(this.data.rss_list,feeds.length-1); //加载从源获取到的数据 
+      that.getRss(this.data.rss_list, tags.length - 1); //加载从源获取到的数据 
     })
-
-
   },
 
   getRss: function (rss_list,i) {
@@ -103,10 +103,10 @@ Page({
         // console.log('dataJson',dataJson);
         //获取转换为JSON格式后的列表内容
         var rssData = dataJson.feed || dataJson.rss.channel;
+        console.log(i,rssData);
         rss_pool = that.data.rss_pool;
         for (var j = 0; j < (rssData.item || rssData.entry).length; j++) {
           var rssDataItem = (rssData.item || rssData.entry)[j]
-          // console.log(j,rssDataItem);
           var obj = {};
           obj.favicon = rss_list[i].favicon;
           obj.source = rss_list[i].name;
