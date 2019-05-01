@@ -1,3 +1,4 @@
+const app = getApp() //获取应用实例
 const article = '';
 Page({
   /**
@@ -28,6 +29,8 @@ Page({
     var author = rssData.author;
     var pubTime = rssData.pubTime;
     var article = this.htmlDecode(article);
+    article = app.towxml.toJson(article,'html');
+
     var linkurl = rssData.link;
     console.log(title,author,pubTime,linkurl);
     this.setData({

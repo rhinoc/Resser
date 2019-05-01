@@ -2,11 +2,9 @@
   "navigationBarTitleText": "信息流",
   "enablePullDownRefresh": true,
   "usingComponents": {
-    "van-collapse": "/components/collapse/index",
-    "van-collapse-item": "/components/collapse-item/index",
-    "van-toast": "/components/toast/index",
-    "wxparse": "../../wxparse/wxparse",
-    "wxparser": "plugin://wxparserPlugin/wxparser",
-    "van-panel": "/components/panel/index"
+    "l-card": "/dist/card/index",
+    "l-tabs": "/dist/tabs/index",
+    "l-tabpanel": "/dist/tabpanel/index",
+    "wxparser": "plugin://wxparserPlugin/wxparser"
   }
 }

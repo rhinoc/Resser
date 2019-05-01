@@ -1,23 +1,19 @@
-<import src="../../wxparse/wxparse.wxml"></import>
+<import src="../../towxml/entry.wxml"/>
 
 <view class="container" wx:if='{{article}}'>
   <view class='title'>
     {{title}}
   </view>
   <view class='info-box'>
-    <text class='author'>{{author}}</text>
+    <text class='pubAuthor'>{{author}}</text>
     <text class='pubTime'>{{pubTime}}</text>
   </view>
 
   <view class='article' id='body'>
-    <view class="progressbar">
-      <van-progress pivot-text="进度" color="#3281ff" percentage="{{100*progress+25}}" />
-    </view>
-    <!-- <wxparse data="{{article}}" type="html" padding="5" url-prefix=""></wxparse> -->
-    <wxparser rich-text="{{article}}" />
+    
+    <template is="entry" data="{{...article}}"/>
   </view>
   <view class='footer'>阅见 · DeveSA</view>
 </view>
 <view wx:else>
-<!-- <web-view src="{{linkurl}}" /> -->
 </view>

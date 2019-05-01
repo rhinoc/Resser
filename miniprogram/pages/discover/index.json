@@ -1,6 +1,6 @@
 {
   "navigationBarTitleText": "订阅中心",
   "usingComponents": {
-    "van-button": "/components/button/index"
+    "l-button": "/dist/button/index"
   }
 }

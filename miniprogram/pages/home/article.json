@@ -1,8 +1,5 @@
 {
   "enablePullDownRefresh": true,
   "usingComponents": {
-    "van-progress": "../../components/progress/index",
-    "wxparse": "../../wxparse/wxparse",
-    "wxparser": "plugin://wxparserPlugin/wxparser"
   }
 }

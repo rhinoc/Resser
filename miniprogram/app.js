@@ -1,5 +1,6 @@
 //app.js
 require('./utils/v-request.js');
+const Towxml = require('/towxml/main'); 
 App({
   onLaunch: function () {
     //初始化云函数
@@ -11,5 +12,6 @@ App({
         traceUser: true, //设置用户信息追踪
       })
     }
-  }
+  },
+  towxml: new Towxml()
 })

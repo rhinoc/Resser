@@ -72,7 +72,7 @@ text.unread-sign {
   padding: 12rpx 12rpx 12rpx 24rpx;
   background-color: #fff; 
   position: relative;
-  border-bottom: 1rpx solid #F3F3F3;
+  /* border-bottom: 1rpx solid #F3F3F3; */
   box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
 }
 

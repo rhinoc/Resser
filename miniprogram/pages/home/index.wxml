@@ -1,27 +1,33 @@
 <!--index.wxml-->
 <view wx:if="{{openid}}">
-  <view class='source-item' wx:for="{{rss_pool}}" wx:for-item="item" wx:for-index="idx" wx:key="unique">
-    <view class='rss-item' bindtap='handleRssItemTap' data-article-index='{{idx}}'>
-      <van-panel title="{{item.title}}" desc="{{item.description}}">
-      <view class='rss-info'>
-        <image class='favicon' src="{{item.favicon}}"></image>
-        <text class='info-title'>{{item.source}}</text>
-      </view>
-</van-panel>
-
-
-      <!-- <text>{{item.title.text}}</text>
-      <view class='right-arrow'></view>
-      <view class='rss-item-des'>
-          <wxparser rich-text="{{item.description.text}}" />
+  <l-tabs scrollable="true" active-color="#3281ff">
+    <l-tabpanel tab="全部" key="one" slot="one">
+      <view class="tab-content">
+        <view class='source-item' wx:for="{{rss_pool}}" wx:for-item="item" wx:for-index="idx" wx:key="all">
+          <view class='rss-item' bindtap='handleRssItemTap' data-article-index='{{idx}}'>
+            <l-card type="avatar" l-class="card" image="{{item.favicon}}" title="{{item.title}}" describe="{{item.pubTime}}">
+              <view class="content">
+                {{item.description}}
+              </view>
+            </l-card>
+          </view>
         </view>
-      <view class='rss-info'>
-        <image class='favicon' src="{{rssItem.favicon}}"></image>
-        <text class='info-title'>{{rssItem.name}}</text>
-      </view> -->
-    </view>
-  </view>
+      </view>
+    </l-tabpanel>
+    <l-tabpanel wx:for="{{cates}}" wx:key="cates" tab="{{item}}" key="{{index}}" slot="{{index}}">
+      <view class="tab-content">
+        <view class='source-item' wx:for="{{rss_pool}}" wx:for-item="rssItem" wx:for-index="idx" wx:key="pool">
+          <view wx:if="{{item==rssItem.tag}}" class='rss-item' bindtap='handleRssItemTap' data-article-index='{{idx}}'>
+            <l-card type="avatar" l-class="card" image="{{rssItem.favicon}}" title="{{rssItem.title}}" describe="{{rssItem.pubTime}}">
+              <view class="content">{{rssItem.description}}
+              </view>
+            </l-card>
+          </view>
+        </view>
+      </view>
+    </l-tabpanel>
+  </l-tabs>
+
 </view>
 <view wx:else>
-<van-toast id="van-toast" />
 </view>

@@ -12,7 +12,7 @@
 		"minified": true,
 		"newFeature": true,
 		"nodeModules": true,
-		"uglifyFileName": true,
+		"uglifyFileName": false,
 		"checkInvalidKey": true
 	},
 	"compileType": "miniprogram",
@@ -54,7 +54,7 @@
 					"id": 1,
 					"name": "article",
 					"pathName": "pages/home/article",
-					"query": "s=0&id=0&url=",
+					"query": "id=81",
 					"scene": null
 				},
 				{

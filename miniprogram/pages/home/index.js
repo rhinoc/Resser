@@ -1,5 +1,4 @@
 //index.js
-import Toast from '../../components/toast/toast';
 const regeneratorRuntime = require('../../utils/runtime');
 const util = require('../../utils/util.js');
 const xml2json = require('../../utils/xml2json.js');
@@ -15,6 +14,7 @@ Page({
     userData: [{}],
     rss_list: [{}],
     rss_pool: [{}],
+    cates:[{}],
     length: 0,
     openid: '',
   },
@@ -23,11 +23,20 @@ Page({
    * 打开小程序时
    */
   onLoad: function(options) {
-    Toast.loading({
-      mask: false,
-      message: '请先登陆',
-    });
     const that = this;
+    wx.showLoading({
+      title: '加载中',
+    })
+    setTimeout(function () {
+      wx.hideLoading()
+      // if (openid == '') {
+      //   wx.showToast({
+      //     title: '请先登陆',
+      //     icon: 'none',
+      //     duration: 2000
+      //   })
+      // }
+    }, 2000)
     let openid = wx.getStorageSync('openid');
     //从云端读取用户数据库
     db.collection('user').where({
@@ -38,21 +47,23 @@ Page({
         userData
       })
       that.setData({openid:userData._openid})
-      // console.log('data',that.data.userData);
-      // console.log('43', userData);
-      // console.log('subsribe',userData.subscribe);
       //读取用户数据
       var feeds = new Array(); //新建数组 用以存放rss订阅链接
       var titles = new Array(); //新建数组 用以存放每个源的名称
       var links = new Array(); //新建数组 用以存放每个源的名称
-      var favicons = new Array();
+      var favicons = new Array(); //新建数组 用以存放每个源的图标
+      var tags = new Array();
+
       let rss_list = that.data.rss_list;
       for (var i in userData.subscribe) {
         feeds.push(userData.subscribe[i].rssUrl);
         titles.push(userData.subscribe[i].title);
         links.push(userData.subscribe[i].link);
         favicons.push(userData.subscribe[i].favicon);
+        tags.push(userData.subscribe[i].tag[0]);
       }
+      var cates = Array.from(new Set(tags));
+      that.setData({cates});
 
       //将读取到的用户数据赋值给Page中rss_list
       for (var i = 0; i < feeds.length; i++) {
@@ -60,8 +71,8 @@ Page({
         obj.name = titles[i];
         obj.url = feeds[i];
         obj.favicon = favicons[i];
-        obj.rssData = {};
         obj.link = links[i];
+        obj.tag = tags[i];
         rss_list.push(obj);
       }
       rss_list.splice(0, 1);
@@ -106,6 +117,7 @@ Page({
           var obj = {};
           obj.favicon = rss_list[i].favicon;
           obj.source = rss_list[i].name;
+          obj.tag = rss_list[i].tag;
           obj.link = (rssDataItem.link || rssDataItem.id).text || rssDataItem.link.href;
           obj.author = '';
           obj.title = rssDataItem.title.text;
@@ -125,9 +137,10 @@ Page({
           var now = new Date();
           var pubTime = new Date(obj.pubTime);
           var delta = now-pubTime;
-          if ((rss_pool.length < 1 || obj.title != rss_pool[rss_pool.length - 1].title) && delta<2678400000) rss_pool.push(obj);
+          if ((rss_pool.length < 1 || obj.title != rss_pool[rss_pool.length - 1].title) && delta < 1468800000) {
+            rss_pool.push(obj);
+            }
         }
-        rss_list[i].rssData = obj;
         rss_pool.sort(function(a,b){
           return b['pubTime'] > a['pubTime'] ? 1:-1
         })

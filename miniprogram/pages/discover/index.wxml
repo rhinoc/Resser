@@ -35,7 +35,7 @@
         <view class='rss-title'>{{item.title}}</view>
         <view class='rss-description'>{{item.description}}</view>
       <!-- </view> -->
-      <view class='van-button--default' wx:if="{{!item.rssed}}">＋订阅</view>
+      <l-button wx:if="{{!item.rssed}}" type="default">＋订阅</l-button>
     </view>
   </block>
 </view>
