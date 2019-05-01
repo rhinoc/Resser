@@ -1,11 +1,11 @@
 <!--index.wxml-->
 <view wx:if="{{openid}}">
-  <view class='source-item' wx:for="{{rss_list}}" wx:for-item="rssItem" wx:for-index="idxf" wx:key="unique">
-    <view class='rss-item' bindtap='handleRssItemTap' data-article-index='{{idx}}' data-source-index='{{idxf}}' wx:for="{{rssItem.rssData.entry||rssItem.rssData.item}}" wx:for-index="idx" wx:key="text">
-      <van-panel title="{{item.title.text}}" desc="{{item.description.text}}">
+  <view class='source-item' wx:for="{{rss_pool}}" wx:for-item="item" wx:for-index="idx" wx:key="unique">
+    <view class='rss-item' bindtap='handleRssItemTap' data-article-index='{{idx}}'>
+      <van-panel title="{{item.title}}" desc="{{item.description}}">
       <view class='rss-info'>
-        <image class='favicon' src="{{rssItem.favicon}}"></image>
-        <text class='info-title'>{{rssItem.name}}</text>
+        <image class='favicon' src="{{item.favicon}}"></image>
+        <text class='info-title'>{{item.source}}</text>
       </view>
 </van-panel>
 

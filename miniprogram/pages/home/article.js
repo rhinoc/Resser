@@ -1,4 +1,3 @@
-const util = require('../../utils/util.js');
 const article = '';
 Page({
   /**
@@ -6,7 +5,6 @@ Page({
    */
   data: {
     linkurl: '',
-    webview: false,
     title: '',
     author: '',
     pubTime: '',
@@ -21,37 +19,23 @@ Page({
   onLoad: function(options) {
     var that = this;
     const id = options.id; //位于来源的数据的id
-    const s = options.s; //来源
-    var rssData = wx.getStorageSync('rss_list') || {};
-    rssData = rssData[s].rssData;
-    // console.log(rssData);
-    var author = '';
-    var itemsData = rssData.item || rssData.entry;
-    var rssDataItem = itemsData[id];
-    console.log('26', rssDataItem);
-    var pubTime = (rssDataItem.pubDate || rssDataItem.published || rssDataItem.updated).text || '';
-    var article = (rssDataItem.content || rssDataItem.description).text || rssDataItem.description.p ||'';
-    if ('dc:creator' in rssDataItem) {
-      author = rssDataItem["dc:creator"].text;
-    } else if ('author' in rssDataItem) {
-      author = rssDataItem.author.text || rssDataItem.author.name;
-    } else if ('author' in rssData) {
-      author = rssData.author.name.text;
-    }
-
-    if ('content:encoded' in rssDataItem) {
-      article = rssDataItem["content:encoded"].text;
-    }
-    const title = rssDataItem.title.text;
-    // console.log('title',title,'author',author,'pubTime',pubTime)
-    article = this.htmlDecode(article);
-
+    console.log(id);
+    var rssData = wx.getStorageSync('rss_pool') || {};
+    rssData = rssData[id];
+    console.log(rssData);
+    var title = rssData.title;
+    var article = rssData.article;
+    var author = rssData.author;
+    var pubTime = rssData.pubTime;
+    var article = this.htmlDecode(article);
+    var linkurl = rssData.link;
+    console.log(title,author,pubTime,linkurl);
     this.setData({
       article,
       title,
-      pubTime: pubTime ? util.formatDate("MM-dd HH:mm", pubTime) : '', // 日期时间需格式化
+      pubTime,
       author,
-      linkurl: rssDataItem.link.text || rssDataItem.link.href,
+      linkurl
     })
 
   },

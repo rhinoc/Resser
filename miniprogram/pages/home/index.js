@@ -14,6 +14,7 @@ Page({
   data: {
     userData: [{}],
     rss_list: [{}],
+    rss_pool: [{}],
     length: 0,
     openid: '',
   },
@@ -53,7 +54,7 @@ Page({
         favicons.push(userData.subscribe[i].favicon);
       }
 
-      //将读取到的用户数据赋值给Page
+      //将读取到的用户数据赋值给Page中rss_list
       for (var i = 0; i < feeds.length; i++) {
         var obj = {};
         obj.name = titles[i];
@@ -74,6 +75,7 @@ Page({
         data: rss_list,
       })
 
+      // console.log(rss_list);
       that.getRss(this.data.rss_list,feeds.length-1); //加载从源获取到的数据 
     })
 
@@ -83,7 +85,7 @@ Page({
   getRss: function (rss_list,i) {
     const that = this;
     var url = rss_list[i].url;
-    wx.setStorageSync('curRssUrl', url);
+    var rss_pool = new Array();
     wx.vrequest({
       url: url,
       data: {},
@@ -96,32 +98,62 @@ Page({
         var dataJson = xml2json(res.data);
         // console.log('dataJson',dataJson);
         //获取转换为JSON格式后的列表内容
-        if ("rss" in dataJson) {
-          var rssData = dataJson.rss.channel;
-          //测试rssData的获取
-          // console.log('100', rssData);
-        } else if ("feed" in dataJson) {
-          var rssData = dataJson.feed;
-          //测试rssData的获取
-          // console.log('107', rssData);
+        var rssData = dataJson.feed || dataJson.rss.channel;
+        rss_pool = that.data.rss_pool;
+        for (var j = 0; j < (rssData.item || rssData.entry).length; j++) {
+          var rssDataItem = (rssData.item || rssData.entry)[j]
+          // console.log(j,rssDataItem);
+          var obj = {};
+          obj.favicon = rss_list[i].favicon;
+          obj.source = rss_list[i].name;
+          obj.link = (rssDataItem.link || rssDataItem.id).text || rssDataItem.link.href;
+          obj.author = '';
+          obj.title = rssDataItem.title.text;
+          obj.article = (rssDataItem.content || rssDataItem.description).text || rssDataItem.description.p || '';
+          obj.pubTime = (rssDataItem.pubDate || rssDataItem.published || rssDataItem.updated).text || '';
+          obj.pubTime = obj.pubTime ? util.formatDate("yyyy-MM-dd HH:mm", obj.pubTime) : ''
+          if ('dc:creator' in rssDataItem) {
+            obj.author = rssDataItem["dc:creator"].text;
+          } else if ('author' in rssDataItem) {
+            obj.author = rssDataItem.author.text || rssDataItem.author.name;
+          } else if ('author' in rssData) {
+            obj.author = rssData.author.name.text;
+          }
+          if ('content:encoded' in rssDataItem) {
+            obj.article = rssDataItem["content:encoded"].text;
+          }
+          var now = new Date();
+          var pubTime = new Date(obj.pubTime);
+          var delta = now-pubTime;
+          if ((rss_pool.length < 1 || obj.title != rss_pool[rss_pool.length - 1].title) && delta<2678400000) rss_pool.push(obj);
         }
-        rss_list[i].rssData = rssData;
-        that.setData({
-          rss_list
-        });
-        wx.setStorageSync('rss_list', rss_list)
+        rss_list[i].rssData = obj;
+        rss_pool.sort(function(a,b){
+          return b['pubTime'] > a['pubTime'] ? 1:-1
+        })
+        that.setData({ rss_pool });
+        wx.setStorageSync('rss_pool', rss_pool);
       }
     });
-    if (i>0) this.getRss(rss_list,i-1);
+    if (i>0) {
+      this.getRss(rss_list,i-1)
+    }
+    else{
+      this.setData({
+        rss_list,
+        rss_pool,
+      });
+      wx.setStorageSync('rss_list', rss_list);
+    }
   },
 
   // 点击跳转至文章详情页
   handleRssItemTap: (event) => {
-    const sourceIndex = event.currentTarget.dataset.sourceIndex;
+    // const sourceIndex = event.currentTarget.dataset.sourceIndex;
     console.log('event', event);
     const articleIndex = event.currentTarget.dataset.articleIndex;
     wx.navigateTo({
-      url: `../home/article?s=${sourceIndex}&id=${articleIndex}&url=`,
+      url: `../home/article?&id=${articleIndex}`,
     });
   },
 
@@ -133,104 +165,4 @@ function getJsonLength(jsonData) {
     jsonLength++;
   }
   return jsonLength;
-}
-
-
-//formats the ATOM feed to the needed output
-function formatATOM(json, options) {
-  var output = {
-    'type': 'atom',
-    items: []
-  };
-  var channel = json.feed || json;
-  if (channel.title) {
-    output.title = channel.title[0]._;
-  }
-  if (channel.subtitle)
-    if (_.isArray(channel.subtitle)) {
-      if (channel.subtitle[0]._) {
-        output.desc = channel.subtitle[0]._;
-      }
-    } else {
-      output.desc = channel.subtitle;
-    }
-  if (channel.link)
-    if (_.isArray(channel.link)) {
-      _.each(channel.link, function (val, index) {
-        if (val.type && val.type.indexOf("html") > 0) {
-          output.link = val.href;
-        }
-        if (val.rel === "hub") {
-          output.hub = val.href;
-        }
-      });
-    }
-  if (channel.id) {
-    output.id = channel.id[0];
-  }
-  if (channel.updated) {
-    output.last_modified = new Date(channel.updated[0]).toString();
-  }
-  if (channel.author) {
-    output.author = channel.author[0].name[0];
-  }
-  //just double check that it exists and that it is an array
-  if (channel.entry) {
-    if (!_.isArray(channel.entry)) {
-      channel.entry = [channel.entry];
-    }
-    _.each(channel.entry, function (val, index) {
-      val = flattenComments(val);
-      var obj = {}, _ref;
-      if ((options || {}).pipeOriginal) {
-        obj.original = val;
-      }
-      obj.id = val.id[0];
-      obj.title = (_ref = val.title) != undefined && _ref.length > 0 ? _ref[0]._ : void 0;
-      obj.summary = (_ref = val.content[0]) != undefined && _ref.length > 0 ? _ref[0]._ : void 0;
-      var categories = [];
-      //just grab the category text
-      if (val.category) {
-        if (_.isArray(val.category)) {
-          _.each(val.category, function (val, i) {
-            categories.push(val['term']);
-          });
-        } else {
-          categories.push(val.category);
-        }
-      }
-      obj.category = categories;
-      var link = '';
-      //just get the alternate link
-      if (val.link) {
-        if (_.isArray(val.link)) {
-          _.each(val.link, function (val, i) {
-            if (val.rel === 'self') {
-              link = val.href;
-            }
-          });
-        } else {
-          link = val.link.href;
-        }
-      }
-      obj.link = link;
-      //since we are going to format the date, we want to make sure it exists
-      if (val.published) {
-        //lets try basis js date parsing for now
-        obj.published_at = Date.parse(val.published[0]);
-        obj.time_ago = DateHelper.time_ago_in_words(obj.published_at);
-      }
-      if (val['media:content']) {
-        obj.media = val.media || {};
-        obj.media.content = val['media:content'];
-      }
-      if (val['media:thumbnail']) {
-        obj.media = val.media || {};
-        obj.media.thumbnail = val['media:thumbnail'];
-      }
-      //now push the obj onto the stack
-      output.items.push(obj);
-    });
-  }
-  return output;
 }
