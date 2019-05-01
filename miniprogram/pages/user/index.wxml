@@ -11,9 +11,13 @@
     <text>{{username||"点击头像登陆"}}</text>
   </view>
   <!--选项-->
-  <l-list title="稍后阅读" icon="time" />
-  <l-list title="收藏集" icon="favor" />
-  <l-list title="阅历" icon="eye" />
-  <l-list title="设置" icon="setting" />
-  <l-list title="关于" icon="more" />
+  <view class="group">
+  <l-list title="稍后阅读" image="../../images/later.png" />
+  <l-list title="收藏集" image="../../images/ic_collection_set.png" />
+  <l-list title="阅历" image="../../images/tab_activity.png" />
+</view>
+  <view class="group">
+  <l-list title="设置" image="../../images/setting.png" />
+  <l-list title="关于" image="../../images/ic_pin_more.png" />
+  </view>
 </view>

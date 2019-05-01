@@ -3,7 +3,7 @@ const app = getApp()
 Page({
   data: {
     username: '',
-    avatar: '/images/user.png',
+    avatar: '/images/default.png',
   },
 
   onShow: function() {

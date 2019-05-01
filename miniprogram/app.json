@@ -4,11 +4,9 @@
     "pages/home/index",
     "pages/discover/index",
     "pages/user/index",
-    "pages/rss/list",
     "pages/settings/index",
     "pages/about/index",
-    "pages/home/article",
-    "pages/rss/center"
+    "pages/home/article"
   ],
   "window": {
     "pageOrientation": "auto",

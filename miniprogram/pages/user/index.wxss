@@ -27,7 +27,9 @@
   margin-bottom: 20rpx;
 }
 
-.user-list {
-  width:750rpx;
+.group {
+  margin-top: 8%;
+  padding: 0 10%;
+  width:600rpx;
   box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
 }
