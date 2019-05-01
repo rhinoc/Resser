@@ -29,13 +29,6 @@ Page({
     })
     setTimeout(function () {
       wx.hideLoading()
-      // if (openid == '') {
-      //   wx.showToast({
-      //     title: '请先登陆',
-      //     icon: 'none',
-      //     duration: 2000
-      //   })
-      // }
     }, 2000)
     let openid = wx.getStorageSync('openid');
     //从云端读取用户数据库
@@ -137,7 +130,7 @@ Page({
           var now = new Date();
           var pubTime = new Date(obj.pubTime);
           var delta = now-pubTime;
-          if ((rss_pool.length < 1 || obj.title != rss_pool[rss_pool.length - 1].title) && delta < 1468800000) {
+          if ((rss_pool.length < 1 || obj.title != rss_pool[rss_pool.length - 1].title)) {
             rss_pool.push(obj);
             }
         }

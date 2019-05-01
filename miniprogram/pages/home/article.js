@@ -32,7 +32,7 @@ Page({
     article = app.towxml.toJson(article,'html');
 
     var linkurl = rssData.link;
-    console.log(title,author,pubTime,linkurl);
+    // console.log(title,author,pubTime,linkurl);
     this.setData({
       article,
       title,
@@ -76,8 +76,6 @@ Page({
    */
   onPullDownRefresh: function() {
     const linkurl = this.data.linkurl || '';
-    this.setData({ webview: true,})
-    const that = this;
     this.getArticle(linkurl);
   },
 
@@ -150,26 +148,22 @@ Page({
   getArticle: function(url) {
     // console.log('url',url);
     var that = this;
-    wx.vrequest({
-      url: url,
-      data: {},
-      header: {
-        'Content-Type': 'application/xml', // 默认值
+    wx.request({
+      method: 'POST',
+      url: 'https://api.gugudata.com/news/fetchcontent',
+      data: { appkey: 'AQKWA6WSC945', url: url, contentwithhtml: true},
+      headers: {
+        "content-type": "application/json",
         "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_5) AppleWebKit 537.36 (KHTML, like Gecko) Chrome",
         "Accept": "text/html,application/xhtml+xml,application/xml; q=0.9,image/webp,*/*;q=0.8"
       },
       success: function(res) {
+        var resData = res.data.Data;
         console.log(res);
-        var regTitle = new RegExp("<title>([\\s\\S]*?)...............</title>", "g");
-        var title = regTitle.exec(res.data);
-        if (title != null) {
-          console.log(title[1]);
-          that.setData({
-            title: title[1],
-          });
-        }
-        const article = res.data;
-
+        console.log(resData);
+        var article = resData.Content;
+        console.log(article);
+        article = app.towxml.toJson(article, 'html');
           that.setData({
             article: article,
           });

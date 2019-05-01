@@ -1,4 +1,4 @@
-<import src="../../towxml/entry.wxml"/>
+<import src="../../towxml/entry.wxml" />
 
 <view class="container" wx:if='{{article}}'>
   <view class='title'>
@@ -8,12 +8,9 @@
     <text class='pubAuthor'>{{author}}</text>
     <text class='pubTime'>{{pubTime}}</text>
   </view>
-
-  <view class='article' id='body'>
-    
-    <template is="entry" data="{{...article}}"/>
-  </view>
-  <view class='footer'>阅见 · DeveSA</view>
-</view>
-<view wx:else>
+  <loadmore show="{{true}}" type="end" loading-text="DeveSA · 阅见">
+    <view class='article' id='body' slot="content">
+        <template is="entry" data="{{...article}}" />
+    </view>
+  </loadmore>
 </view>
