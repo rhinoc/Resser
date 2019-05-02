@@ -1,12 +1,13 @@
 {
-  "cloud":true,
+  "cloud": true,
   "pages": [
     "pages/home/index",
     "pages/discover/index",
     "pages/user/index",
     "pages/settings/index",
     "pages/about/index",
-    "pages/home/article"
+    "pages/home/article",
+    "pages/rssed/index"
   ],
   "window": {
     "pageOrientation": "auto",
@@ -42,12 +43,10 @@
       }
     ]
   },
-
   "plugins": {
     "wxparserPlugin": {
       "version": "0.2.1",
       "provider": "wx9d4d4ffa781ff3ac"
     }
   }
-
 }

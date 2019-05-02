@@ -165,6 +165,7 @@ Page({
     // const sourceIndex = event.currentTarget.dataset.sourceIndex;
     console.log('event', event);
     const articleIndex = event.currentTarget.dataset.articleIndex;
+    console.log('articleIndex',articleIndex);
     wx.navigateTo({
       url: `../home/article?&id=${articleIndex}`,
     });

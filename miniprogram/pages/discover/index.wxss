@@ -1,184 +1,194 @@
 /* pages/rsscenter/rsscenter.wxss */
 .category {
-    padding: 24rpx;
+  padding: 24rpx;
+}
+
+.button{
+text-align: center;
 }
 
 .zan-col {
-    background-color: #39a9ed;
-    height: 25vw;
-    /* line-height: 25vw; */
-    text-align: center;
-    padding-top: 60rpx;
-    color: #fff;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    padding-left: 60rpx;
-    padding-right: 60rpx;
+  
+  background-color: #edae3930;
+  height:30vw;
+  /* line-height: 25vw; */
+  text-align: center;
+  padding-top: 20rpx;
+  padding-bottom: 20rpx;
+  color: rgba(65, 60, 60, 0.521);
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  padding-left: 60rpx;
+  padding-right: 60rpx;
+  align-items: center;
+
 }
 
 .zan-col:nth-child(odd) {
-    background-color: #66c6f2;
+  background-color: #ca8c5240;
 }
 
 .avatar {
-    width: 100rpx;
-    height: 100rpx;
+  position: flex;
+  width: 100rpx;
+  height: 100rpx;
+}
+
+.rss-text{
+  position: center;
+  flex-direction: column;
+  width: 400rpx;
 }
 
 .rss-title {
-    font-size: 30rpx;
+  font-size: 30rpx;
 }
 
 .rss-description {
-    font-size: 24rpx;
-    /* text-align: center; */
-    padding-left: 60rpx;
-    padding-right: 60rpx;
+  font-size: 24rpx;
+  /* text-align: center; */
+  padding-left:60rpx;
+  padding-right:60rpx;
 }
 
-.rss-add {
-    font-size: 48rpx;
-}
+.van-button--default{
+  display:inline-block;
+  height:60rpx;
+  padding:1vh;
+  font-size:32rpx;
+  line-height:24rpx;
+  text-align:center;
+  align-items: center;
+  justify-content: center;
+  vertical-align:middle;
+  border-radius:10rpx;
+  box-sizing:border-box;
+  color:rgba(65, 60, 60, 0.521);
+  background-color: #59cbf841;
+  border:4rpx solid rgba(255, 255, 255, 0.568)
+  }
+
+  .van-button--info{
+    position:relative;display:inline-block;height:44px;padding:0;font-size:16px;line-height:42px;text-align:center;-webkit-text-size-adjust:100%;vertical-align:middle;border-radius:2px;box-sizing:border-box;-webkit-appearance:none;
+    color:#fff;background-color:#1989fa;border:1px solid #1989fa}
+
+/* .rss-add {
+  font-size: 24rpx;
+} */
 
 .rss-item-popup__container {
-    padding: 12px 24px;
-    width: 70vw;
+  padding:12px 24px;
+  width:70vw;
 }
 
-.rss-item-popup__container .avatar {
-    width: 32rpx;
-    height: 32rpx;
-    vertical-align: bottom;
-    margin-right: 12rpx;
-}
+/* .rss-item-popup__container .avatar {
+  width:32rpx;
+  height:32rpx;
+  vertical-align:bottom;
+  margin-right:12rpx;
+} */
 
 .rss-header {
-    font-size: 24rpx;
-    color: #666;
+  font-size: 24rpx;
+  color: #666;
 }
 
 .rss-header-txt {
-    color: deepskyblue;
+  color: deepskyblue;
 }
 
 .description {
-    font-size: 28rpx;
-    color: #666;
-    margin-top: 12px;
+  font-size: 28rpx;
+  color: #666;
+  margin-top: 12px;
 }
 
 .sub {
-    font-size: 30rpx;
-    color: #fff;
-    background-color: #39a9ed;
-    text-align: center;
-    padding: 10rpx 18rpx;
-    border-radius: 12rpx;
-    float: right;
+  font-size: 30rpx;
+  color: #fff;
+  background-color: #39a9ed;
+  text-align: center;
+  padding: 10rpx 18rpx;
+  border-radius: 12rpx;
+  float: right;
 }
 
 .subed {
-    background-color: #09BB07;
+  background-color: #09BB07;
 }
 
 .rssed {
-    position: absolute;
-    top: 0;
-    right: 0;
-    border-radius: 50%;
-    width: 20px;
-    height: 20px;
-    text-align: center;
-    background-color: #09BB07;
-    overflow: hidden;
+  position: absolute;
+  top: 0;
+  right: 0;
+  border-radius:50%;
+  width: 20px;
+  height: 20px;
+  text-align: center;
+  background-color: #09BB07;
+  overflow: hidden;
 }
 
 .rssed-icon {
-    background: #fff;
+  background:#fff;
 }
 
 /* homeindex */
 .favicon {
-    /* margin-top:20rpx; */
-    height: 40rpx;
-    width: 40rpx;
+  /* margin-top:20rpx; */
+  height: 40rpx;
+  width: 40rpx;
 }
 
 .rss-info {
-    display: flex;
-    position: relative;
-    flex-direction: row;
-    justify-content: flex-end;
-    margin-right: 20rpx;
+  display: flex;
+  position: relative;
+  flex-direction: row;
+  justify-content: flex-end;
+  margin-right: 20rpx;
 }
 
 .info-title {
-    margin-top: 20rpx;
-    font-size: 22rpx;
-    margin-left: 0.4ch;
+  margin-top:20rpx;
+  font-size: 22rpx;
+  margin-left:0.4ch;
 }
 
 /* 搜索框 */
-.search {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    height: 60rpx;
-    background-color: whitesmoke;
-    margin-top: 2%;
-    margin-bottom: 2%;
-    border: 1rpx solid whitesmoke;
-    border-radius: 5rpx;
+.search
+{
+  display: flex;
+  flex-direction: row;
+  justify-content:space-between;
+  align-items: center;
+  width:100%;
+  height:60rpx;
+  background-color:whitesmoke;
+  margin-top: 2%;
+  margin-bottom: 2%;
+  border:1rpx solid whitesmoke;
+  border-radius: 5rpx;
+
 }
 
 /* 搜索框提示文字样式 */
-.search input {
-    font-size: 30rpx;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    padding-left: 50rpx;
+.search input
+{
+  font-size:30rpx;
+  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  padding-left:50rpx; 
 }
 
 /* 搜索框小图标 */
-.search image {
-    width: 40rpx;
-    height: 40rpx;
-    padding-right: 20rpx;
+.search image
+{ 
+  width:40rpx;
+  height:40rpx;
+  padding-right:20rpx;
 }
-
 /* 关注图标 */
 /* .van-button{position:relative;display:inline-block;height:44px;padding:0;font-size:16px;line-height:42px;text-align:center;-webkit-text-size-adjust:100%;vertical-align:middle;border-radius:2px;box-sizing:border-box;-webkit-appearance:none} */
-.van-button--default {
-    display: inline-block;
-    height: 60rpx;
-    padding: 0;
-    font-size: 32rpx;
-    line-height: 24rpx;
-    text-align: center;
-    -webkit-text-size-adjust: 100%;
-    vertical-align: middle;
-    border-radius: 10px;
-    box-sizing: border-box;
-    -webkit-appearance: none;
-    color: #333;
-    background-color: #fff;
-    border: 1rpx solid #eee
-}
 
-.van-button--info {
-    position: relative;
-    display: inline-block;
-    height: 44px;
-    padding: 0;
-    font-size: 16px;
-    line-height: 42px;
-    text-align: center;
-    -webkit-text-size-adjust: 100%;
-    vertical-align: middle;
-    border-radius: 2px;
-    box-sizing: border-box;
-    background-color: #1989fa;
-    border: 1px solid #1989fa;
-}
+

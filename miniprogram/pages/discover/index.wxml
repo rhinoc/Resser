@@ -1,13 +1,15 @@
 <!--pages/rsscenter/rsscenter.wxml-->
 
 <!--  搜索框start  -->
-<view class='search'>
-  <input type='text' placeholder='搜索 / 输入订阅网址' confirm-type='search' value="{{inputValue}}" bindinput='inputBind' bindconfirm='query'></input>
-  <view class='rss-info'>
-    <image class='search image' src='/images/find.png'></image>
+<view class='container'>
+ <l-button size="long">我的订阅</l-button> 
+  <view class='search'>
+    <input type='text' placeholder='搜索 / 输入订阅网址' confirm-type='search' value="{   {inputValue}}" bindinput='inputBind' bindconfirm='query'></input>
+    <view class='rss-info'>
+      <image class='search image' src='/images/find.png'></image>
+    </view>
   </view>
 </view>
-<!--  搜索框end  -->
 
 <!-- 有赞普通输入框
 <van-cell-group>
@@ -25,17 +27,20 @@
 <!-- 订阅源模块 -->
 
 <view class="zan-row">
-  <block wx:for="{{rssDataComputed}}" wx:key="{{index}}">
-    <view class="zan-col zan-col-6" bindtap='handleRssAdd' data-rss-item-data='{{item}}'>
+  <block wx:for="{{rssData}}" wx:key="{{index}}">
+    <view class="zan-col zan-col-6" >
       <!-- <view class='rssed' wx:if='{{item.rssed}}'>
         <icon class='rssed-icon' type="success" size="20" />
       </view> -->
       <image class='avatar' mode='aspectFit' src='{{item.favicon}}'></image>
-      <!-- <view> -->
+      <view class='rss-text'>
         <view class='rss-title'>{{item.title}}</view>
+        <view>--------------</view>
         <view class='rss-description'>{{item.description}}</view>
-      <!-- </view> -->
-      <l-button wx:if="{{!item.rssed}}" type="default">＋订阅</l-button>
+      </view>
+      <l-button wx:if="{{rssed[index]==1}}"  type="default"  bindtap='handleRssAddorDelete' data-rss-item-dataid='{{index}}' plain="{{true}}">已订阅</l-button>
+      <l-button wx:else type="default"  bindtap='handleRssAddorDelete' data-idx='{{index}}'>订阅</l-button>
+      <!-- wx:if="{{!item.rssed}}" -->
     </view>
   </block>
 </view>
