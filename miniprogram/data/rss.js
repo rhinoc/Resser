@@ -3,7 +3,7 @@ const rssData = [
   //博客类
   {
     favicon: "https://www.runningcheese.com/wp-content/themes/concise/images/panda.png",
-    title: '奔跑中的奶酪',
+    title: '奔跑中的奶酪',//设置了user-agent rss不能显示原文
     link: 'https://www.runningcheese.com.com',
     description: '有智 有趣 有爱',
     rssUrl: 'https://www.runningcheese.com/feed',
@@ -24,7 +24,7 @@ const rssData = [
   //科技
   {
     favicon: "https://www.cnbeta.com/favicon.ico",
-    title: 'cnBeta.COM',
+    title: 'cnBeta.COM',//深入原文可显示，但是图片设置了防盗链不能显示，有广告
     link: 'https://www.cnbeta.com',
     description: '简明IT新闻,网友媒体与言论平台',
     rssUrl: 'https://www.cnbeta.com/backend.php',
@@ -34,7 +34,7 @@ const rssData = [
 
   {
     favicon: "https://36kr.com/favicon.ico",
-    title: '36氪',
+    title: '36氪', //无法深入原文
     link: 'https://36kr.com',
     description: '让一部分人先看到未来',
     rssUrl: 'https://36kr.com/feed',
@@ -75,13 +75,31 @@ const rssData = [
 
   {
     favicon: "https://www.guokr.com/favicon.ico",
-    title: '果壳',
+    title: '果壳',//返回数据大于1M
     link: 'https://www.guokr.com/',
     description: '科学人推荐文章',
     rssUrl: 'http://feeds.brandipo.com/users/1/web_requests/21/guoke.xml',
     type: 'description',
     tag: ['社区','科学'],
   },
+  {
+    favicon: "https://www.williamlong.info/favicon.ico",
+    title: '月光博客',
+    link: 'https://www.williamlong.info',
+    description: '关注互联网和搜索引擎的IT科技博客',
+    rssUrl: 'https://www.williamlong.info/rss.xml',
+    type: 'description',
+    tag: ['博客', '科技'],
+  },
+  {
+    favicon: "https://www.huxiu.com/favicon.ico",
+    title: '虎嗅网',
+    link: 'https://www.huxiu.com',
+    description: '聚焦科技与创新的资讯平台',
+    rssUrl:'https://www.huxiu.com/rss/0.xml',
+    type: 'description',
+    tag: ['科技'],
+  }
 
   //  {
   //   title: '好奇心日报',

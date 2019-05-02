@@ -18,6 +18,6 @@
 </view>
   <view class="group">
   <l-list title="设置" image="../../images/setting.png" />
-  <l-list title="关于" image="../../images/ic_pin_more.png" />
+  <l-list title="关于" image="../../images/ic_pin_more.png" url="../about/index" />
   </view>
 </view>

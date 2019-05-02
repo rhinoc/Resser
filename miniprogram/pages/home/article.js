@@ -23,7 +23,7 @@ Page({
     console.log(id);
     var rssData = wx.getStorageSync('rss_pool') || {};
     rssData = rssData[id];
-    console.log(rssData);
+    // console.log(rssData);
     var title = rssData.title;
     var article = rssData.article;
     var author = rssData.author;
@@ -32,7 +32,7 @@ Page({
     article = app.towxml.toJson(article,'html');
 
     var linkurl = rssData.link;
-    console.log(title,author,pubTime,linkurl);
+    // console.log(title,author,pubTime,linkurl);
     this.setData({
       article,
       title,
@@ -54,7 +54,9 @@ Page({
    * Lifecycle function--Called when page show
    */
   onShow: function() {
-
+    this['event_bind_tap'] = (event) => {
+      console.log(event.target.dataset._el);     // 打印出元素信息
+    };
   },
 
   /**
@@ -76,8 +78,6 @@ Page({
    */
   onPullDownRefresh: function() {
     const linkurl = this.data.linkurl || '';
-    this.setData({ webview: true,})
-    const that = this;
     this.getArticle(linkurl);
   },
 
@@ -89,20 +89,20 @@ Page({
   },
 
   onPageScroll: function(e) { // 获取滚动条当前位置
-    const that = this;
-    var nowp = e.scrollTop;
-    var query = wx.createSelectorQuery();
-    try{
-      query.select('#body').boundingClientRect()
-      query.exec(function (res) {
-        const allp = res[0].height;
-        var progress = nowp / allp;
-        that.setData({
-          progress
-        });
-      })
-    }
-    catch(err){console.log(err)}
+    // const that = this;
+    // var nowp = e.scrollTop;
+    // var query = wx.createSelectorQuery();
+    // try{
+    //   query.select('#body').boundingClientRect()
+    //   query.exec(function (res) {
+    //     const allp = res[0].height;
+    //     var progress = nowp / allp;
+    //     that.setData({
+    //       progress
+    //     });
+    //   })
+    // }
+    // catch(err){console.log(err)}
   },
 
   /**
@@ -111,17 +111,17 @@ Page({
   onShareAppMessage: function() {
 
   },
-
+  
+  
   //复制页面中链接
-  wxParseTagATap: function(e) {
-    var href = e.currentTarget.dataset.src;
+  __bind_tap: function(e) {
+    var href = e.currentTarget.dataset._el.attr.href;
     wx.setClipboardData({
       data: href,
       success: function(res) {
         wx.getClipboardData({
           success: function(res) {
             wx.showToast({
-              title: '链接已复制'
             })
           }
         })
@@ -150,26 +150,21 @@ Page({
   getArticle: function(url) {
     // console.log('url',url);
     var that = this;
-    wx.vrequest({
-      url: url,
-      data: {},
-      header: {
-        'Content-Type': 'application/xml', // 默认值
-        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_5) AppleWebKit 537.36 (KHTML, like Gecko) Chrome",
-        "Accept": "text/html,application/xhtml+xml,application/xml; q=0.9,image/webp,*/*;q=0.8"
+    url = url.replace(/\*/g,"%2a");
+    wx.request({
+      method: 'POST',
+      url: 'https://api.gugudata.com/news/fetchcontent',
+      data: { appkey: 'AQKWA6WSC945', url: url, contentwithhtml: true},
+      headers: {
+        "content-type": "application/json"
       },
       success: function(res) {
+        var resData = res.data.Data;
         console.log(res);
-        var regTitle = new RegExp("<title>([\\s\\S]*?)...............</title>", "g");
-        var title = regTitle.exec(res.data);
-        if (title != null) {
-          console.log(title[1]);
-          that.setData({
-            title: title[1],
-          });
-        }
-        const article = res.data;
-
+        console.log(resData);
+        var article = resData.Content;
+        console.log(article);
+        article = app.towxml.toJson(article, 'html');
           that.setData({
             article: article,
           });

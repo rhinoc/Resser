@@ -7,13 +7,9 @@
   display: block;
 }
 
-.serif {
-  font-family: Palatino, Optima, Georgia, serif;
-}
-
 .title {
   margin-top: 20rpx;
-  font-family: PingFang SC, Verdana, Helvetica Neue, Microsoft Yahei, Hiragino Sans GB, Microsoft Sans Serif, WenQuanYi Micro Hei, sans-serif;
+  font-family: "STHeitiTC-Light", "Microsoft YaHei Light", "Hiragino Sans GB", -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
   font-size: 42rpx;
   padding: 0 24rpx;
   font-weight: bold;
@@ -22,16 +18,22 @@
 }
 
 .info-box {
+  font-family: "STHeitiTC-Light", "Microsoft YaHei Light", "Hiragino Sans GB", -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
   padding: 20rpx 20rpx;
-  font-size: 20rpx;
+  font-size: 24rpx;
   color: #666;
   margin: 15rpx 0;
+  text-align: right;
+  box-shadow:0 3px 3px 1px #f6f6f6;
 }
 
 .pubTime {
   margin-left: 24rpx ;
 }
 
+.pubAuthor {
+  margin-left: 24rpx ;
+}
 .summary {
   background-color: #447EB9; 
   position: relative;
