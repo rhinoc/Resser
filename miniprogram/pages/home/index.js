@@ -48,31 +48,24 @@ Page({
       _openid: openid
     }).get().then(res => {
       let userData = res.data[0];
+      let rss_list = userData.subscribe;
       that.setData({
-        userData
+        userData,
+        rss_list
       })
       that.setData({ openid: userData._openid })
       //读取用户数据
       var tags = new Array();
-
-      let rss_list = [{}];
+      console.log(userData.subscribe)
       for (var i in userData.subscribe) {
-        var obj = {};
-        obj.title = userData.subscribe[i].title;
-        obj.url = userData.subscribe[i].rssUrl;
-        obj.link = userData.subscribe[i].link;
-        obj.favicon = userData.subscribe[i].favicon;
-        obj.tag = userData.subscribe[i].tag[0];
-        tags[i] = obj.tag;
-        rss_list.push(obj);
+        var obj = userData.subscribe[i].tag["0"];
+        tags[i] = obj;
       }
       var cates = Array.from(new Set(tags));
       that.setData({ cates });
 
       //将读取到的用户数据赋值给Page中rss_list
-      rss_list.splice(0, 1);
       that.setData({
-        rss_list,
         length: tags.length,
       });
 
@@ -82,13 +75,16 @@ Page({
       })
 
       // console.log(rss_list);
-      that.getRss(this.data.rss_list, tags.length - 1); //加载从源获取到的数据 
+      try{
+        that.getRss(this.data.rss_list, tags.length - 1); //加载从源获取到的数据 
+      }
+      catch(err) {console.log(err);}
     })
   },
 
   getRss: function (rss_list,i) {
     const that = this;
-    var url = rss_list[i].url;
+    var url = rss_list[i].rssUrl;
     var rss_pool = new Array();
     wx.vrequest({
       url: url,

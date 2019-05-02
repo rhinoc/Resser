@@ -30,13 +30,19 @@ Page({
     article = this.htmlDecode(article);
     article = app.towxml.toJson(article,'html');
     console.log(article);
-    if (!article.child){
+    if (!article.child || article.child["0"].text.match('[…]')){
       this.setData({
         title,
           pubTime,
           author,
           linkurl
       })
+      wx.showLoading({
+        title: '加载中',
+      })
+      setTimeout(function () {
+        wx.hideLoading()
+      }, 1000);
       this.getArticle(linkurl);
     }
     else {
@@ -161,14 +167,10 @@ Page({
   getArticle: function(url) {
     var that = this;
     url = url.replace(/\*/g,"%2a");
-    if (url.match('runningcheese')){
-      wx.request({
-        method: 'GET',
-        url: 'http://api.url2io.com/article',
-        data: { token: 'iLyhznUTQqyVkBiXmkyxhA', url: url },
-        headers: {
-          "content-type": "application/json"
-        },
+    if (1){
+      wx.vrequest({
+        url: 'http://api.url2io.com/article?token=iLyhznUTQqyVkBiXmkyxhA&url='+url
+        ,
         success: function (res) {
           console.log(res);
           var article = res.data.content;
@@ -179,23 +181,23 @@ Page({
         }
       });
     }
-    else {
-      wx.request({
-        method: 'POST',
-        url: 'https://api.gugudata.com/news/fetchcontent',
-        data: { appkey: 'AQKWA6WSC945', url: url, contentwithhtml: true },
-        headers: {
-          "content-type": "application/json"
-        },
-        success: function (res) {
-          console.log(res);
-          var article = res.data.Data.Content;
-          article = app.towxml.toJson(article, 'html');
-          that.setData({
-            article: article,
-          });
-        }
-      })
-    }
+    // else {
+    //   wx.request({
+    //     method: 'POST',
+    //     url: 'https://api.gugudata.com/news/fetchcontent',
+    //     data: { appkey: 'AQKWA6WSC945', url: url, contentwithhtml: true },
+    //     headers: {
+    //       "content-type": "application/json"
+    //     },
+    //     success: function (res) {
+    //       console.log(res);
+    //       var article = res.data.Data.Content;
+    //       article = app.towxml.toJson(article, 'html');
+    //       that.setData({
+    //         article: article,
+    //       });
+    //     }
+    //   })
+    // }
   },
 })

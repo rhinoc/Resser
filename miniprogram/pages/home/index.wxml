@@ -17,7 +17,7 @@
     <l-tabpanel wx:for="{{cates}}" wx:key="cates" tab="{{item}}" key="{{index}}" slot="{{index}}">
       <view class="tab-content">
         <view class='source-item' wx:for="{{rss_pool}}" wx:for-item="rssItem" wx:for-index="idx" wx:key="pool">
-          <view wx:if="{{item==rssItem.tag}}" class='rss-item' bindtap='handleRssItemTap' data-article-index='{{idx}}'>
+          <view wx:if="{{item==rssItem.tag[0]}}" class='rss-item' bindtap='handleRssItemTap' data-article-index='{{idx}}'>
             <l-card type="avatar" l-class="card" image="{{rssItem.favicon}}" title="{{rssItem.title}}" describe="{{rssItem.pubTime}}">
               <view class="content">{{rssItem.description}}
               </view>
