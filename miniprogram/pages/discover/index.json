@@ -1,6 +1,7 @@
 {
   "navigationBarTitleText": "订阅中心",
   "usingComponents": {
-    "l-button": "/dist/button/index"
+    "l-button": "/dist/button/index",
+    "l-search-bar": "/dist/search-bar/index"
   }
 }
