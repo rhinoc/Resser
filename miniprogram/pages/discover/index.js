@@ -72,16 +72,6 @@ Page({
     console.log(event);
     const rssItemDataid = event.currentTarget.dataset.idx;
     const rssItemData = rssData[rssItemDataid];
-    console.log('rssItemData', rssItemData);
-    console.log('rssItemDataid', rssItemDataid);
-    const {
-      title,
-      link,
-      description,
-      rssUrl,
-      remark,
-      detail
-    } = rssItemData;
 
 
     db.collection('user').where({
@@ -90,8 +80,6 @@ Page({
       success: res => {
         console.log('found', res);
         var getid = res.data["0"]._id;
-        console.log('id', getid);
-
 
         if (rssed[rssItemDataid] == 0) {
           this.setData(rssed[rssItemDataid] = 1);

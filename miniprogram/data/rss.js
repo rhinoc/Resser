@@ -3,17 +3,17 @@ const rssData = [
   //博客类
   {
     favicon: "https://www.runningcheese.com/wp-content/themes/concise/images/panda.png",
-    title: '奔跑中的奶酪',//设置了user-agent rss不能显示原文
+    title: '奔跑中的奶酪',//ok
     link: 'https://www.runningcheese.com.com',
     description: '有智 有趣 有爱',
     rssUrl: 'https://www.runningcheese.com/feed',
-    type: 'rss',
+    type: 'url2io',
     tag: ['博客','科技','互联网'], //第一个tag为大类
   },
 
   {
     favicon: "http://www.zreading.cn/favicon.ico",
-    title: '左岸读书',
+    title: '左岸读书',//ok
     link: 'http://www.zreading.cn',
     description: '共同致于美好的阅读体验',
     rssUrl: 'https://www.zreading.cn/feed',
@@ -44,7 +44,7 @@ const rssData = [
 
   {
     favicon: "https://www.ifanr.com/favicon.ico",
-    title: '爱范儿',
+    title: '爱范儿',//ok
     link: 'https://www.ifanr.com',
     description: '聚焦创新及消费科技领域的线上第一媒体',
     rssUrl: "https://www.ifanr.com/feed",
@@ -54,7 +54,7 @@ const rssData = [
 
   {
     favicon: "https://static001.infoq.cn/static/infoq/favicon/favicon-32x32.png",
-    title: 'InfoQ',
+    title: 'InfoQ',//无法深入原文
     link: 'http://www.infoq.com',
     description: '实践驱动的社区资讯站点，致力于促进软件开发领域知识与创新的传播。',
     rssUrl: 'https://www.infoq.com/cn/feed',
@@ -65,7 +65,7 @@ const rssData = [
   //社区 
   {
     favicon: "https://www.zhihu.com/favicon.ico",
-    title: '知乎日报',
+    title: '知乎日报',//有冗余
     link: 'https://www.zhihu.com',
     description: '每日提供来自知乎社区的精选问答，还有国内一流媒体的专栏特稿。',  
     rssUrl: 'http://zhihurss.miantiao.me/dailyrss',
@@ -84,7 +84,7 @@ const rssData = [
   },
   {
     favicon: "https://www.williamlong.info/favicon.ico",
-    title: '月光博客',
+    title: '月光博客',//ok
     link: 'https://www.williamlong.info',
     description: '关注互联网和搜索引擎的IT科技博客',
     rssUrl: 'https://www.williamlong.info/rss.xml',
@@ -93,7 +93,7 @@ const rssData = [
   },
   {
     favicon: "https://www.huxiu.com/favicon.ico",
-    title: '虎嗅网',
+    title: '虎嗅网',//ok
     link: 'https://www.huxiu.com',
     description: '聚焦科技与创新的资讯平台',
     rssUrl:'https://www.huxiu.com/rss/0.xml',

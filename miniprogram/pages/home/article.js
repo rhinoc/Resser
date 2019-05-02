@@ -1,5 +1,5 @@
 const app = getApp() //获取应用实例
-const article = '';
+var article = '';
 Page({
   /**
    * Page initial data
@@ -10,7 +10,6 @@ Page({
     author: '',
     pubTime: '',
     article: '',
-    nodes: article,
     progress: 0,
   },
 
@@ -20,26 +19,38 @@ Page({
   onLoad: function(options) {
     var that = this;
     const id = options.id; //位于来源的数据的id
-    console.log(id);
     var rssData = wx.getStorageSync('rss_pool') || {};
     rssData = rssData[id];
     // console.log(rssData);
     var title = rssData.title;
-    var article = rssData.article;
     var author = rssData.author;
     var pubTime = rssData.pubTime;
-    var article = this.htmlDecode(article);
-    article = app.towxml.toJson(article,'html');
-
     var linkurl = rssData.link;
+    article = rssData.article;
+    article = this.htmlDecode(article);
+    article = app.towxml.toJson(article,'html');
+    console.log(article);
+    if (!article.child){
+      this.setData({
+        title,
+          pubTime,
+          author,
+          linkurl
+      })
+      this.getArticle(linkurl);
+    }
+    else {
+      this.setData({
+        article,
+        title,
+        pubTime,
+        author,
+        linkurl
+      })
+    }
+    
     // console.log(title,author,pubTime,linkurl);
-    this.setData({
-      article,
-      title,
-      pubTime,
-      author,
-      linkurl
-    })
+    
 
   },
 
@@ -148,29 +159,43 @@ Page({
   },
 
   getArticle: function(url) {
-    // console.log('url',url);
     var that = this;
     url = url.replace(/\*/g,"%2a");
-    wx.request({
-      method: 'POST',
-      url: 'https://api.gugudata.com/news/fetchcontent',
-      data: { appkey: 'AQKWA6WSC945', url: url, contentwithhtml: true},
-      headers: {
-        "content-type": "application/json"
-      },
-      success: function(res) {
-        var resData = res.data.Data;
-        console.log(res);
-        console.log(resData);
-        var article = resData.Content;
-        console.log(article);
-        article = app.towxml.toJson(article, 'html');
+    if (url.match('runningcheese')){
+      wx.request({
+        method: 'GET',
+        url: 'http://api.url2io.com/article',
+        data: { token: 'iLyhznUTQqyVkBiXmkyxhA', url: url },
+        headers: {
+          "content-type": "application/json"
+        },
+        success: function (res) {
+          console.log(res);
+          var article = res.data.content;
+          article = app.towxml.toJson(article, 'html');
           that.setData({
             article: article,
           });
-
-        wx.stopPullDownRefresh();
-      }
-    });
+        }
+      });
+    }
+    else {
+      wx.request({
+        method: 'POST',
+        url: 'https://api.gugudata.com/news/fetchcontent',
+        data: { appkey: 'AQKWA6WSC945', url: url, contentwithhtml: true },
+        headers: {
+          "content-type": "application/json"
+        },
+        success: function (res) {
+          console.log(res);
+          var article = res.data.Data.Content;
+          article = app.towxml.toJson(article, 'html');
+          that.setData({
+            article: article,
+          });
+        }
+      })
+    }
   },
 })
