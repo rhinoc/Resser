@@ -41,7 +41,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 1,
+			"current": 4,
 			"list": [
 				{
 					"id": -1,
@@ -69,6 +69,13 @@
 					"name": "code",
 					"pathName": "pages/home/article",
 					"query": "id=165",
+					"scene": null
+				},
+				{
+					"id": 4,
+					"name": "我的订阅",
+					"pathName": "pages/rssed/index",
+					"query": "id=0",
 					"scene": null
 				}
 			]
