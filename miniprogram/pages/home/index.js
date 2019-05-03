@@ -4,6 +4,9 @@ const util = require('../../utils/util.js');
 const xml2json = require('../../utils/xml2json.js');
 const app = getApp() //获取应用实例
 const db = wx.cloud.database();
+var rss_pool = new Array();
+var laters = wx.getStorageSync('laters') || [];
+var islatered = new Array();
 
 
 Page({
@@ -17,6 +20,7 @@ Page({
     cates:[{}],
     length: 0,
     openid: '',
+    islatered:[],
   },
 
   /**
@@ -83,10 +87,17 @@ Page({
       wx.setStorageSync('rss_list', rss_list);
       // console.log(rss_list);
       try{
-        that.getRss(this.data.rss_list, tags.length - 1); //加载从源获取到的数据 
+        that.getRss(this.data.rss_list, tags.length - 1); //加载从源获取到的数据
       }
       catch(err) {console.log(err);}
-    })
+    });
+
+//初始化稍后阅读按钮状态
+    for (var i in islatered) {
+        islatered[i]= 0;
+    };
+    this.setData({islatered})
+
   },
 
   getRss: function (rss_list,i) {
@@ -107,7 +118,7 @@ Page({
         // console.log(typeof(res.data));
         // var dataJson = xml2json(res.body); vr
         var dataJson = that.rssDecode(res.data);
-        dataJson = xml2json(dataJson); 
+        dataJson = xml2json(dataJson);
         console.log('dataJson',dataJson);
         //获取转换为JSON格式后的列表内容
         var rssData = dataJson.feed || dataJson.rss.channel;
@@ -180,7 +191,7 @@ Page({
     s = s.replace(/&#126;/g, "~");
     return s;
   },
-  
+
   // 点击跳转至文章详情页
   handleRssItemTap: (event) => {
     const articleIndex = event.currentTarget.dataset.articleIndex;
@@ -189,10 +200,25 @@ Page({
     });
   },
 
-  onLater:(event) =>
-  {
+  //添加至稍后阅读
+  onLater: function (event) {
     // console.log(event);
-    const articleIndex = event.currentTarget.dataset.articleIndex;
+    const that=this;
+    const articleid = event.currentTarget.dataset.articleIndex;
+    var obj = {};
+    obj.article = rss_pool[articleid].article;
+    obj.title = rss_pool[articleid].title;
+    obj.pubTime = rss_pool[articleid].pubTime;
+    obj.author = rss_pool[articleid].author;
+    obj.id2 = articleid;
+    laters.push(obj);
+
+    wx.setStorageSync('laters', laters);
+
+    islatered[articleid] = 1;
+    that.setData({islatered});
+
   }
+
 
 })

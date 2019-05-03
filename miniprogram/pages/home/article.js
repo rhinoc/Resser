@@ -21,7 +21,7 @@ Page({
   onLoad: function(options) {
     
     var that = this;
-    const id = options.id; //位于来源的数据的id
+    const id = options.id; //
     var rssData = wx.getStorageSync('rss_pool') || {};
     rssData = rssData[id];
     console.log(rssData);
