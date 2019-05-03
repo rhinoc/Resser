@@ -236,7 +236,7 @@ text-align: center;
   border: 1px solid rgba(54, 131, 214, 1);
   color: rgba(54, 131, 214, 1);
   font-size: 28rpx;
-  margin: 100rpx auto;
+  
   line-height: 72rpx;
   text-align: center;
 }
@@ -249,4 +249,5 @@ text-align: center;
   align-items: flex-start;
   margin-left:10%;
   margin-right:10%;
+  margin-top:-10%;
 }

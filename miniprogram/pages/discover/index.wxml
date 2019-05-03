@@ -2,7 +2,6 @@
 
 <!--  搜索框start  -->
 <view class='container'>
- <l-button size="long" bind:lintap="navToMy">我的订阅</l-button> 
  <l-search-bar bind:linconfirm="handleSearch" bind:linblur="handleSearch" bind:linchange="handleSearch" bind:linfocus="handleSearch" clear="{{true}}" placeholder="搜索"/>
 </view>
 
@@ -18,8 +17,14 @@
         <view>--------------</view>
         <view class='rss-description'>{{item.description}}</view>
       </view>
-      <l-button type="default"  bind:lintap='onChange' data-idx='{{index}}' plain="{{button[index]}}">{{rssed[index]}}</l-button>
+      <l-button type="default" 
+      width='110' 
+      bind:lintap='onChange' 
+      data-idx='{{index}}' 
+      plain="{{button[index]}}"
+      >{{rssed[index]}}</l-button>
     </view>
   </block>
 </view>
-<view class='spliter-line'></view>
+
+<l-button class="favor" size="long" bind:lintap="navToMy">我的订阅</l-button> 

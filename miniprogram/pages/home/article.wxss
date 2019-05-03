@@ -5,6 +5,7 @@
 
 .container {
   display: block;
+  margin-bottom: 88rpx;
 }
 
 .menu{
