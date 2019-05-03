@@ -24,7 +24,7 @@ const rssData = [
   //科技
   {
     favicon: "https://www.cnbeta.com/favicon.ico",
-    title: 'cnBeta.COM',//深入原文可显示，但是图片设置了防盗链不能显示，有广告
+    title: 'cnBeta.COM',//gugudata深入原文可显示，但是图片设置了防盗链不能显示，有广告
     link: 'https://www.cnbeta.com',
     description: '简明IT新闻,网友媒体与言论平台',
     rssUrl: 'https://www.cnbeta.com/backend.php',
@@ -51,10 +51,36 @@ const rssData = [
     type: 'content:encoded',
     tag: ['科技', '资讯'],
   },
-
+  {
+    favicon: "http://www.qdaily.com/favicon.ico",
+    title: '好奇心日报',//ok
+    link: 'https://www.qdaily.com',
+    description: '发现生活何以美好的商业新闻媒体',
+    rssUrl: 'http://www.qdaily.com/feed.xml',
+    type: 'description',
+    tag: ['商业', '智能', '设计'],
+  },
+  {
+    favicon: "https://www.huxiu.com/favicon.ico",
+    title: '虎嗅网',//ok
+    link: 'https://www.huxiu.com',
+    description: '聚焦科技与创新的资讯平台',
+    rssUrl: 'https://www.huxiu.com/rss/0.xml',
+    type: 'description',
+    tag: ['科技'],
+  },
+  {
+    title: '雷锋网',//ok
+    link: 'https://www.leiphone.com',
+    description: '雷锋网RSS订阅',
+    favicon: 'https://www.leiphone.com/resWeb/images/common/lp_logo.png',
+    rssUrl: 'https://www.leiphone.com/feed',
+    type: 'description',
+    tag: ['科技']
+  },
   {
     favicon: "https://static001.infoq.cn/static/infoq/favicon/favicon-32x32.png",
-    title: 'InfoQ',//无法深入原文
+    title: 'InfoQ',//只能显示简介，并且无法深入原文
     link: 'http://www.infoq.com',
     description: '实践驱动的社区资讯站点，致力于促进软件开发领域知识与创新的传播。',
     rssUrl: 'https://www.infoq.com/cn/feed',
@@ -64,13 +90,22 @@ const rssData = [
 
   //社区 
   {
-    favicon: "https://daily.zhihu.com/favicon.ico",
+    favicon: "https://images.weserv.nl/?url=ssl:daily.zhihu.com/img/new_home_v3/top_logo.png",
     title: '知乎日报',//ok
     link: 'https://www.zhihu.com',
     description: '来自知乎社区的每日精选问答',  
     rssUrl: 'http://zhihurss.miantiao.me/dailyrss',
     type: 'feed',
     tag: ['社区','知识','问答']
+  },
+  {
+    favicon: "https://www.zhihu.com/favicon.ico",
+    title: '知乎每日精选',//ok
+    link: 'https://www.zhihu.com',
+    description: '中文互联网最大的知识平台',
+    rssUrl: 'https://www.zhihu.com/rss',
+    type: 'feed',
+    tag: ['社区', '知识', '问答']
   },
 
   // {
@@ -90,25 +125,6 @@ const rssData = [
     rssUrl: 'https://www.williamlong.info/rss.xml',
     type: 'description',
     tag: ['博客', '科技'],
-  },
-  {
-    favicon: "https://www.huxiu.com/favicon.ico",
-    title: '虎嗅网',//ok
-    link: 'https://www.huxiu.com',
-    description: '聚焦科技与创新的资讯平台',
-    rssUrl:'https://www.huxiu.com/rss/0.xml',
-    type: 'description',
-    tag: ['科技'],
-  },
-
-   {
-     favicon: "http://www.qdaily.com/favicon.ico",
-    title: '好奇心日报',//ok
-    link: 'https://www.qdaily.com',
-    description: '发现生活何以美好的商业新闻媒体',
-    rssUrl: 'http://www.qdaily.com/feed.xml',
-    type: 'description',
-     tag: ['商业','智能','设计'],
   },
   // {
   //   title: '网易新闻',
@@ -161,14 +177,7 @@ const rssData = [
   // },
 
   // 科技
-  // {
-  //   title: '雷锋网',
-  //   link: 'https://www.leiphone.com',
-  //   description: '雷锋网RSS订阅',
-  //   
-  //   rssUrl: 'https://service-ox5moi4m-1258237701.gz.apigw.tencentcs.com/release/leiphone',
-  //   type: 'description',
-  // },
+  
   
   
   // {
@@ -179,15 +188,14 @@ const rssData = [
   //   rssUrl: 'https://feed.ipcfun.com/',
   //   type: 'crawl',
   // },
-  // {
-  //   title: '小众软件',
-  //   link: 'https://appinn.com',
-  //   description: '分享免费、小巧、实用、有趣、绿色的软件',
-  //   
-  //   rssUrl: 'https://service-ox5moi4m-1258237701.gz.apigw.tencentcs.com/release/appinns',
-  //   remark: '',
-  //   type: 'content:encoded',
-  // },
+  {
+    title: '小众软件',
+    link: 'https://appinn.com',//ok
+    description: '分享免费、小巧、实用、有趣、绿色的软件',
+    rssUrl: 'http://feeds.feedburner.com/appinncom',
+    favicon: 'https://www.appinn.com/logo1.png',
+    tag:['软件'],
+  },
 
   // 设计
   // {

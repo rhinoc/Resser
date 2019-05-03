@@ -24,6 +24,7 @@ Page({
     const id = options.id; //位于来源的数据的id
     var rssData = wx.getStorageSync('rss_pool') || {};
     rssData = rssData[id];
+    console.log(rssData);
     var title = rssData.title;
     for (var i in favors){
       if (favors[i].title == title){
@@ -38,7 +39,7 @@ Page({
     var linkurl = rssData.link;
     article = rssData.article;
     article = this.htmlDecode(article);
-    console.log('41',article);
+    // console.log('41',article);
     article = app.towxml.toJson(article, 'html');
     this.setData({
       article,
@@ -162,6 +163,7 @@ Page({
     if (content.length == 0) return "";
     s = content.replace(/&amp;/g, "&");
     s = s.replace(/<script.*?>window.daily.*>/g,"");
+    s = s.replace(/<font color="red">订阅指南.*\n.*/g,"");
     s = s.replace(/&lt;/g, "<");
     s = s.replace(/&gt;/g, ">");
     s = s.replace(/&nbsp;/g, " ");
@@ -180,7 +182,8 @@ Page({
     var that = this;
     url = url.replace(/\*/g, "%2a");
     // if (1){
-      wx.vrequest({
+      //wx.vrequest({
+      wx.request({
         data: {},
         header: {
           'Content-Type': 'application/xml',
@@ -190,11 +193,13 @@ Page({
         url: 'http://api.url2io.com/article?token=iLyhznUTQqyVkBiXmkyxhA&url='+url
         ,
         success: function (res) {
-          // console.log(res);
-          var r = JSON.parse(res.body);
+          console.log(res);
+          // var r = JSON.parse(res.body); vr
+          var r=res.data
           var article = r["content"];
           console.log(article);
           article = app.towxml.toJson(article, 'html');
+          console.log(article);
           that.setData({
             article: article,
           });
@@ -205,11 +210,11 @@ Page({
     // wx.request({
     //   method: 'POST',
     //   url: 'https://api.gugudata.com/news/fetchcontent',
-    //   data: {
-    //     appkey: 'AQKWA6WSC945',
-    //     url: url,
-    //     contentwithhtml: true
-    //   },
+      // data: {
+      //   appkey: 'AQKWA6WSC945',
+      //   url: url,
+      //   contentwithhtml: true
+      // },
     //   headers: {
     //     "content-type": "application/json"
     //   },

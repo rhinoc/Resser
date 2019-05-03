@@ -65,7 +65,7 @@ wx.vrequest = function (options) {
       success: res => {
 
         const { result } = res;
-        console.log((result))
+        // console.log((result))
         // 如果datatype='json'，则解析后
 
 

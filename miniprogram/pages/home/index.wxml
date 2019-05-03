@@ -3,8 +3,8 @@
   <van-tabs swipeable sticky>
     <van-tab title="全部">
       <view class="tab-content">
-        <view class='source-item' wx:for="{{rss_pool}}" wx:for-item="item" wx:for-index="idx" wx:key="all">
-          <view class='rss-item' bindtap='handleRssItemTap' data-article-index='{{idx}}'>
+        <view class='source-item' wx:for="{{rss_pool}}" wx:for-item="item" wx:for-index="idx" wx:key="all" bindtap='handleRssItemTap' data-article-index='{{idx}}'>
+          <view class='rss-item'>
             <l-card type="avatar" l-class="card" image="{{item.favicon}}" title="{{item.source}}" describe="{{item.pubTime}}">
               <view class="content">
                 {{item.title}}

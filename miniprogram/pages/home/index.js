@@ -61,10 +61,18 @@ Page({
       var tags = new Array();
       console.log(userData.subscribe)
       for (var i in userData.subscribe) {
-        var obj = userData.subscribe[i].tag["0"];
-        tags[i] = obj;
+        try{
+          var obj = userData.subscribe[i].tag["0"];
+          tags[i] = obj;
+        }
+        catch(err){
+          tags[i] = '全部';
+        }
       }
       var cates = Array.from(new Set(tags));
+      for (var i in cates){
+        if (cates[i]=='全部') cates.splice(i,1);
+      }
       that.setData({ cates });
 
       //将读取到的用户数据赋值给Page中rss_list
@@ -85,7 +93,8 @@ Page({
     const that = this;
     var url = rss_list[i].rssUrl;
     var rss_pool = new Array();
-    wx.vrequest({
+    // wx.vrequest({
+    wx.request({
       url: url,
       data: {},
       header: {
@@ -94,12 +103,15 @@ Page({
         "Accept": "text/html,application/xhtml+xml,application/xml; q=0.9,image/webp,*/*;q=0.8"
       },
       success: function (res) {
-        // console.log(res.body);
-        var dataJson = xml2json(res.body);
-        // console.log('dataJson',dataJson);
+        // console.log(res.data);
+        // console.log(typeof(res.data));
+        // var dataJson = xml2json(res.body); vr
+        var dataJson = that.rssDecode(res.data);
+        dataJson = xml2json(dataJson); 
+        console.log('dataJson',dataJson);
         //获取转换为JSON格式后的列表内容
         var rssData = dataJson.feed || dataJson.rss.channel;
-        console.log(i,rssData);
+        // console.log(i,rssData);
         rss_pool = that.data.rss_pool;
         for (var j = 0; j < (rssData.item || rssData.entry).length; j++) {
           var rssDataItem = (rssData.item || rssData.entry)[j]
@@ -149,6 +161,26 @@ Page({
     }
   },
 
+  rssDecode: function (content) {
+    var s = "";
+    if (content.length == 0) return "";
+    s = content.replace(/&amp;/g, "&");
+    s = s.replace(/<script.*?>window.daily.*>/g, "");
+    s = s.replace(/<\?xml-stylesheet.*?>/g, "");
+    // s = s.replace(/&lt;/g, "<");
+    // s = s.replace(/&gt;/g, ">");
+    // s = s.replace(/&nbsp;/g, " ");
+    // s = s.replace(/&#39;/g, "\'");
+    // s = s.replace(/&#34;/g, "\"");
+    // s = s.replace(/&#xA;/g, "");
+    // s = s.replace(/&quot;/g, "\"");
+    s = s.replace(/&#123;/g, "{");
+    s = s.replace(/&#125;/g, "}");
+    s = s.replace(/&#124;/g, "|");
+    s = s.replace(/&#126;/g, "~");
+    return s;
+  },
+  
   // 点击跳转至文章详情页
   handleRssItemTap: (event) => {
     const articleIndex = event.currentTarget.dataset.articleIndex;
