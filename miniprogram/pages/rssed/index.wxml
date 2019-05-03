@@ -1,2 +1,12 @@
 <!--pages/rssed/index.wxml-->
-<text>pages/rssed/index.wxml</text>
+<!--标题栏-->
+<view class='category'>我的订阅</view>
+
+
+<!--我的订阅模块-->
+<l-grid l-class-grid="grid-item" show-border="{{true}}" row-num="3">
+    <l-grid-item wx:for="{{rss_list}}" wx:key="{{index}}" key="{{index}}" slot="{{index}}">
+        <image class='avatar' src='{{item.favicon}}'></image>
+        <view class="text">{{item.title}}</view>
+    </l-grid-item>
+</l-grid>

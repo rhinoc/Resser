@@ -1,3 +1,7 @@
 {
-  "usingComponents": {}
+  "navigationBarTitleText": "订阅中心",
+  "usingComponents": {
+    "l-grid": "/dist/grid/index",
+    "l-grid-item": "/dist/grid-item/index"
+  }
 }

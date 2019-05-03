@@ -22,9 +22,7 @@ Page({
   /**
    * 打开小程序时
    */
-  onLoad: function(options) {
-
-
+  onShow: function(options) {
   },
 
   onPullDownRefresh: function () {
@@ -34,7 +32,8 @@ Page({
     })
   },
 
-  onShow: function() {
+  onLoad: function() {
+    // wx.clearStorageSync();
     const that = this;
     wx.showLoading({
       title: '加载中',
@@ -48,6 +47,7 @@ Page({
       _openid: openid
     }).get().then(res => {
       let userData = res.data[0];
+      console.log(userData);
       let rss_list = userData.subscribe;
       that.setData({
         userData,
@@ -69,10 +69,7 @@ Page({
         length: tags.length,
       });
 
-      wx.setStorage({
-        key: 'rss_list',
-        data: rss_list,
-      })
+      wx.setStorageSync('rss_list', rss_list);
 
       // console.log(rss_list);
       try{

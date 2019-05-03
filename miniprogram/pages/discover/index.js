@@ -31,11 +31,13 @@ Page({
   onShow: function(options) {
     for (var i in rssData) {
       matched[i] = 1;
+      console.log(rss_list);
+      console.log(typeof(rss_list));
       if (rss_list.find(function(x) {
           return x.link == rssData[i].link;
         })) {
         rssed[i] = "已订阅";
-        button[i] = ture;
+        button[i] = true;
       } else {
         rssed[i] = "订阅";
         button[i] = false;
@@ -104,4 +106,13 @@ Page({
       fail: err => { }
     })
   },
+
+
+  //跳转到我的订阅
+  navToMy: function (event) {
+    wx.navigateTo({
+      url: '../rssed/index',
+    });
+  },
+
 })

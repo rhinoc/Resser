@@ -10,7 +10,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-
+    rss_list: wx.getStorageSync('rss_list'),
   },
 
 

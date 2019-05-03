@@ -30,22 +30,22 @@ Page({
     article = this.htmlDecode(article);
     article = app.towxml.toJson(article,'html');
     console.log(article);
-    if (!article.child || article.child["0"].text.match('[…]')){
-      this.setData({
-        title,
-          pubTime,
-          author,
-          linkurl
-      })
-      wx.showLoading({
-        title: '加载中',
-      })
-      setTimeout(function () {
-        wx.hideLoading()
-      }, 1000);
-      this.getArticle(linkurl);
-    }
-    else {
+    // if (!article.child || article.child["0"].text.match('[…]')){
+    //   this.setData({
+    //     title,
+    //       pubTime,
+    //       author,
+    //       linkurl
+    //   })
+    //   wx.showLoading({
+    //     title: '加载中',
+    //   })
+    //   setTimeout(function () {
+    //     wx.hideLoading()
+    //   }, 1000);
+    //   this.getArticle(linkurl);
+    // }
+    // else {
       this.setData({
         article,
         title,
@@ -53,7 +53,7 @@ Page({
         author,
         linkurl
       })
-    }
+    // }
     
     // console.log(title,author,pubTime,linkurl);
     
@@ -167,37 +167,37 @@ Page({
   getArticle: function(url) {
     var that = this;
     url = url.replace(/\*/g,"%2a");
-    if (1){
-      wx.vrequest({
-        url: 'http://api.url2io.com/article?token=iLyhznUTQqyVkBiXmkyxhA&url='+url
-        ,
-        success: function (res) {
-          console.log(res);
-          var article = res.data.content;
-          article = app.towxml.toJson(article, 'html');
-          that.setData({
-            article: article,
-          });
-        }
-      });
-    }
-    // else {
+    // if (1){
     //   wx.request({
-    //     method: 'POST',
-    //     url: 'https://api.gugudata.com/news/fetchcontent',
-    //     data: { appkey: 'AQKWA6WSC945', url: url, contentwithhtml: true },
-    //     headers: {
-    //       "content-type": "application/json"
-    //     },
+    //     url: 'http://api.url2io.com/article?token=iLyhznUTQqyVkBiXmkyxhA&url='+url
+    //     ,
     //     success: function (res) {
     //       console.log(res);
-    //       var article = res.data.Data.Content;
+    //       var article = res.data.content;
     //       article = app.towxml.toJson(article, 'html');
     //       that.setData({
     //         article: article,
     //       });
     //     }
-    //   })
+    //   });
+    // }
+    // else {
+      wx.request({
+        method: 'POST',
+        url: 'https://api.gugudata.com/news/fetchcontent',
+        data: { appkey: 'AQKWA6WSC945', url: url, contentwithhtml: true },
+        headers: {
+          "content-type": "application/json"
+        },
+        success: function (res) {
+          console.log(res);
+          var article = res.data.Data.Content;
+          article = app.towxml.toJson(article, 'html');
+          that.setData({
+            article: article,
+          });
+        }
+      })
     // }
   },
 })
