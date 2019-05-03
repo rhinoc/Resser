@@ -11,15 +11,14 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
-  onShow: function (options) {
-    laters = wx.getStorageSync('laters') || '';
+  onLoad: function (options) {
+    laters = wx.getStorageSync('laters') || [];
     this.setData({ laters });
   },
 
  
 
   onTap: (event) => {
-    // const sourceIndex = event.currentTarget.dataset.sourceIndex;
     console.log('event', event);
     const articleIndex = event.currentTarget.dataset.articleIndex;
     console.log('articleIndex', articleIndex);
@@ -41,7 +40,6 @@ Page({
 
   onDel: function (event) {
     var id = event.currentTarget.dataset.articleIndex;
-    console.log(id);
     laters.splice(id, 1);
     this.setData({ laters });
     wx.setStorageSync('laters', laters);

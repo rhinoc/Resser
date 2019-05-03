@@ -1,9 +1,7 @@
-// miniprogram/pages/later/article.js
-
 const app = getApp() //获取应用实例
-const laters = wx.getStorageSync('laters');
+var laters = [];
+var favors = [];
 var article = '';
-var favors = wx.getStorageSync('favors') || [];
 
 Page({
   /**
@@ -22,33 +20,41 @@ Page({
    * Lifecycle function--Called when page load
    */
   onLoad: function (options) {
-    const id = options.id; //位于来源的数据的id
-    var that = this;
-    var later = laters[id];
-    console.log(laters, later);
     var rssData = wx.getStorageSync('rss_pool') || {};
-    var rssdata = rssData[later.id2];
-    console.log('rssdata',rssdata);
-    var title = later.title;
-    for (var i in favors) {
-      if (favors[i].title == title) {
-        this.setData({
-          favorid: i,
-          isfavored: true
+    const that = this;
+    const id = options.id; //位于来源的数据的id
+    
+    wx.getStorage({
+      key: "laters",
+      success: function (laters) {
+        var later = laters.data[id];
+        rssData = rssData[later.id2];
+        var title = later.title;
+        for (var i in favors) {
+          if (favors[i].title == title) {
+            that.setData({
+              favorid: i,
+              isfavored: true
+            })
+          }
+        }
+
+        article = rssData.article;
+        article = that.htmlDecode(article);
+        article = app.towxml.toJson(article, 'html');
+        that.setData({
+          article,
+          title,
+          author: later.author,
+          pubTime: later.pubTime,
         })
-      }
-    }
-
-
-    article = rssdata.article;
-    article = this.htmlDecode(article);
-    article = app.towxml.toJson(article, 'html');
-    this.setData({
-      article,
-      title,
-      author: later.author,
-      pubTime: later.pubTime,
+      },
     })
+    
+   
+  },
+
+  onShow:function(){
   },
 
   /**
@@ -61,9 +67,6 @@ Page({
   /**
    * Lifecycle function--Called when page show
    */
-  onShow: function () {
-
-  },
 
   /**
    * Lifecycle function--Called when page hide

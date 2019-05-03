@@ -5,9 +5,8 @@ const xml2json = require('../../utils/xml2json.js');
 const app = getApp() //获取应用实例
 const db = wx.cloud.database();
 var rss_pool = new Array();
-var laters = wx.getStorageSync('laters') || [];
 var islatered = new Array();
-
+var laters = wx.getStorageSync('laters') || [];
 
 Page({
   /**
@@ -17,7 +16,7 @@ Page({
     userData: [],
     rss_list: [],
     rss_pool: [],
-    cates:[{}],
+    cates:[],
     length: 0,
     openid: '',
     islatered:[],
@@ -27,6 +26,7 @@ Page({
    * 打开小程序时
    */
   onShow: function(options) {
+    laters = wx.getStorageSync('laters') || [];
   },
 
   onPullDownRefresh: function () {
@@ -102,8 +102,8 @@ Page({
 
   getRss: function (rss_list,i) {
     const that = this;
+    rss_pool = new Array();
     var url = rss_list[i].rssUrl;
-    var rss_pool = new Array();
     // wx.vrequest({
     wx.request({
       url: url,
@@ -156,7 +156,16 @@ Page({
         rss_pool.sort(function(a,b){
           return b['pubTime'] > a['pubTime'] ? 1:-1
         })
-        that.setData({ rss_pool });
+
+        for(var k in laters){
+          for (var j in rss_pool) {
+            if (rss_pool[j].title==laters[k].title){
+              islatered[j]=1;
+            }
+        }
+        }
+        that.setData({ rss_pool,
+        islatered});
         wx.setStorageSync('rss_pool', rss_pool);
       }
     });
@@ -202,11 +211,14 @@ Page({
 
   //添加至稍后阅读
   onLater: function (event) {
+
+
     // console.log(event);
     const that=this;
     const articleid = event.currentTarget.dataset.articleIndex;
+    console.log(rss_pool);
+    console.log(rss_pool[articleid]);
     var obj = {};
-    obj.article = rss_pool[articleid].article;
     obj.title = rss_pool[articleid].title;
     obj.pubTime = rss_pool[articleid].pubTime;
     obj.author = rss_pool[articleid].author;
