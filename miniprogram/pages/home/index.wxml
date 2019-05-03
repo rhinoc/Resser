@@ -9,15 +9,11 @@
               <view class="content">
                 {{item.description}}
               </view>
-              <l-tag  shape="circle" 
-                bg-color="#f3f3f3" 
-                font-color="#3963BC" 
-                slot="more"
-                catchtap="onLater"
-                data-article-index='{{idx}}'
-                size="large">
-                稍后阅读
-        </l-tag>
+              <view>   
+              <l-button  bind:lintap="onLater" data-article-index='{{idx}}'disabled="{{islatered[idx]}}" >
+              稍后阅读
+              </l-button>
+              </view>
             </l-card>
           </view>
         </view>

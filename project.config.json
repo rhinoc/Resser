@@ -41,7 +41,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 5,
+			"current": 7,
 			"list": [
 				{
 					"id": -1,
@@ -83,6 +83,20 @@
 					"name": "我的订阅",
 					"pathName": "pages/favorite/index",
 					"query": "id=0",
+					"scene": null
+				},
+				{
+					"id": 6,
+					"name": "稍后阅读",
+					"pathName": "pages/later/index",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "首页",
+					"pathName": "pages/home/index",
+					"query": "",
 					"scene": null
 				}
 			]

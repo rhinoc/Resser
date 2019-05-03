@@ -1,6 +1,10 @@
+// miniprogram/pages/later/article.js
+
 const app = getApp() //获取应用实例
+const laters = wx.getStorageSync('laters');
 var article = '';
-var favors = wx.getStorageSync('favors')||[];
+var favors = wx.getStorageSync('favors') || [];
+
 Page({
   /**
    * Page initial data
@@ -8,7 +12,6 @@ Page({
   data: {
     isfavored: false,
     favorid: -1,
-    linkurl: '',
     title: '',
     author: '',
     pubTime: '',
@@ -18,68 +21,67 @@ Page({
   /**
    * Lifecycle function--Called when page load
    */
-  onLoad: function(options) {
-    
+  onLoad: function (options) {
+    const id = options.id; //位于来源的数据的id
     var that = this;
-    const id = options.id; //
+    var later = laters[id];
+    console.log(laters, later);
     var rssData = wx.getStorageSync('rss_pool') || {};
-    rssData = rssData[id];
-    var title = rssData.title;
-    for (var i in favors){
-      if (favors[i].title == title){
+    var rssdata = rssData[later.id2];
+    console.log('rssdata',rssdata);
+    var title = later.title;
+    for (var i in favors) {
+      if (favors[i].title == title) {
         this.setData({
-          favorid:i,
+          favorid: i,
           isfavored: true
         })
       }
     }
-    var author = rssData.author;
-    var pubTime = rssData.pubTime;
-    var linkurl = rssData.link;
-    article = rssData.article;
+
+
+    article = rssdata.article;
     article = this.htmlDecode(article);
     article = app.towxml.toJson(article, 'html');
     this.setData({
       article,
       title,
-      pubTime,
-      author,
-      linkurl
+      author: later.author,
+      pubTime: later.pubTime,
     })
   },
 
   /**
    * Lifecycle function--Called when page is initially rendered
    */
-  onReady: function() {
+  onReady: function () {
 
   },
 
   /**
    * Lifecycle function--Called when page show
    */
-  onShow: function() {
+  onShow: function () {
 
   },
 
   /**
    * Lifecycle function--Called when page hide
    */
-  onHide: function() {
+  onHide: function () {
 
   },
 
   /**
    * Lifecycle function--Called when page unload
    */
-  onUnload: function() {
+  onUnload: function () {
 
   },
 
-  onMenu: function(e) {
+  onMenu: function (e) {
 
-    if(!this.data.isfavored)
-    {
+    if (!this.data.isfavored) {
       var obj = {};
       obj.article = this.data.article;
       obj.title = this.data.title;
@@ -91,9 +93,9 @@ Page({
         isfavored: true
       })
     }
-    else{
+    else {
       var favorid = this.data.favorid;
-      favors.splice(favorid,1);
+      favors.splice(favorid, 1);
       wx.setStorageSync('favors', favors);
       this.setData({
         isfavored: false
@@ -104,51 +106,37 @@ Page({
   /**
    * Page event handler function--Called when user drop down
    */
-  onPullDownRefresh: function() {
-    const linkurl = this.data.linkurl || '';
-    this.getArticle(linkurl);
+  onPullDownRefresh: function () {
+
   },
 
   /**
    * Called when page reach bottom
    */
-  onReachBottom: function() {
+  onReachBottom: function () {
 
   },
 
-  onPageScroll: function(e) { // 获取滚动条当前位置
-    // const that = this;
-    // var nowp = e.scrollTop;
-    // var query = wx.createSelectorQuery();
-    // try{
-    //   query.select('#body').boundingClientRect()
-    //   query.exec(function (res) {
-    //     const allp = res[0].height;
-    //     var progress = nowp / allp;
-    //     that.setData({
-    //       progress
-    //     });
-    //   })
-    // }
-    // catch(err){console.log(err)}
+  onPageScroll: function (e) { 
+   
   },
 
   /**
    * Called when user click on the top right corner to share
    */
-  onShareAppMessage: function() {
+  onShareAppMessage: function () {
 
   },
 
 
   //复制页面中链接
-  __bind_tap: function(e) {
+  __bind_tap: function (e) {
     var href = e.currentTarget.dataset._el.attr.href;
     wx.setClipboardData({
       data: href,
-      success: function(res) {
+      success: function (res) {
         wx.getClipboardData({
-          success: function(res) {
+          success: function (res) {
             wx.showToast({})
           }
         })
@@ -156,7 +144,7 @@ Page({
     })
   },
 
-  htmlDecode: function(content) {
+  htmlDecode: function (content) {
     var s = "";
     if (content.length == 0) return "";
     s = content.replace(/&amp;/g, "&");
@@ -174,24 +162,10 @@ Page({
     return s;
   },
 
-  getArticle: function(url) {
+  getArticle: function (url) {
     var that = this;
     url = url.replace(/\*/g, "%2a");
-    // if (1){
-    //   wx.request({
-    //     url: 'http://api.url2io.com/article?token=iLyhznUTQqyVkBiXmkyxhA&url='+url
-    //     ,
-    //     success: function (res) {
-    //       console.log(res);
-    //       var article = res.data.content;
-    //       article = app.towxml.toJson(article, 'html');
-    //       that.setData({
-    //         article: article,
-    //       });
-    //     }
-    //   });
-    // }
-    // else {
+
     wx.request({
       method: 'POST',
       url: 'https://api.gugudata.com/news/fetchcontent',
@@ -203,7 +177,7 @@ Page({
       headers: {
         "content-type": "application/json"
       },
-      success: function(res) {
+      success: function (res) {
         console.log(res);
         var article = res.data.Data.Content;
         article = app.towxml.toJson(article, 'html');

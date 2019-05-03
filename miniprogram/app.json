@@ -12,6 +12,7 @@
     "pages/favorite/index",
     "pages/favorite/article",
     "pages/later/index",
+    "pages/later/article",
     "pages/user/report"
   ],
   "window": {

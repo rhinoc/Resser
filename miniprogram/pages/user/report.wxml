@@ -13,7 +13,7 @@
   <!--选项-->
 <view class="container">
   <text>本月阅历报告</text>
-  <text>{{}}</text><text>型订阅者
+  <text>{{}}</text><text>型订阅者</text>
   <text>新宠</text><text>{{}}</text><text>个订阅源</text>
   <text>取关</text><text>{{}}</text><text>个订阅源</text>
   <text>最爱订阅源</text> 
