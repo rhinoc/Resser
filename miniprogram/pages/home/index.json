@@ -2,9 +2,10 @@
   "navigationBarTitleText": "信息流",
   "enablePullDownRefresh": true,
   "usingComponents": {
+    "van-tab": "/dist/tab/index",
+    "van-tabs": "/dist/tabs/index",
     "l-card": "/dist/card/index",
-    "l-tabs": "/dist/tabs/index",
-    "l-tabpanel": "/dist/tabpanel/index",
-    "wxparser": "plugin://wxparserPlugin/wxparser"
+    "wxparser": "plugin://wxparserPlugin/wxparser",
+    "l-tag":"/dist/tag/index"
   }
 }

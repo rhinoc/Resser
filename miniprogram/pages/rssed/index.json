@@ -1,7 +1,10 @@
 {
-  "navigationBarTitleText": "订阅中心",
+  "navigationBarTitleText": "我的订阅",
   "usingComponents": {
-    "l-grid": "/dist/grid/index",
-    "l-grid-item": "/dist/grid-item/index"
+    "l-button": "/dist/button/index",
+    "l-icon": "/dist/icon/index",
+    "l-slide-view": "/dist/slide-view/index",
+    "l-popup":"/dist/popup/index",
+    "l-input":"/dist/input/index"
   }
 }

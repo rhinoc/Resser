@@ -3,7 +3,7 @@
 <!--  搜索框start  -->
 <view class='container'>
  <l-button size="long" bind:lintap="navToMy">我的订阅</l-button> 
- <l-search-bar bind:linconfirm="handleSearch" bind:linchange="handleSearch" placeholder="搜索"/>
+ <l-search-bar bind:linconfirm="handleSearch" bind:linblur="handleSearch" bind:linchange="handleSearch" bind:linfocus="handleSearch" clear="{{true}}" placeholder="搜索"/>
 </view>
 
 

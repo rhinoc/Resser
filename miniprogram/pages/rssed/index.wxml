@@ -1,12 +1,36 @@
-<!--pages/rssed/index.wxml-->
-<!--标题栏-->
-<view class='category'>我的订阅</view>
+<view class="container">
+  <l-button width="750" special="true" size="long" bind:lintap="onAdd">
+    <view class="box">
+      <l-icon size="40" name="add" color="#3963bc" />
+    </view>
+  </l-button>
+</view>
+
+<l-slide-view wx:for="{{rss_list}}" wx:key="{{index}}" key="{{index}}" height="140" width="750" slide-width="300" auto-close="true">
+  <view slot="left" class="left">
+    <view class='left-con'>
+      <text class='left-title'>{{item.title}}</text>
+      <text class='left-time'>{{item.description}}</text>
+    </view>
+    <view>
+      <image class='favicon' src="{{item.favicon}}"></image>
+    </view>
+  </view>
+  <view slot="right" class="right">
+    <view class="edit" bindtap='onEdit' data-id='{{index}}' data-type='edit'>修改</view>
+    <view class="del" bindtap='onDel' data-id='{{index}}'>取消订阅</view>
+  </view>
+</l-slide-view>
 
 
-<!--我的订阅模块-->
-<l-grid l-class-grid="grid-item" show-border="{{true}}" row-num="3">
-    <l-grid-item wx:for="{{rss_list}}" wx:key="{{index}}" key="{{index}}" slot="{{index}}">
-        <image class='avatar' src='{{item.favicon}}'></image>
-        <view class="text">{{item.title}}</view>
-    </l-grid-item>
-</l-grid>
+<l-popup show="{{show}}" locked="{{true}}" contentAlign="bottom" bind:lintap="onAdd" data-type='add'>
+  <view class='popup'>
+    <l-input label="名称" placeholder="例：爱范儿" bind:linchange="onName" value="{{name}}"/>
+    <l-input label="订阅地址" placeholder="例：https://www.ifanr.com/feed" bind:linchange="onRss" value="{{rssUrl}}"/>
+    <l-input label="标签" placeholder="例：科技" bind:linchange="onTag" value="{{tagstr}}"/>
+    <view class = "buttons">
+    <l-button type="default" bind:lintap='onSubmit'>保存</l-button>
+    <l-button type="default" plain bind:lintap='onCancel'>取消</l-button>
+    </view>
+    </view>
+</l-popup>

@@ -1,0 +1,11 @@
+<l-slide-view wx:for="{{laters}}" wx:key="{{index}}" key="{{index}}" height="140" width="750" slide-width="300" auto-close="true">
+  <view slot="left" class="left" bindtap='onTap' data-article-index='{{index}}'>
+    <view class='left-con'>
+      <text class='left-title'>{{item.title}}</text>
+      <text class='left-time'>{{item.pubTime}}</text>
+    </view>
+  </view>
+  <view slot="right" class="right">
+    <view class="del" bindtap='onDel' data-article-index='{{index}}'>删除</view>
+  </view>
+</l-slide-view>

@@ -11,9 +11,11 @@ Page({
    * 页面的初始数据
    */
   data: {
-    userData: [{}],
-    rss_list: [{}],
-    rss_pool: [{}],
+    baseItemHeight: 0,
+    swiper_height: 0,
+    userData: [],
+    rss_list: [],
+    rss_pool: [],
     cates:[{}],
     length: 0,
     openid: '',
@@ -27,9 +29,11 @@ Page({
 
   onPullDownRefresh: function () {
     this.setData({
-      rss_list: [{}],
-      rss_pool: [{}]
+      rss_list: [],
+      rss_pool: []
     })
+    this.onLoad();
+
   },
 
   onLoad: function() {
@@ -70,7 +74,6 @@ Page({
       });
 
       wx.setStorageSync('rss_list', rss_list);
-
       // console.log(rss_list);
       try{
         that.getRss(this.data.rss_list, tags.length - 1); //加载从源获取到的数据 
@@ -149,20 +152,18 @@ Page({
   // 点击跳转至文章详情页
   handleRssItemTap: (event) => {
     // const sourceIndex = event.currentTarget.dataset.sourceIndex;
-    console.log('event', event);
+    // console.log('event', event);
     const articleIndex = event.currentTarget.dataset.articleIndex;
-    console.log('articleIndex',articleIndex);
+    // console.log('articleIndex',articleIndex);
     wx.navigateTo({
       url: `../home/article?&id=${articleIndex}`,
     });
   },
 
-})
-
-function getJsonLength(jsonData) {
-  var jsonLength = 0;
-  for (var item in jsonData) {
-    jsonLength++;
+  onLater:(event) =>
+  {
+    // console.log(event);
+    const articleIndex = event.currentTarget.dataset.articleIndex;
   }
-  return jsonLength;
-}
+
+})
