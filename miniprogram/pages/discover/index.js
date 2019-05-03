@@ -20,7 +20,6 @@ Page({
     matched: [],
     rssData: rss.rssData || [], // rss源数据
     rssItemData: {}, // 当前选中的源数据             
-    rssedData: [], //已订阅
     rssed: [],
     button: [],
   },
@@ -31,10 +30,8 @@ Page({
   onShow: function(options) {
     for (var i in rssData) {
       matched[i] = 1;
-      console.log(rss_list);
-      console.log(typeof(rss_list));
       if (rss_list.find(function(x) {
-          return x.link == rssData[i].link;
+          return x.rssUrl == rssData[i].rssUrl;
         })) {
         rssed[i] = "已订阅";
         button[i] = true;
@@ -52,6 +49,7 @@ Page({
 
   handleSearch: function(event) {
     query = event.detail.detail.value;
+    console.log(query);
     if (query != '') {
       for (var i in rssData) {
         var str = (rssData[i].title) + (rssData[i].tag) + (rssData[i].rssUrl) + (rssData[i].link) + (rssData[i].description);
@@ -85,7 +83,7 @@ Page({
       button[id] = false;
       this.setData({rssed,button});
       for (var i in rss_list) {
-        if (rss_list[i].link == rssItemData.link) rss_list.splice(i, 1);
+        if (rss_list[i].rssUrl == rssItemData.rssUrl) rss_list.splice(i, 1);
       }
     }
 

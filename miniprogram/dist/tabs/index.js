@@ -1,178 +1,303 @@
-// components/tabs/index.js
-Component({
-  externalClasses: ['l-class-tabs','l-class-header', 'l-class-active', 'l-class-content', 'l-class-inactive', 'l-class-line', 'l-class-tabimage', 'l-class-header-line','l-class-icon'],
-  relations: {
-    '../tabpanel/index': {
-      type: 'child',
-      linked(target) {
-        // 每次有子节点被插入时执行，target是该节点实例对象，触发在该节点attached生命周期之后
-        this.initTabs();
-      },
-      unlinked(target) {
-        this.initTabs();
-      }
-    },
-
-  },
-  options: {
-    multipleSlots: true // 在组件定义时的选项中启用多slot支持
-  },
-  /**
-   * 组件的属性列表
-   */
-  properties: {
-    activeKey: {
-      type: String,
-      value: '',
-      observer: 'changeCurrent'
-    },
-    placement: {
-      type: String,
-      value: 'top',
-    },
-    aminmated: Boolean,
-    swipeable: Boolean,
-    scrollable: Boolean,
-    hasLine: {
-      type: Boolean,
-      value: true
-    },
-    aminmatedForLine:Boolean,
-    activeColor: {
-      type: String,
-      value: '#333333'
-    },
-    inactiveColor: {
-      type: String,
-      value: '#bbbbbb'
-    },
-    equalWidth:{
-      type:Boolean,
-      value:true
-    }
-
-  },
-
-  data: {
-    tabList: [],
-    currentIndex: 0,
-    transformX: 0,
-    transformY: 0,
-  },
-
-  ready() {
-    this.initTabs();
-  },
-
-
-  /**
-   * 组件的方法列表
-   */
-  methods: {
-    initTabs(val = this.data.activeKey) {
-      let items = this.getRelationNodes('../tabpanel/index');
-      if (items.length > 0) {
-        let activeKey = val,
-          currentIndex = this.data.currentIndex;
-        const tab = items.map((item, index) => {
-
-          activeKey = !val && index == 0 ? item.data.key : activeKey;
-          currentIndex = item.data.key === activeKey ? index : currentIndex;
-          return {
-            tab: item.data.tab,
-            key: item.data.key,
-            icon: item.data.icon,
-            image: item.data.image,
-            picPlacement: item.data.picPlacement,
-          }
-        });
-        this.setData({
-          tabList: tab,
-          activeKey,
-          currentIndex,
-        }, () => {
-          if (this.data.scrollable) {
-            this.queryMultipleNodes();
-          }
-        });
-      }
-    },
-    swiperChange(e) {
-      const {
-        source,
-        current
-      } = e.detail;
-      if (source == 'touch') {
-        const currentIndex = current;
-        const activeKey = this.data.tabList[current].key;
-        this._setChangeData({
-          activeKey,
-          currentIndex
-        });
-      }
-    },
-    handleChange(e) {
-      const activeKey = e.currentTarget.dataset.key;
-      const currentIndex = e.currentTarget.dataset.index;
-      this._setChangeData({
-        activeKey,
-        currentIndex
-      });
-    },
-
-    _setChangeData({
-      activeKey,
-      currentIndex
-    }) {
-      this.setData({
-        activeKey,
-        currentIndex
-      }, () => {
-        if (this.data.scrollable) {
-          this.queryMultipleNodes();
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var component_1 = require("../common/component");
+var touch_1 = require("../mixins/touch");
+component_1.VantComponent({
+    mixins: [touch_1.touch],
+    classes: ['nav-class', 'tab-class', 'tab-active-class', 'line-class'],
+    relation: {
+        name: 'tab',
+        type: 'descendant',
+        linked: function (child) {
+            this.child.push(child);
+            this.updateTabs(this.data.tabs.concat(child.data));
+        },
+        unlinked: function (child) {
+            var index = this.child.indexOf(child);
+            var tabs = this.data.tabs;
+            tabs.splice(index, 1);
+            this.child.splice(index, 1);
+            this.updateTabs(tabs);
         }
-      });
-      this.triggerEvent('linchange', {
-        activeKey,
-        currentIndex
-      });
     },
-
-    queryMultipleNodes() {
-      const {
-        placement,
-        activeKey,
-        tabList
-      } = this.data;
-      this._getRect('#key-' + activeKey)
-        .then((res) => {
-          console.log(res)
-          if (['top', 'bottom'].indexOf(placement) !== -1) {
-            this.setData({
-              transformX: res.left>0 ? res.left : 'auto',
-              transformY: 0
+    props: {
+        color: String,
+        sticky: Boolean,
+        animated: Boolean,
+        swipeable: Boolean,
+        lineWidth: {
+            type: Number,
+            value: -1
+        },
+        lineHeight: {
+            type: Number,
+            value: -1
+        },
+        active: {
+            type: Number,
+            value: 0
+        },
+        type: {
+            type: String,
+            value: 'line'
+        },
+        border: {
+            type: Boolean,
+            value: true
+        },
+        duration: {
+            type: Number,
+            value: 0.3
+        },
+        zIndex: {
+            type: Number,
+            value: 1
+        },
+        swipeThreshold: {
+            type: Number,
+            value: 4
+        },
+        offsetTop: {
+            type: Number,
+            value: 0
+        }
+    },
+    data: {
+        tabs: [],
+        lineStyle: '',
+        scrollLeft: 0,
+        scrollable: false,
+        trackStyle: '',
+        wrapStyle: '',
+        position: ''
+    },
+    watch: {
+        swipeThreshold: function () {
+            this.set({
+                scrollable: this.child.length > this.data.swipeThreshold
             });
-          } else {
-            this._getRect('.l-tabs-header')
-              .then((navRect) => {
-                const transformY = res.top - navRect.top - navRect.height / 2;
-                this.setData({
-                  transformX: 0,
-                  transformY: transformY
-                });
-              });
-          }
+        },
+        color: 'setLine',
+        lineWidth: 'setLine',
+        lineHeight: 'setLine',
+        active: 'setActiveTab',
+        animated: 'setTrack',
+        offsetTop: 'setWrapStyle'
+    },
+    beforeCreate: function () {
+        this.child = [];
+    },
+    mounted: function () {
+        var _this = this;
+        this.setLine(true);
+        this.setTrack();
+        this.scrollIntoView();
+        this.getRect('.van-tabs__wrap').then(function (rect) {
+            _this.navHeight = rect.height;
+            _this.observerContentScroll();
         });
     },
-
-    _getRect(selector) {
-      return new Promise((resolve, reject) => {
-        const query = wx.createSelectorQuery().in(this);
-        query.select(selector).boundingClientRect((res) => {
-          if (!res) return reject('找不到元素');
-          resolve(res)
-        }).exec();
-      });
+    destroyed: function () {
+        this.createIntersectionObserver().disconnect();
+    },
+    methods: {
+        updateTabs: function (tabs) {
+            tabs = tabs || this.data.tabs;
+            this.set({
+                tabs: tabs,
+                scrollable: tabs.length > this.data.swipeThreshold
+            });
+            this.setActiveTab();
+        },
+        trigger: function (eventName, index) {
+            this.$emit(eventName, {
+                index: index,
+                title: this.data.tabs[index].title
+            });
+        },
+        onTap: function (event) {
+            var index = event.currentTarget.dataset.index;
+            if (this.data.tabs[index].disabled) {
+                this.trigger('disabled', index);
+            }
+            else {
+                this.trigger('click', index);
+                this.setActive(index);
+            }
+        },
+        setActive: function (active) {
+            if (active !== this.data.active) {
+                this.trigger('change', active);
+                this.set({ active: active });
+                this.setActiveTab();
+            }
+        },
+        setLine: function (skipTransition) {
+            var _this = this;
+            if (this.data.type !== 'line') {
+                return;
+            }
+            var _a = this.data, color = _a.color, active = _a.active, duration = _a.duration, lineWidth = _a.lineWidth, lineHeight = _a.lineHeight;
+            this.getRect('.van-tab', true).then(function (rects) {
+                var rect = rects[active];
+                var width = lineWidth !== -1 ? lineWidth : rect.width / 2;
+                var height = lineHeight !== -1 ? "height: " + lineHeight + "px;" : '';
+                var left = rects
+                    .slice(0, active)
+                    .reduce(function (prev, curr) { return prev + curr.width; }, 0);
+                left += (rect.width - width) / 2;
+                var transition = skipTransition
+                    ? ''
+                    : "transition-duration: " + duration + "s; -webkit-transition-duration: " + duration + "s;";
+                _this.set({
+                    lineStyle: "\n            " + height + "\n            width: " + width + "px;\n            background-color: " + color + ";\n            -webkit-transform: translateX(" + left + "px);\n            transform: translateX(" + left + "px);\n            " + transition + "\n          "
+                });
+            });
+        },
+        setTrack: function () {
+            var _this = this;
+            var _a = this.data, animated = _a.animated, active = _a.active, duration = _a.duration;
+            if (!animated)
+                return '';
+            this.getRect('.van-tabs__content').then(function (rect) {
+                var width = rect.width;
+                _this.set({
+                    trackStyle: "\n            width: " + width * _this.child.length + "px;\n            left: " + -1 * active * width + "px;\n            transition: left " + duration + "s;\n            display: -webkit-box;\n            display: flex;\n          "
+                });
+                var props = { width: width, animated: animated };
+                _this.child.forEach(function (item) {
+                    item.set(props);
+                });
+            });
+        },
+        setActiveTab: function () {
+            var _this = this;
+            this.child.forEach(function (item, index) {
+                var data = {
+                    active: index === _this.data.active
+                };
+                if (data.active) {
+                    data.inited = true;
+                }
+                if (data.active !== item.data.active) {
+                    item.set(data);
+                }
+            });
+            this.set({}, function () {
+                _this.setLine();
+                _this.setTrack();
+                _this.scrollIntoView();
+            });
+        },
+        // scroll active tab into view
+        scrollIntoView: function () {
+            var _this = this;
+            var _a = this.data, active = _a.active, scrollable = _a.scrollable;
+            if (!scrollable) {
+                return;
+            }
+            Promise.all([
+                this.getRect('.van-tab', true),
+                this.getRect('.van-tabs__nav')
+            ]).then(function (_a) {
+                var tabRects = _a[0], navRect = _a[1];
+                var tabRect = tabRects[active];
+                var offsetLeft = tabRects
+                    .slice(0, active)
+                    .reduce(function (prev, curr) { return prev + curr.width; }, 0);
+                _this.set({
+                    scrollLeft: offsetLeft - (navRect.width - tabRect.width) / 2
+                });
+            });
+        },
+        onTouchStart: function (event) {
+            if (!this.data.swipeable)
+                return;
+            this.touchStart(event);
+        },
+        onTouchMove: function (event) {
+            if (!this.data.swipeable)
+                return;
+            this.touchMove(event);
+        },
+        // watch swipe touch end
+        onTouchEnd: function () {
+            if (!this.data.swipeable)
+                return;
+            var _a = this.data, active = _a.active, tabs = _a.tabs;
+            var _b = this, direction = _b.direction, deltaX = _b.deltaX, offsetX = _b.offsetX;
+            var minSwipeDistance = 50;
+            if (direction === 'horizontal' && offsetX >= minSwipeDistance) {
+                if (deltaX > 0 && active !== 0) {
+                    this.setActive(active - 1);
+                }
+                else if (deltaX < 0 && active !== tabs.length - 1) {
+                    this.setActive(active + 1);
+                }
+            }
+        },
+        setWrapStyle: function () {
+            var _a = this.data, offsetTop = _a.offsetTop, position = _a.position;
+            var wrapStyle;
+            switch (position) {
+                case 'top':
+                    wrapStyle = "\n            top: " + offsetTop + "px;\n            position: fixed;\n          ";
+                    break;
+                case 'bottom':
+                    wrapStyle = "\n            top: auto;\n            bottom: 0;\n          ";
+                    break;
+                default:
+                    wrapStyle = '';
+            }
+            // cut down `set`
+            if (wrapStyle === this.data.wrapStyle)
+                return;
+            this.set({ wrapStyle: wrapStyle });
+        },
+        observerContentScroll: function () {
+            var _this = this;
+            if (!this.data.sticky) {
+                return;
+            }
+            var offsetTop = this.data.offsetTop;
+            var windowHeight = wx.getSystemInfoSync().windowHeight;
+            this.createIntersectionObserver().disconnect();
+            this.createIntersectionObserver()
+                .relativeToViewport({ top: -(this.navHeight + offsetTop) })
+                .observe('.van-tabs', function (res) {
+                var top = res.boundingClientRect.top;
+                if (top > offsetTop) {
+                    return;
+                }
+                var position = res.intersectionRatio > 0 ? 'top' : 'bottom';
+                _this.$emit('scroll', {
+                    scrollTop: top + offsetTop,
+                    isFixed: position === 'top'
+                });
+                _this.setPosition(position);
+            });
+            this.createIntersectionObserver()
+                .relativeToViewport({ bottom: -(windowHeight - 1 - offsetTop) })
+                .observe('.van-tabs', function (res) {
+                var _a = res.boundingClientRect, top = _a.top, bottom = _a.bottom;
+                if (bottom < _this.navHeight) {
+                    return;
+                }
+                var position = res.intersectionRatio > 0 ? 'top' : '';
+                _this.$emit('scroll', {
+                    scrollTop: top + offsetTop,
+                    isFixed: position === 'top'
+                });
+                _this.setPosition(position);
+            });
+        },
+        setPosition: function (position) {
+            var _this = this;
+            if (position !== this.data.position) {
+                this.set({ position: position }).then(function () {
+                    _this.setWrapStyle();
+                });
+            }
+        }
     }
-  }
 });

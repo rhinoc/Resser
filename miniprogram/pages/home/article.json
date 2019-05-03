@@ -1,6 +1,7 @@
 {
   "enablePullDownRefresh": true,
   "usingComponents": {
-    "l-loadmore": "/dist/loadmore/index"
+    "l-loadmore": "/dist/loadmore/index",
+    "l-button": "/dist/button/index"
   }
 }

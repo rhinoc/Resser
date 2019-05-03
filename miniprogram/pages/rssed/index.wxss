@@ -203,17 +203,13 @@ text-align: center;
 
 .edit{
   background: #9AB2FF;
-  width: 33%
+  width: 45%
 }
 
-.share{
-  background: #6E90FD;
-  width: 33%  
-}
 
 .del{
   background: #F4516C;
-  width: 34%  
+  width: 55%  
 }
 
 .favicon {

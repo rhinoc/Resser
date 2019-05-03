@@ -103,3 +103,8 @@ text.unread-sign {
   -webkit-box-orient: vertical;
   -webkit-line-clamp:1; 
 }
+
+.van-tabs__line {
+background-color:#3281ff;
+border-radius:3px;
+}

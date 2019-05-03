@@ -1,63 +1,51 @@
 const app = getApp() //获取应用实例
 var article = '';
+var favors = wx.getStorageSync('favors')||[];
 Page({
   /**
    * Page initial data
    */
   data: {
+    isfavored: false,
+    favorid: -1,
     linkurl: '',
     title: '',
     author: '',
     pubTime: '',
     article: '',
-    progress: 0,
   },
 
   /**
    * Lifecycle function--Called when page load
    */
   onLoad: function(options) {
+    
     var that = this;
     const id = options.id; //位于来源的数据的id
     var rssData = wx.getStorageSync('rss_pool') || {};
     rssData = rssData[id];
-    // console.log(rssData);
     var title = rssData.title;
+    for (var i in favors){
+      if (favors[i].title == title){
+        this.setData({
+          favorid:i,
+          isfavored: true
+        })
+      }
+    }
     var author = rssData.author;
     var pubTime = rssData.pubTime;
     var linkurl = rssData.link;
     article = rssData.article;
     article = this.htmlDecode(article);
-    article = app.towxml.toJson(article,'html');
-    console.log(article);
-    // if (!article.child || article.child["0"].text.match('[…]')){
-    //   this.setData({
-    //     title,
-    //       pubTime,
-    //       author,
-    //       linkurl
-    //   })
-    //   wx.showLoading({
-    //     title: '加载中',
-    //   })
-    //   setTimeout(function () {
-    //     wx.hideLoading()
-    //   }, 1000);
-    //   this.getArticle(linkurl);
-    // }
-    // else {
-      this.setData({
-        article,
-        title,
-        pubTime,
-        author,
-        linkurl
-      })
-    // }
-    
-    // console.log(title,author,pubTime,linkurl);
-    
-
+    article = app.towxml.toJson(article, 'html');
+    this.setData({
+      article,
+      title,
+      pubTime,
+      author,
+      linkurl
+    })
   },
 
   /**
@@ -71,9 +59,7 @@ Page({
    * Lifecycle function--Called when page show
    */
   onShow: function() {
-    this['event_bind_tap'] = (event) => {
-      console.log(event.target.dataset._el);     // 打印出元素信息
-    };
+
   },
 
   /**
@@ -88,6 +74,31 @@ Page({
    */
   onUnload: function() {
 
+  },
+
+  onMenu: function(e) {
+
+    if(!this.data.isfavored)
+    {
+      var obj = {};
+      obj.article = this.data.article;
+      obj.title = this.data.title;
+      obj.pubTime = this.data.pubTime;
+      obj.author = this.data.author;
+      favors.push(obj);
+      wx.setStorageSync('favors', favors);
+      this.setData({
+        isfavored: true
+      })
+    }
+    else{
+      var favorid = this.data.favorid;
+      favors.splice(favorid,1);
+      wx.setStorageSync('favors', favors);
+      this.setData({
+        isfavored: false
+      })
+    }
   },
 
   /**
@@ -128,8 +139,8 @@ Page({
   onShareAppMessage: function() {
 
   },
-  
-  
+
+
   //复制页面中链接
   __bind_tap: function(e) {
     var href = e.currentTarget.dataset._el.attr.href;
@@ -138,15 +149,14 @@ Page({
       success: function(res) {
         wx.getClipboardData({
           success: function(res) {
-            wx.showToast({
-            })
+            wx.showToast({})
           }
         })
       }
     })
   },
 
-  htmlDecode: function (content) {
+  htmlDecode: function(content) {
     var s = "";
     if (content.length == 0) return "";
     s = content.replace(/&amp;/g, "&");
@@ -166,7 +176,7 @@ Page({
 
   getArticle: function(url) {
     var that = this;
-    url = url.replace(/\*/g,"%2a");
+    url = url.replace(/\*/g, "%2a");
     // if (1){
     //   wx.request({
     //     url: 'http://api.url2io.com/article?token=iLyhznUTQqyVkBiXmkyxhA&url='+url
@@ -182,22 +192,26 @@ Page({
     //   });
     // }
     // else {
-      wx.request({
-        method: 'POST',
-        url: 'https://api.gugudata.com/news/fetchcontent',
-        data: { appkey: 'AQKWA6WSC945', url: url, contentwithhtml: true },
-        headers: {
-          "content-type": "application/json"
-        },
-        success: function (res) {
-          console.log(res);
-          var article = res.data.Data.Content;
-          article = app.towxml.toJson(article, 'html');
-          that.setData({
-            article: article,
-          });
-        }
-      })
+    wx.request({
+      method: 'POST',
+      url: 'https://api.gugudata.com/news/fetchcontent',
+      data: {
+        appkey: 'AQKWA6WSC945',
+        url: url,
+        contentwithhtml: true
+      },
+      headers: {
+        "content-type": "application/json"
+      },
+      success: function(res) {
+        console.log(res);
+        var article = res.data.Data.Content;
+        article = app.towxml.toJson(article, 'html');
+        that.setData({
+          article: article,
+        });
+      }
+    })
     // }
   },
 })

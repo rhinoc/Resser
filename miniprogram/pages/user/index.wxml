@@ -12,8 +12,8 @@
   </view>
   <!--选项-->
   <view class="group">
-  <l-list title="稍后阅读" image="../../images/later.png" />
-  <l-list title="收藏集" image="../../images/ic_collection_set.png" />
+  <l-list title="稍后阅读" image="../../images/later.png" url="../later/index"/>
+  <l-list title="收藏集" image="../../images/ic_collection_set.png" url="../favorite/index"/>
   <l-list title="阅历" image="../../images/tab_activity.png" />
 </view>
   <view class="group">

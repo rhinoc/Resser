@@ -7,7 +7,10 @@
     "pages/settings/index",
     "pages/about/index",
     "pages/home/article",
-    "pages/rssed/index"
+    "pages/rssed/index",
+    "pages/favorite/index",
+    "pages/favorite/article",
+    "pages/later/index"
   ],
   "window": {
     "pageOrientation": "auto",

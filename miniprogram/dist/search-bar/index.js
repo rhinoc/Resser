@@ -132,6 +132,15 @@ Component({
         value: ''
       });
       this.triggerEvent('linclear', event);
+      this.triggerEvent('linfocus', event);
+    },
+
+    onCancel(event) {
+      this.setData({
+        value: ''
+      });
+      this.triggerEvent('linclear', event);
+      this.triggerEvent('linfocus', event);
     }
   }
 });

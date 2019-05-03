@@ -9,7 +9,7 @@ text-align: center;
 
 .zan-col {
   
-  background-color: #edae3930;
+  background-color: #fff;
   height:30vw;
   /* line-height: 25vw; */
   text-align: center;
@@ -27,7 +27,7 @@ text-align: center;
 }
 
 .zan-col:nth-child(odd) {
-  background-color: #ca8c5240;
+  background-color: #F4F6F9;
 }
 
 .avatar {
