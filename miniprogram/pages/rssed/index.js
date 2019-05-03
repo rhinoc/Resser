@@ -6,6 +6,7 @@ var rss_list = wx.getStorageSync('rss_list');
 var rssUrl = '';
 var tag = [];
 var name = '';
+var description = ''
 const openid = wx.getStorageSync('openid');
 // pages/rsscenter/rsscenter.js
 Page({
@@ -14,6 +15,7 @@ Page({
    * 页面的初始数据
    */
   data: {
+    description: '',
     name: '',
     tagstr: '',
     rssUrl: '',
@@ -69,19 +71,16 @@ Page({
     name = rssItemData.title;
     rssUrl = rssItemData.rssUrl;
     tag = rssItemData.tag;
+    description = rssItemData.description;
     var str = tag.join(' ');
     this.setData({
       name,
       rssUrl,
+      description,
       tagstr: str,
       show: true
     })
   },
-
-  onShare(e) {
-    console.log(e);
-  },
-
   onAdd(e){
     this.setData({
       show:true
@@ -97,8 +96,9 @@ Page({
     var str = e.detail.detail.value;
     tag = str.split(' ');
   },
-
-
+  onDes(e) {
+    description = e.detail.detail.value;
+  },
   onCancel(e) {
     this.setData({
       show: false
@@ -108,52 +108,67 @@ Page({
 
   onSubmit(e) {
     let that = this;
-    var index = -1;
-    for (var i in rss_list) {
-      if (rss_list[i].rssUrl == rssUrl) {
-        index = i;
-        console.log(i);
-        break;
-      }
-    }
-    if (index == -1)
+    if (name==''||rssUrl=='')
     {
-      var rssItemData = {
-        favicon: "https://rhinoc.top/images/ava.png",
-        title: name,
-        link: '',
-        description: '',
-        rssUrl: rssUrl,
-        type: 'rss',
-        tag: tag,
-      };
-      rss_list.push(rssItemData);
+      wx.lin.showMessage({
+        content: '名称和地址不能为空',
+        type: 'warning'
+      })
     }
-    else {
-      var rssItemData = rss_list[index];
-      rssItemData.title = name;
-      rssItemData.rssUrl = rssUrl;
-      rssItemData.tag = tag;
-      rss_list.splice(index, 1);
-      rss_list.push(rssItemData);
-    }
-    db.collection('user').where({
-      _openid: openid
-    }).get({
-      success: res => {
-        var getid = res.data["0"]._id;
-        db.collection('user').doc(getid).update({
-          data:{
-            subscribe: rss_list
-          },
-          success(res) {
-            that.setData({
-              rss_list,
-              show: false,
-            })
-          }
+    else{
+      var index = -1;
+      for (var i in rss_list) {
+        if (rss_list[i].rssUrl == rssUrl) {
+          index = i;
+        }
+      }
+      if (index == -1) {
+        var rssItemData = {
+          favicon: 'https://cdn.staticaly.com/favicons/' + url,
+          title: name,
+          link: '',
+          description: description,
+          rssUrl: rssUrl,
+          type: 'rss',
+          tag: tag,
+        };
+        rss_list.push(rssItemData);
+        wx.lin.showMessage({
+          content: '添加成功',
+          type: 'success'
         })
       }
-    })
+      else {
+        var rssItemData = rss_list[index];
+        rssItemData.title = name;
+        rssItemData.rssUrl = rssUrl;
+        rssItemData.tag = tag;
+        rss_list.splice(index, 1);
+        rss_list.push(rssItemData);
+        wx.lin.showMessage({
+          content: '保存成功',
+          type: 'success'
+        })
+      }
+      db.collection('user').where({
+        _openid: openid
+      }).get({
+        success: res => {
+          var getid = res.data["0"]._id;
+          db.collection('user').doc(getid).update({
+            data: {
+              subscribe: rss_list
+            },
+            success(res) {
+              that.setData({
+                rss_list,
+                show: false,
+              })
+              wx.setStorageSync('rss_list', rss_list)
+            }
+          })
+        }
+      })
+    }
   },
 })

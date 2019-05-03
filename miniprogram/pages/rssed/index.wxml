@@ -24,9 +24,11 @@
 
 
 <l-popup show="{{show}}" locked="{{true}}" contentAlign="bottom" bind:lintap="onAdd" data-type='add'>
+<l-message type="{{type}}" content="{{content}}"/>
   <view class='popup'>
     <l-input label="名称" placeholder="例：爱范儿" bind:linchange="onName" value="{{name}}"/>
     <l-input label="订阅地址" placeholder="例：https://www.ifanr.com/feed" bind:linchange="onRss" value="{{rssUrl}}"/>
+    <l-input label="备注" placeholder="例：聚焦创新及消费科技领域" bind:linchange="onDes" value="{{description}}"/>
     <l-input label="标签" placeholder="例：科技" bind:linchange="onTag" value="{{tagstr}}"/>
     <view class = "buttons">
     <l-button type="default" bind:lintap='onSubmit'>保存</l-button>

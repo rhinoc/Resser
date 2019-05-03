@@ -14,8 +14,6 @@ Page({
    * 页面的初始数据
    */
   data: {
-    baseItemHeight: 0,
-    swiper_height: 0,
     userData: [],
     rss_list: [],
     rss_pool: [],
@@ -42,6 +40,7 @@ Page({
 
   onLoad: function() {
     // wx.clearStorageSync();
+    wx.stopPullDownRefresh()
     const that = this;
     wx.showLoading({
       title: '加载中',
@@ -102,11 +101,12 @@ Page({
       data: {},
       header: {
         'Content-Type': 'application/xml',
-        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_5) AppleWebKit 537.36 (KHTML, like Gecko) Chrome",
+        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.103 Safari/537.36",
         "Accept": "text/html,application/xhtml+xml,application/xml; q=0.9,image/webp,*/*;q=0.8"
       },
       success: function (res) {
-        var dataJson = xml2json(res.data);
+        // console.log(res.body);
+        var dataJson = xml2json(res.body);
         // console.log('dataJson',dataJson);
         //获取转换为JSON格式后的列表内容
         var rssData = dataJson.feed || dataJson.rss.channel;
@@ -116,7 +116,7 @@ Page({
           var rssDataItem = (rssData.item || rssData.entry)[j]
           var obj = {};
           obj.favicon = rss_list[i].favicon;
-          obj.source = rss_list[i].name;
+          obj.source = rss_list[i].title;
           obj.tag = rss_list[i].tag;
           obj.link = (rssDataItem.link || rssDataItem.id).text || rssDataItem.link.href;
           obj.author = '';
@@ -162,10 +162,7 @@ Page({
 
   // 点击跳转至文章详情页
   handleRssItemTap: (event) => {
-    // const sourceIndex = event.currentTarget.dataset.sourceIndex;
-    // console.log('event', event);
     const articleIndex = event.currentTarget.dataset.articleIndex;
-    // console.log('articleIndex',articleIndex);
     wx.navigateTo({
       url: `../home/article?&id=${articleIndex}`,
     });

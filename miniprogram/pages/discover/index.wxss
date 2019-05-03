@@ -3,8 +3,15 @@
   padding: 24rpx;
 }
 
-.button{
-text-align: center;
+.zan-row{
+  margin-bottom: 88rpx;
+}
+
+
+.favor{
+  position: fixed;
+  bottom: 0;
+  width: 100%;
 }
 
 .zan-col {

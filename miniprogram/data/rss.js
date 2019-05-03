@@ -64,24 +64,24 @@ const rssData = [
 
   //社区 
   {
-    favicon: "https://www.zhihu.com/favicon.ico",
-    title: '知乎日报',//有冗余
+    favicon: "https://daily.zhihu.com/favicon.ico",
+    title: '知乎日报',//ok
     link: 'https://www.zhihu.com',
-    description: '每日提供来自知乎社区的精选问答，还有国内一流媒体的专栏特稿。',  
+    description: '来自知乎社区的每日精选问答',  
     rssUrl: 'http://zhihurss.miantiao.me/dailyrss',
     type: 'feed',
     tag: ['社区','知识','问答']
   },
 
-  {
-    favicon: "https://www.guokr.com/favicon.ico",
-    title: '果壳',//返回数据大于1M
-    link: 'https://www.guokr.com/',
-    description: '科学人推荐文章',
-    rssUrl: 'http://feeds.brandipo.com/users/1/web_requests/21/guoke.xml',
-    type: 'description',
-    tag: ['社区','科学'],
-  },
+  // {
+  //   favicon: "https://www.guokr.com/favicon.ico",
+  //   title: '果壳',//返回数据大于1M
+  //   link: 'https://www.guokr.com/',
+  //   description: '科学人推荐文章',
+  //   rssUrl: 'http://feeds.brandipo.com/users/1/web_requests/21/guoke.xml',
+  //   type: 'description',
+  //   tag: ['社区','科学'],
+  // },
   {
     favicon: "https://www.williamlong.info/favicon.ico",
     title: '月光博客',//ok
@@ -99,17 +99,17 @@ const rssData = [
     rssUrl:'https://www.huxiu.com/rss/0.xml',
     type: 'description',
     tag: ['科技'],
-  }
+  },
 
-  //  {
-  //   title: '好奇心日报',
-  //   link: 'https://www.qdaily.com',
-  //   description: '这是一个帮助你发现生活何以美好的商业新闻媒体。所有内容均原创或者邀请专业作者撰写。报道涉及智能、设计、城市、时尚和娱乐等领域。全部都建立在商业视角之上。',
-  //   
-  //   rssUrl: 'https://service-ox5moi4m-1258237701.gz.apigw.tencentcs.com/release/qdaily',
-  //   remark: '',
-  //   type: 'description',
-  // },
+   {
+     favicon: "http://www.qdaily.com/favicon.ico",
+    title: '好奇心日报',//ok
+    link: 'https://www.qdaily.com',
+    description: '发现生活何以美好的商业新闻媒体',
+    rssUrl: 'http://www.qdaily.com/feed.xml',
+    type: 'description',
+     tag: ['商业','智能','设计'],
+  },
   // {
   //   title: '网易新闻',
   //   link: 'http://news.163.com',

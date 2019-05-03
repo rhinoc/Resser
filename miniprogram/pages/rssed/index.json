@@ -5,6 +5,7 @@
     "l-icon": "/dist/icon/index",
     "l-slide-view": "/dist/slide-view/index",
     "l-popup":"/dist/popup/index",
-    "l-input":"/dist/input/index"
+    "l-input":"/dist/input/index",
+    "l-message":"/dist/message/index"
   }
 }

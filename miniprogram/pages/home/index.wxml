@@ -1,13 +1,13 @@
 <!--index.wxml-->
 <view wx:if="{{openid}}">
   <van-tabs swipeable sticky>
-  <van-tab title="全部">
-  <view class="tab-content">
+    <van-tab title="全部">
+      <view class="tab-content">
         <view class='source-item' wx:for="{{rss_pool}}" wx:for-item="item" wx:for-index="idx" wx:key="all">
           <view class='rss-item' bindtap='handleRssItemTap' data-article-index='{{idx}}'>
-            <l-card type="avatar" l-class="card" image="{{item.favicon}}" title="{{item.title}}" describe="{{item.pubTime}}">
+            <l-card type="avatar" l-class="card" image="{{item.favicon}}" title="{{item.source}}" describe="{{item.pubTime}}">
               <view class="content">
-                {{item.description}}
+                {{item.title}}
               </view>
               <view>   
               <l-button  bind:lintap="onLater" data-article-index='{{idx}}'disabled="{{islatered[idx]}}" >
@@ -32,36 +32,20 @@
         </view>
       </view>
     </van-tab>
-</van-tabs>
 
-
-  <!-- <l-tabs scrollable="true" active-color="#3281ff" swipeable style="height:{{swiper_height}}px">
-    <l-tabpanel tab="全部" key="one" slot="one">
-      <view class="tab-content">
-        <view class='source-item' wx:for="{{rss_pool}}" wx:for-item="item" wx:for-index="idx" wx:key="all">
-          <view class='rss-item' bindtap='handleRssItemTap' data-article-index='{{idx}}'>
-            <l-card type="avatar" l-class="card" image="{{item.favicon}}" title="{{item.title}}" describe="{{item.pubTime}}">
-              <view class="content">
-                {{item.description}}
-              </view>
-            </l-card>
-          </view>
-        </view>
-      </view>
-    </l-tabpanel>
-    <l-tabpanel wx:for="{{cates}}" wx:key="cates" tab="{{item}}" key="{{index}}" slot="{{index}}">
+    <van-tab wx:for="{{cates}}" wx:key="cates" title="{{item}}" key="{{index}}">
       <view class="tab-content">
         <view class='source-item' wx:for="{{rss_pool}}" wx:for-item="rssItem" wx:for-index="idx" wx:key="pool">
           <view wx:if="{{item==rssItem.tag[0]}}" class='rss-item' bindtap='handleRssItemTap' data-article-index='{{idx}}'>
-            <l-card type="avatar" l-class="card" image="{{rssItem.favicon}}" title="{{rssItem.title}}" describe="{{rssItem.pubTime}}">
-              <view class="content">{{rssItem.description}}
+            <l-card type="avatar" l-class="card" image="{{rssItem.favicon}}" title="{{rssItem.source}}" describe="{{rssItem.pubTime}}">
+              <view class="content">{{rssItem.title}}
               </view>
             </l-card>
           </view>
         </view>
       </view>
-    </l-tabpanel>
-  </l-tabs> -->
+    </van-tab>
+  </van-tabs>
 
 </view>
 <view wx:else>
