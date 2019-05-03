@@ -1,0 +1,8 @@
+{
+  "navigationBarTitleText": "Resser·阅见·阅历",
+  "usingComponents": {
+    "l-list": "/dist/list/index",
+    "l-icon": "/dist/icon/index",
+    "l-avatar": "/dist/avatar/index"
+    }
+}

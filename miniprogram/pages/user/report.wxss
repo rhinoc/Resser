@@ -1,0 +1,35 @@
+/**index.wxss**/
+.container {
+  padding-top: 40rpx; 
+  flex-direction: column;
+}
+.userinfo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.userinfo-avatar {
+  overflow:hidden;  
+  display: block;  
+  width: 138rpx;  
+  height: 138rpx;  
+  margin: 20rpx;  
+  margin-top: 50rpx;  
+  border-radius: 50%;  
+  /* border: 2px solid #fff;   */
+  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);  
+}
+
+.userinfo-nickname {
+  color: #000;
+  font-size:14px;
+  margin-bottom: 20rpx;
+}
+
+.group {
+  margin-top: 8%;
+  padding: 0 10%;
+  width:600rpx;
+  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+}

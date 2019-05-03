@@ -14,7 +14,7 @@
   <view class="group">
   <l-list title="稍后阅读" image="../../images/later.png" />
   <l-list title="收藏集" image="../../images/ic_collection_set.png" />
-  <l-list title="阅历" image="../../images/tab_activity.png" />
+  <l-list title="阅历" image="../../images/tab_activity.png" url="../user/report" />
 </view>
   <view class="group">
   <l-list title="设置" image="../../images/setting.png" />
