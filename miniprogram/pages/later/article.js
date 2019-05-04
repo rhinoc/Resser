@@ -55,6 +55,7 @@ Page({
   },
 
   onShow:function(){
+    favors = wx.getStorageSync('favors');
   },
 
   /**
