@@ -8,7 +8,6 @@
     "pages/about/index",
     "pages/home/article",
     "pages/rssed/index",
-    
     "pages/favorite/index",
     "pages/favorite/article",
     "pages/later/index",
@@ -17,7 +16,6 @@
   ],
   "window": {
     "pageOrientation": "auto",
-    "resizable": true,
     "backgroundTextStyle": "dark",
     "navigationBarBackgroundColor": "#3281ff",
     "navigationBarTitleText": "阅见",

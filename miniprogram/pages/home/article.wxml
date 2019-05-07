@@ -1,20 +1,21 @@
 <import src="../../towxml/entry.wxml" />
 
-<view class="container" wx:if='{{article}}'>
-  <view class='title'>
-    {{title}}
+<view class='title'>
+  {{title}}
   </view>
-  <view class='info-box'>
-    <text class='pubAuthor'>{{author}}</text>
-    <text class='pubTime'>{{pubTime}}</text>
-  </view>
-  <loadmore show="{{true}}" type="end" loading-text="DeveSA · 阅见">
-    <view class='article' id='body' slot="content">
+    <view class="container" wx:if='{{article}}'>
+      <view class='info-box'>
+        <text class='pubAuthor'>{{author}}</text>
+        <text class='pubTime'>{{pubTime}}</text>
+      </view>
+      <view class='article' id='body' slot="content">
+        <image wx:if="{{enclosure!=''}}" src="{{enclosure}}" class="enclosure"
+        mode="aspectFit">
+        </image>
         <template is="entry" data="{{...article}}" />
+      </view>
     </view>
-  </loadmore>
-</view>
 
-<l-button wx:if="{{isfavored==true}}" class="menu" size="long" bind:lintap="onMenu" plain>已收藏</l-button> 
+    <l-button class="menu" l-class="button" wx:if="{{isfavored==true}}" size="long" bind:lintap="onMenu">已收藏</l-button>
 
-<l-button wx:else class="menu" size="long" bind:lintap="onMenu">收藏</l-button>
+    <l-button wx:else class="menu" l-class="button" size="long" bind:lintap="onMenu">收藏</l-button>

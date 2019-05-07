@@ -1,4 +1,5 @@
 {
+  "navigationBarTitleText": "收藏集",
   "usingComponents": {
     "l-card": "/dist/card/index",
     "l-slide-view": "/dist/slide-view/index"

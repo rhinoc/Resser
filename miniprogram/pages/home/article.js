@@ -9,6 +9,7 @@ Page({
     isfavored: false,
     favorid: -1,
     linkurl: '',
+    enclosure:'',
     title: '',
     author: '',
     pubTime: '',
@@ -37,15 +38,17 @@ Page({
     var author = rssData.author;
     var pubTime = rssData.pubTime;
     var linkurl = rssData.link;
+    var enclosure = rssData.enclosure;
     article = rssData.article;
     article = this.htmlDecode(article);
-    // console.log('41',article);
+    console.log('41',article);
     article = app.towxml.toJson(article, 'html');
     this.setData({
       article,
       title,
       pubTime,
       author,
+      enclosure,
       linkurl
     })
   },
@@ -164,6 +167,9 @@ Page({
     s = content.replace(/&amp;/g, "&");
     s = s.replace(/<script.*?>window.daily.*>/g,"");
     s = s.replace(/<font color="red">订阅指南.*\n.*/g,"");
+    s = s.replace(/<script>[\s\S]*?googletag[\s\S]*?>/g, "");
+    s = s.replace(/<div>获取更多RSS[\s\S]*?<\/div>/g,"");
+    s = s.replace(/<script[\s\S]*<\/script>/g,"");
     s = s.replace(/&lt;/g, "<");
     s = s.replace(/&gt;/g, ">");
     s = s.replace(/&nbsp;/g, " ");

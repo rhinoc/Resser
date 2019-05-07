@@ -13,7 +13,7 @@ Page({
       data: content,
       success() {
         wx.showToast({
-          title: `已复制${title}`,
+          title: '链接已复制',
           duration: 2000,
         })
       },

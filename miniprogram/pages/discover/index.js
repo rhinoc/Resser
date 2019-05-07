@@ -28,15 +28,16 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onShow: function(options) {
+    rss_list = wx.getStorageSync('rss_list')
     for (var i in rssData) {
       matched[i] = 1;
       if (rss_list.find(function(x) {
           return x.rssUrl == rssData[i].rssUrl;
         })) {
-        rssed[i] = "已订阅";
+        rssed[i] = "-";
         button[i] = true;
       } else {
-        rssed[i] = "订阅";
+        rssed[i] = "+";
         button[i] = false;
       }
     }
@@ -72,14 +73,14 @@ Page({
     var id = event.currentTarget.dataset.idx;
     var rssItemData = rssData[id];
 
-    if (rssed[id] == "订阅"){
-      rssed[id] = "已订阅";
+    if (rssed[id] == "+"){
+      rssed[id] = "-";
       button[id] = true;
       this.setData({rssed,button});
       rss_list.push(rssItemData);
     }
     else{
-      rssed[id] = "订阅";
+      rssed[id] = "+";
       button[id] = false;
       this.setData({rssed,button});
       for (var i in rss_list) {
@@ -97,6 +98,7 @@ Page({
             subscribe: rss_list
           },
           success(res) {
+            wx.setStorageSync('rss_list', rss_list);
             this.onload();
           }
         })
@@ -106,7 +108,7 @@ Page({
   },
 
 
-  //跳转到我的订阅
+  //跳转到我的+
   navToMy: function (event) {
     wx.navigateTo({
       url: '../rssed/index',

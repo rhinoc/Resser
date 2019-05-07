@@ -38,6 +38,11 @@ Page({
    
   },
 
+  onShow: function(options){
+    rss_list = wx.getStorageSync('rss_list');
+    this.setData({ rss_list })
+  },
+
   onDel(e) {
     const that = this;
     var id = e.currentTarget.dataset.id;
@@ -124,7 +129,7 @@ Page({
       }
       if (index == -1) {
         var rssItemData = {
-          favicon: 'https://cdn.staticaly.com/favicons/' + url,
+          favicon: 'https://cdn.staticaly.com/favicons/' + rssUrl,
           title: name,
           link: '',
           description: description,

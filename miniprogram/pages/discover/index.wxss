@@ -1,17 +1,34 @@
 /* pages/rsscenter/rsscenter.wxss */
+
+.button{
+  background:rgba(223, 237, 255, 1) !important;
+box-shadow:3rpx 3rpx 16rpx 3px rgba(229, 233, 239, 0.5) !important;
+color:rgba(45, 97, 179, 1) !important;
+  width: 100%;
+}
+
+.favor{
+  bottom: 0;
+  width: 100%;
+  position: fixed;
+}
 .category {
   padding: 24rpx;
 }
 
 .zan-row{
+  margin-top:10rpx;
   margin-bottom: 88rpx;
 }
+.container{
+  overflow: visible;
+}
 
-
-.favor{
-  position: fixed;
-  bottom: 0;
-  width: 100%;
+.searchbar{
+  background-color:white;
+  box-shadow:3rpx 3rpx 16rpx 3px rgba(229, 233, 239, 0.5) !important;
+  position:sticky;
+  top: 0;
 }
 
 .zan-col {
@@ -23,7 +40,7 @@
   padding-top: 20rpx;
   padding-bottom: 20rpx;
   color: rgba(65, 60, 60, 0.521);
-  position: relative;
+  /* position: relative; */
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -77,13 +94,6 @@
   border:4rpx solid rgba(255, 255, 255, 0.568)
   }
 
-  .van-button--info{
-    position:relative;display:inline-block;height:44px;padding:0;font-size:16px;line-height:42px;text-align:center;-webkit-text-size-adjust:100%;vertical-align:middle;border-radius:2px;box-sizing:border-box;-webkit-appearance:none;
-    color:#fff;background-color:#1989fa;border:1px solid #1989fa}
-
-/* .rss-add {
-  font-size: 24rpx;
-} */
 
 .rss-item-popup__container {
   padding:12px 24px;
@@ -151,7 +161,7 @@
 
 .rss-info {
   display: flex;
-  position: relative;
+  /* position: relative; */
   flex-direction: row;
   justify-content: flex-end;
   margin-right: 20rpx;
@@ -163,39 +173,6 @@
   margin-left:0.4ch;
 }
 
-/* 搜索框 */
-.search
-{
-  display: flex;
-  flex-direction: row;
-  justify-content:space-between;
-  align-items: center;
-  width:100%;
-  height:60rpx;
-  background-color:whitesmoke;
-  margin-top: 2%;
-  margin-bottom: 2%;
-  border:1rpx solid whitesmoke;
-  border-radius: 5rpx;
 
-}
-
-/* 搜索框提示文字样式 */
-.search input
-{
-  font-size:30rpx;
-  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  padding-left:50rpx; 
-}
-
-/* 搜索框小图标 */
-.search image
-{ 
-  width:40rpx;
-  height:40rpx;
-  padding-right:20rpx;
-}
-/* 关注图标 */
-/* .van-button{position:relative;display:inline-block;height:44px;padding:0;font-size:16px;line-height:42px;text-align:center;-webkit-text-size-adjust:100%;vertical-align:middle;border-radius:2px;box-sizing:border-box;-webkit-appearance:none} */
 
 

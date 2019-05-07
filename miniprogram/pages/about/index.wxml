@@ -1,38 +1,51 @@
-  <view class='content'>
-    <view class='item'>
+<view class='content'>
+  <!-- <view class='item'>
       <view class='title'>声明</view>
       <view>仅用于学习交流，禁止用于其他用途。</view>
+    </view> -->
+  <!-- <view class='item'>
+    <view class='title'>有关阅见</view>
+    <view class='text'>
+      <view>一款年轻而简单的RSS阅读器。它希望让你看见未经过滤的开放互联网的样子。</view>
     </view>
-    <view class='item'>
-      <view class='title'>有关阅见</view>
-        <view class='text'>
-          <view>一款年轻的RSS阅读器。</view>
-        </view>
-      </view>
+  </view> -->
+  <view class='item'>
+    <view class='title'>有关阅见</view>
+    <view class='text'>
+      <!-- <view>RSS是一种基于XML标准的内容包装和投递协议。简单来说，它能让你不用打开网站就能获取到网站的内容。自从Google Reader关闭后，“RSS已死”的言论就甚嚣尘上。而我们想通过「Resser 阅见」发出一种不同的声音——RSS并没有死，它只是从普通人的互联网生活中消失了。</view> -->
+      <view>由于使用门槛高，以及越来越多网站放弃对RSS的支持，RSS的受众面很小，也助长了互联网的封闭性。你会发现，当资讯类应用越来越“懂”用户的同时，它们也开始从用户身上获利甚至无形中影响用户的思想。</view>
+      <view>我们希望通过降低用户准入门槛，让更多的用户能接触到RSS，接触到互联网本来的样子。</view>
     </view>
-    <view class='item'>
-      <view class='title'>开发团队</view>
-        <view class='text'>
-          <view>DeveSA</view>
-          <view>由来自哈尔滨工业大学（深圳）的两名本科生组成。</view>
-        </view>
-      <view class='i' catchtap='copy' data-title='邮箱' data-content='{{email}}'>
-        <view class='icon'>
-          <image src='/images/email.png'></image>
-        </view>
-        <view class='text'>
-          <view>通过 Email 反馈</view>
-          <view>{{email}}</view>
-        </view>
-      </view>
-      <view class='i' catchtap='copy' data-title='QQ' data-content='{{qq}}'>
-        <view class='icon'>
-          <image src='/images/qq.png'></image>
-        </view>
-        <view class='text'>
-          <view>通过 QQ 反馈</view>
-          <view>{{qq}}</view>
-        </view>
-      </view>
   </view>
-  <view class='footer'>我们 · DeveSA</view>
+</view>
+<view class='item'>
+  <view class='title'>开发团队</view>
+  <view class='text'>
+    <view>DeveSA由来自哈尔滨工业大学（深圳）的两名本科生组成，包括：</view>
+    <view>Bug Creator: rhinoc</view>
+    <view>Bug Hunter: Grimpoteuthis</view>
+  </view>
+</view>
+<view class="item">
+  <view class='title'>联系我们</view>
+  <view class='i' catchtap='copy' data-title='邮箱' data-content='{{email}}'>
+    <view class='icon'>
+      <image src='/images/email.png'></image>
+    </view>
+  <view class='text'>
+    <view>通过 Email 反馈</view>
+    <view>{{email}}</view>
+  </view>
+  </view>
+  <view class='i' catchtap='copy' data-title='QQ' data-content='{{qq}}'>
+    <view class='icon'>
+      <image src='/images/qq.png'></image>
+    </view>
+    <view class='text'>
+      <view>通过 QQ 反馈</view>
+      <view>{{qq}}</view>
+    </view>
+  </view>
+</view>
+
+<view class='footer'>阅见 · DeveSA</view>

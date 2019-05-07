@@ -3,7 +3,7 @@ const rssData = [
   //博客类
   {
     favicon: "https://www.runningcheese.com/wp-content/themes/concise/images/panda.png",
-    title: '奔跑中的奶酪',//ok
+    title: '奔跑中的奶酪',//ok url2io深度解析
     link: 'https://www.runningcheese.com.com',
     description: '有智 有趣 有爱',
     rssUrl: 'https://www.runningcheese.com/feed',
@@ -13,7 +13,7 @@ const rssData = [
 
   {
     favicon: "http://www.zreading.cn/favicon.ico",
-    title: '左岸读书',//ok
+    title: '左岸读书',//ok 深度解析
     link: 'http://www.zreading.cn',
     description: '共同致于美好的阅读体验',
     rssUrl: 'https://www.zreading.cn/feed',
@@ -34,7 +34,7 @@ const rssData = [
 
   {
     favicon: "https://36kr.com/favicon.ico",
-    title: '36氪', //无法深入原文
+    title: '36氪', //ok
     link: 'https://36kr.com',
     description: '让一部分人先看到未来',
     rssUrl: 'https://36kr.com/feed',
@@ -195,6 +195,78 @@ const rssData = [
     rssUrl: 'http://feeds.feedburner.com/appinncom',
     favicon: 'https://www.appinn.com/logo1.png',
     tag:['软件'],
+  }, 
+
+  {
+    title: '英为财情',
+    link: 'https://investing.com',//ok
+    description: '全球金融市场实时行情和资讯专家',
+    rssUrl: 'https://feedx.co/rss/investing.xml',
+    favicon: 'https://feedx.co/wp-content/uploads/2017/03/investing.jpg',
+    tag: ['金融'],
+  },
+
+  {
+    title: '澎湃新闻',
+    link: 'https://www.thepaper.cn/',//ok
+    description: '专注时政与思想的互联网平台',
+    rssUrl: 'https://feedx.co/rss/thepaper.xml',
+    favicon: 'https://www.thepaper.cn/favicon.ico',
+    tag: ['时政'], 
+  }, 
+
+  {
+    title: '界面',
+    link: 'https://www.jiemian.com/',//ok
+    description: '只服务于独立思考的人群',
+    rssUrl: 'https://feedx.co/rss/jiemian.xml',
+    favicon: 'https://feedx.co/wp-content/uploads/2018/11/jiemian.jpg',
+    tag: ['时政'],
+  },
+
+  {
+    title: 'ONE·一个',
+    link: 'http://wufazhuce.com/',//ok
+    description: '每天只为你准备一张图片、一篇文字和一个问答',
+    rssUrl: 'https://feedx.co/rss/one.xml',
+    favicon: 'https://feedx.co/wp-content/uploads/2017/11/one.jpg',
+    tag: ['文艺'],
+  }, 
+
+  {
+    title: '观止',
+    link: 'https://itunes.apple.com/cn/app/%E8%A7%82%E6%AD%A2-%E6%AF%8F%E5%A4%A9%E4%B8%80%E7%AF%87%E7%B2%BE%E9%80%89%E4%BC%98%E8%B4%A8%E7%9F%AD%E7%AF%87/id698038710',//ok
+    description: '每天一篇精选优质短篇',
+    rssUrl: 'https://feedx.co/rss/guanzhi.xml',
+    favicon: 'https://feedx.co/wp-content/uploads/2018/03/guanzhi.jpg',
+    tag: ['文艺'],
+  },
+
+  {
+    title: 'The Economist',
+    link: 'https://www.economist.com/',//ok
+    description: 'World News, Politics, Economics, Business & Finance',
+    rssUrl: 'https://feedx.co/rss/economist.xml',
+    favicon: 'https://feedx.co/wp-content/uploads/2018/04/economist.jpg',
+    tag: ['世界'],
+  }, 
+
+  {
+    title: 'National Geographic',
+    link: 'https://www.nationalgeographic.com/',//ok
+    description: 'A world leader in geography, cartography and exploration.',
+    rssUrl: 'https://feedx.co/rss/natgeo.xml',
+    favicon: 'https://www.nationalgeographic.com/favicon.ico',
+    tag: ['世界'],
+  },
+
+  {
+    title: 'NASA Breaking News',
+    link: 'http://www.nasa.gov/',//enclosure url
+    description: 'latest NASA news articles and press releases.',
+    rssUrl: 'https://www.nasa.gov/rss/dyn/breaking_news.rss',
+    favicon: 'https://feedx.co/wp-content/uploads/2018/10/nasa.jpg',
+    tag: ['世界'],
   },
 
   // 设计

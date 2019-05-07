@@ -5,28 +5,54 @@
       <view class="tab-content">
         <view class='source-item' wx:for="{{rss_pool}}" wx:for-item="item" wx:for-index="idx" wx:key="all" bindtap='handleRssItemTap' data-article-index='{{idx}}'>
           <view class='rss-item'>
-            <l-card type="avatar" l-class="card" image="{{item.favicon}}" title="{{item.source}}" describe="{{item.pubTime}}">
-              <view class="content">
-                {{item.title}}
+            <l-card wx:if="{{item.enclosure}}" type="cover" l-class="card" image="{{item.enclosure}}" title="{{item.title}}">
+            <view class="cover-footer">
+            <div>
+            <image class = "source-icon" src="{{item.favicon}}"></image>
+            <span class="source-name">{{item.source}}</span>
+            </div>
+              <l-tag class = 'latera' catchtap="onLater" shape="circle" bg-color="#f3f3f3" font-color="#3963BC" slot="more" select="{{islatered[idx]}}"  data-article-index='{{idx}}'>
+                稍后阅读
+              </l-tag>
               </view>
-              <view>   
-              <l-button  bind:lintap="onLater" data-article-index='{{idx}}'disabled="{{islatered[idx]}}" >
-              稍后阅读
-              </l-button>
+            </l-card>
+
+            <l-card wx:else type="avatar" l-class="card" image="{{item.favicon}}" title="{{item.source}}" describe="{{item.pubTime}}" >
+              <view class="content">{{item.title}}
               </view>
+
+              <l-tag class = 'laterb' catchtap="onLater" shape="circle" bg-color="#f3f3f3" font-color="#3963BC" slot="more" select="{{islatered[idx]}}" data-article-index='{{idx}}'>
+                稍后阅读
+              </l-tag>
             </l-card>
           </view>
         </view>
       </view>
-  </van-tab>
+    </van-tab>
 
     <van-tab wx:for="{{cates}}" wx:key="cates" title="{{item}}" key="{{index}}">
       <view class="tab-content">
         <view class='source-item' wx:for="{{rss_pool}}" wx:for-item="rssItem" wx:for-index="idx" wx:key="pool">
-          <view wx:if="{{item==rssItem.tag[0]}}" class='rss-item' bindtap='handleRssItemTap' data-article-index='{{idx}}'>
-            <l-card type="avatar" l-class="card" image="{{rssItem.favicon}}" title="{{rssItem.source}}" describe="{{rssItem.pubTime}}">
+          <view wx:if="{{item==rssItem.tag[0]}}" class='rss-item'>
+          <l-card wx:if="{{rssItem.enclosure}}" type="cover" l-class="card" image="{{rssItem.enclosure}}" title="{{rssItem.title}}">
+            <view class="cover-footer">
+            <div>
+            <image class = "source-icon" src="{{rssItem.favicon}}"></image>
+            <span class="source-name">{{rssItem.source}}</span>
+            </div>
+              <l-tag class = 'latera' catchtap="onLater" shape="circle" bg-color="#f3f3f3" font-color="#3963BC" slot="more" select="{{islatered[idx]}}"  data-article-index='{{idx}}'>
+                稍后阅读
+              </l-tag>
+              </view>
+            </l-card>
+
+            <l-card wx:else type="avatar" l-class="card" image="{{rssItem.favicon}}" title="{{rssItem.source}}" describe="{{rssItem.pubTime}}" >
               <view class="content">{{rssItem.title}}
               </view>
+
+              <l-tag class = 'laterb' catchtap="onLater" shape="circle" bg-color="#f3f3f3" font-color="#3963BC" slot="more" select="{{islatered[idx]}}" data-article-index='{{idx}}'>
+                稍后阅读
+              </l-tag>
             </l-card>
           </view>
         </view>
