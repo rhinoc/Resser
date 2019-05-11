@@ -1,3 +1,6 @@
 {
-  "usingComponents": {}
+  "usingComponents": {
+    "l-list": "/dist/list/index",
+    "l-dialog": "/dist/dialog/index"
+  }
 }

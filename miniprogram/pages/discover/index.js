@@ -3,8 +3,8 @@ const openid = wx.getStorageSync('openid');
 const db = wx.cloud.database();
 const _ = db.command;
 const rss = require('../../data/rss.js');
-var rss_list = wx.getStorageSync('rss_list')||[];
 var rssData = rss.rssData;
+var rss_list = wx.getStorageSync('rss_list')||[];
 var rssed = new Array();
 var button = new Array();
 var query = '';
@@ -69,6 +69,7 @@ Page({
   },
 
   onChange: function(event) {
+    console.log(event);
     var that = this;
     var id = event.currentTarget.dataset.idx;
     var rssItemData = rssData[id];
@@ -114,5 +115,11 @@ Page({
       url: '../rssed/index',
     });
   },
+
+  onTap: function(event) {
+    var id = event.currentTarget.dataset.id;
+    var url = '../discover/more?&id='+id
+    wx.navigateTo({url});
+  }
 
 })

@@ -1,0 +1,22 @@
+<!--miniprogram/pages/discover/more.wxml-->
+<!-- <view class="container"> -->
+<l-card type="avatar" l-class="source" image="{{favicon}}" title="{{title}}" describe="{{rssUrl}}">
+  <view class="avter-content">
+    {{description}}
+  </view>
+  <view class="avter-share-container">
+  </view>
+  <l-tag shape="circle" bg-color="#f3f3f3" font-color="#3963BC" slot="more" size="large" bind:lintap="onChange" data-id="{{id}}">
+    {{rssed}}
+  </l-tag>
+</l-card>
+
+
+<l-card type="primary" wx:for="{{rss_pool}}" plaintext="true" wx:for-item="item" wx:for-index="idx" wx:key="all" bindtap='handleItemTap' data-id='{{idx}}'
+          title="{{item.title}}" l-class="item">
+    <view class="pubtime">
+{{item.pubTime}}
+    </view>
+</l-card>
+
+<!-- </view> -->

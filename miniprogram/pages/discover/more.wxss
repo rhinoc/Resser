@@ -1,0 +1,23 @@
+.item {
+margin-top:10rpx !important;
+margin-bottom: 10rpx !important;
+}
+
+.pubtime {
+  color:#666;
+  text-align:right;
+  font-size:24rpx;
+}
+
+.source {
+  width:750rpx !important;
+  margin-bottom: 20rpx !important;
+  position:sticky;
+  top: 0;
+  background: white;
+  border-radius:0 !important;
+}
+
+.container {
+overflow: visible;
+}

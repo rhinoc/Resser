@@ -10,14 +10,14 @@
 
   <view class="zan-row">
     <block wx:for="{{rssData}}" wx:key="{{index}}">
-      <view class="zan-col zan-col-6" wx:if="{{matched[index]}}">
+      <view class="zan-col zan-col-6" wx:if="{{matched[index]}}" bindtap='onTap' data-id='{{index}}'>
         <image class='avatar' mode='aspectFit' src='{{item.favicon}}'></image>
         <view class='rss-text'>
           <view class='rss-title'>{{item.title}}</view>
           <view>--------------</view>
           <view class='rss-description'>{{item.description}}</view>
         </view>
-        <l-button l-class="button" shape="square" width='110' bind:lintap='onChange' data-idx='{{index}}'>{{rssed[index]}}</l-button>
+        <l-button l-class="button" shape="square" width='110' catch:lintap='onChange' data-idx='{{index}}'>{{rssed[index]}}</l-button>
       </view>
     </block>
   </view>

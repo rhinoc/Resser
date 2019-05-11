@@ -1,2 +1,4 @@
-<!--pages/settings/index.wxml-->
-<text>pages/settings/index.wxml</text>
+<l-list title="清除历史记录" bind:lintap="onClear" image="../../images/setting.png" />
+<l-list title="清空所有缓存" bind:lintap="onClearAll" image="../../images/setting.png" />
+
+<l-dialog />

@@ -41,7 +41,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 9,
+			"current": 12,
 			"list": [
 				{
 					"id": -1,
@@ -107,10 +107,31 @@
 					"scene": null
 				},
 				{
-					"id": -1,
-					"name": "later",
+					"id": 9,
+					"name": "about",
 					"pathName": "pages/about/index",
-					"query": "id=2",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "单个订阅源",
+					"pathName": "pages/discover/more",
+					"query": "id=1",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "设置",
+					"pathName": "pages/settings/index",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "我的",
+					"pathName": "pages/user/index",
+					"query": "",
 					"scene": null
 				}
 			]

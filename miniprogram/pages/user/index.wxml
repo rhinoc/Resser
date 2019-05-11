@@ -12,12 +12,13 @@
   </view>
   <!--选项-->
   <view class="group">
+  <!-- <l-list title="历史记录" image="../../images/view.png" url="../later/index"/> -->
   <l-list title="稍后阅读" image="../../images/later.png" url="../later/index"/>
   <l-list title="收藏集" image="../../images/ic_collection_set.png" url="../favorite/index"/>
   <l-list title="阅历" image="../../images/tab_activity.png" url="../user/report"/>
 </view>
   <view class="group">
-  <l-list title="设置" image="../../images/setting.png" />
+  <l-list title="设置" image="../../images/setting.png" url="../settings/index" />
   <l-list title="关于" image="../../images/ic_pin_more.png" url="../about/index" />
   </view>
 </view>

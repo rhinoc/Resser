@@ -62,5 +62,37 @@ Page({
    */
   onShareAppMessage: function () {
 
+  },
+
+  onClear: function(){
+    wx.removeStorage({
+      key: 'rss_list',
+      success: function(res) {},
+    })
+    wx.removeStorage({
+      key: 'rss_pool',
+      success: function (res) { },
+    })
+    wx.removeStorage({
+      key: 'history',
+      success: function (res) { },
+    })
+  },
+
+  onClearAll: function(){
+    wx.lin.showDialog({
+      type: "confirm",
+      title: "确认清空所有缓存吗",
+      content: "这将会清空收藏集和稍后阅读",
+      success: (res) => {
+        if (res.confirm) {
+          console.log('用户点击确定')
+          wx.clearStorage();
+        } else if (res.cancel) {
+          console.log('用户点击取消')
+        }
+      }
+    })
   }
+
 })

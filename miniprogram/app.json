@@ -6,13 +6,12 @@
     "pages/user/index",
     "pages/settings/index",
     "pages/about/index",
-    "pages/home/article",
     "pages/rssed/index",
     "pages/favorite/index",
-    "pages/favorite/article",
     "pages/later/index",
-    "pages/later/article",
-    "pages/user/report"
+    "pages/user/report",
+    "pages/discover/more",
+    "pages/global/article"
   ],
   "window": {
     "pageOrientation": "auto",

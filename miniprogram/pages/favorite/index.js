@@ -17,13 +17,15 @@ Page({
   },
 
   onTap: (event) => {
-    // const sourceIndex = event.currentTarget.dataset.sourceIndex;
-    console.log('event', event);
-    const articleIndex = event.currentTarget.dataset.articleIndex;
-    console.log('articleIndex', articleIndex);
+    const id = event.currentTarget.dataset.articleIndex;
+    var rssData = favors[id];
+    console.log(rssData);
+    rssData = JSON.stringify(rssData);
+    rssData = encodeURIComponent(rssData);
+    // console.log(rssData);
     wx.navigateTo({
-      url: `./article?&id=${articleIndex}`,
-    });
+      url: '../global/article?rssData=' + rssData,
+    })
   },
 
   /**

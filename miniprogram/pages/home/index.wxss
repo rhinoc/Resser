@@ -19,6 +19,10 @@ justify-content:space-between;
   margin:5%;
 }
 
+.readed{
+  color:#888 !important;
+}
+
 .latera{
   vertical-align:middle;
 line-height:60rpx;
@@ -33,6 +37,12 @@ line-height:60rpx;
   color: #444;
 }
 
+.source-name-readed {
+  font-size: 24rpx;
+  margin-left:0.4ch;
+  line-height:60rpx;
+  color: #888;
+}
 
 .title {
   font-size: 28rpx;
@@ -43,6 +53,16 @@ line-height:60rpx;
 
 
 .rss-item {
+  padding: 12rpx 12rpx 12rpx 24rpx;
+  background-color: #fff; 
+  position: relative;
+  /* border-bottom: 1rpx solid #F3F3F3; */
+  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+
+.rss-item-readed {
+  color:#888;
   padding: 12rpx 12rpx 12rpx 24rpx;
   background-color: #fff; 
   position: relative;

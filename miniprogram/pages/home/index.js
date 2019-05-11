@@ -1,5 +1,4 @@
 //index.js
-const regeneratorRuntime = require('../../utils/runtime');
 const util = require('../../utils/util.js');
 const xml2json = require('../../utils/xml2json.js');
 const app = getApp() //获取应用实例
@@ -7,6 +6,7 @@ const db = wx.cloud.database();
 var rss_pool = new Array();
 var islatered = new Array();
 var laters = wx.getStorageSync('laters') || [];
+var history = wx.getStorageSync('history') || [];
 
 Page({
   /**
@@ -27,6 +27,7 @@ Page({
    */
   onShow: function(options) {
     laters = wx.getStorageSync('laters') || [];
+    history = wx.getStorageSync('history') || [];
   },
 
   onPullDownRefresh: function() {
@@ -64,8 +65,7 @@ Page({
       })
       //读取用户数据
       var tags = new Array();
-      // console.log(userData.subscribe)
-      for (var i in userData.subscribe) {
+      for (var i in userData.subscribe) { //没有设置tag的源统一划到“全部”下
         try {
           var obj = userData.subscribe[i].tag["0"];
           tags[i] = obj;
@@ -74,7 +74,7 @@ Page({
         }
       }
       var cates = Array.from(new Set(tags));
-      for (var i in cates) {
+      for (var i in cates) { //除去“全部”外其余的tag
         if (cates[i] == '全部') cates.splice(i, 1);
       }
       that.setData({
@@ -109,8 +109,8 @@ Page({
     const that = this;
     rss_pool = new Array();
     var url = rss_list[i].rssUrl;
-    // wx.vrequest({
-    wx.request({
+    wx.vrequest({
+    // wx.request({
       url: url,
       data: {},
       header: {
@@ -119,61 +119,30 @@ Page({
         "Accept": "text/html,application/xhtml+xml,application/xml; q=0.9,image/webp,*/*;q=0.8"
       },
       success: function(res) {
+        // var dataJson = that.rssDecode(res.data);
+        var dataJson = that.rssDecode(res.body);
         // console.log(res.data);
-        // console.log(typeof(res.data));
-        // var dataJson = xml2json(res.body); vr
-        var dataJson = that.rssDecode(res.data);
-        dataJson = xml2json(dataJson);
-        // console.log('dataJson',dataJson);
-        //获取转换为JSON格式后的列表内容
+        try {
+          dataJson = xml2json(dataJson);
+        } catch (error) {
+          dataJson = xml2json(res.data);
+        }
+        // console.log(dataJson);
         rss_pool = that.data.rss_pool;
-        var rssData = dataJson.feed || dataJson.rss.channel;
-        console.log(rssData);
-        if (!Array.isArray(rssData.item)) { //当item直接为资讯内容时
-          var rssDataItem = rssData.item;
-          var obj = {};
-          if ('enclosure' in rssDataItem) {
-            obj.enclosure = rssDataItem.enclosure.url;
-          }
-          obj.favicon = rss_list[i].favicon;
-          obj.source = rss_list[i].title;
-          obj.tag = rss_list[i].tag;
-          obj.link = (rssDataItem.link || rssDataItem.id).text || rssDataItem.link.href;
-          obj.author = '';
-          obj.title = rssDataItem.title.text;
-          obj.article = (rssDataItem.content || rssDataItem.description).text || rssDataItem.description.p || '';
-          obj.pubTime = (rssDataItem.pubDate || rssDataItem.published || rssDataItem.updated).text || '';
-          obj.pubTime = obj.pubTime ? util.formatDate("yyyy-MM-dd HH:mm", obj.pubTime) : ''
-          if ('dc:creator' in rssDataItem) {
-            obj.author = rssDataItem["dc:creator"].text;
-          } else if ('author' in rssDataItem) {
-            obj.author = rssDataItem.author.text || rssDataItem.author.name;
-          } else if ('author' in rssData) {
-            obj.author = rssData.author.name.text;
-          }
-          if ('content:encoded' in rssDataItem) {
-            obj.article = rssDataItem["content:encoded"].text;
-          }
-          var now = new Date();
-          var pubTime = new Date(obj.pubTime);
-          var delta = now - pubTime;
-          if ((rss_pool.length < 1 || obj.title != rss_pool[rss_pool.length - 1].title)) {
-            rss_pool.push(obj);
-          }
-        } else {
-          for (var j = 0; j < (rssData.item || rssData.entry).length; j++) {
-
-            var rssDataItem = (rssData.item || rssData.entry)[j]
+        try {
+          var rssData = dataJson.feed || dataJson.rss.channel;
+          // console.log(rssData);
+          if ('item' in rssData) var rssDataItem = rssData.item;
+          else var rssDataItem = rssData.entry;
+          if (!Array.isArray(rssDataItem)) { //当item直接为资讯内容时
             var obj = {};
             obj.favicon = rss_list[i].favicon;
             obj.source = rss_list[i].title;
             obj.tag = rss_list[i].tag;
-            if ('enclosure' in rssDataItem) {
-              obj.enclosure = rssDataItem.enclosure.url || '';
-            }
-
-            // console.log(rssDataItem);
             obj.link = (rssDataItem.link || rssDataItem.id).text || rssDataItem.link.href;
+            if (history.indexOf(obj.link) > -1) {
+              obj.readed = true;
+            } else obj.readed = false;
             obj.author = '';
             obj.title = rssDataItem.title.text;
             if ('content:encoded' in rssDataItem) {
@@ -181,13 +150,9 @@ Page({
             } else {
               obj.article = (rssDataItem.content || rssDataItem.description).text || rssDataItem.description.p || '';
             }
-            try {
-              obj.pubTime = (rssDataItem.pubDate || rssDataItem.published || rssDataItem.updated).text || '';
-            } catch (err) {
-              obj.pubTime = '';
-            }
-
+            obj.pubTime = (rssDataItem.pubDate || rssDataItem.published || rssDataItem.updated).text || '';
             obj.pubTime = obj.pubTime ? util.formatDate("yyyy-MM-dd HH:mm", obj.pubTime) : ''
+
             if ('dc:creator' in rssDataItem) {
               obj.author = rssDataItem["dc:creator"].text;
             } else if ('author' in rssDataItem) {
@@ -195,14 +160,73 @@ Page({
             } else if ('author' in rssData) {
               obj.author = rssData.author.name.text;
             }
+
+            if ('enclosure' in rssDataItem) {
+              obj.enclosure = rssDataItem.enclosure.url;
+            } else {
+              // console.log(obj.article);
+              var reg = /<img[\s\S](?!.*avatar).*?src=['"](.*?)['"]/;
+              if (reg.test(obj.article)) obj.enclosure = RegExp.$1;
+              console.log(RegExp.$1);
+            }
             var now = new Date();
             var pubTime = new Date(obj.pubTime);
             var delta = now - pubTime;
-            // console.log(obj);
             if ((rss_pool.length < 1 || obj.title != rss_pool[rss_pool.length - 1].title)) {
               rss_pool.push(obj);
             }
+          } else {
+            for (var j = 0; j < (rssData.item || rssData.entry).length; j++) {
+              rssDataItem = (rssData.item || rssData.entry)[j]
+              var obj = {};
+              obj.favicon = rss_list[i].favicon;
+              obj.source = rss_list[i].title;
+              obj.tag = rss_list[i].tag;
+              // console.log(rssDataItem);
+              obj.link = (rssDataItem.link || rssDataItem.id).text || rssDataItem.link.href;
+              if (history.indexOf(obj.link) > -1) {
+                obj.readed = true;
+              } else obj.readed = false;
+              obj.author = '';
+              obj.title = rssDataItem.title.text;
+              if ('content:encoded' in rssDataItem) {
+                obj.article = rssDataItem["content:encoded"].text;
+              } else {
+                obj.article = (rssDataItem.content || rssDataItem.description).text || rssDataItem.description.p || '';
+              }
+              if ('enclosure' in rssDataItem) {
+                obj.enclosure = rssDataItem.enclosure.url;
+              } else {
+                // console.log(obj.article);
+                var reg = /<img[\s\S](?!.*avatar).*?src=['"](.*?)['"]/;
+                if (reg.test(obj.article)) obj.enclosure = RegExp.$1;
+                // console.log(obj.enclosure);
+              }
+              try {
+                obj.pubTime = (rssDataItem.pubDate || rssDataItem.published || rssDataItem.updated).text || '';
+              } catch (err) {
+                obj.pubTime = '';
+              }
+
+              obj.pubTime = obj.pubTime ? util.formatDate("yyyy-MM-dd HH:mm", obj.pubTime) : ''
+              if ('dc:creator' in rssDataItem) {
+                obj.author = rssDataItem["dc:creator"].text;
+              } else if ('author' in rssDataItem) {
+                obj.author = rssDataItem.author.text || rssDataItem.author.name;
+              } else if ('author' in rssData) {
+                obj.author = rssData.author.name.text;
+              }
+              var now = new Date();
+              var pubTime = new Date(obj.pubTime);
+              var delta = now - pubTime;
+              // console.log(obj);
+              if ((rss_pool.length < 1 || obj.title != rss_pool[rss_pool.length - 1].title)) {
+                rss_pool.push(obj);
+              }
+            }
           }
+        } catch (error) {
+          console.log(error);
         }
 
         rss_pool.sort(function(a, b) {
@@ -213,8 +237,7 @@ Page({
           for (var j in rss_pool) {
             if (rss_pool[j].title == laters[k].title) {
               islatered[j] = 1;
-            }
-            else {
+            } else {
               islatered[j] = 0;
             }
           }
@@ -241,8 +264,16 @@ Page({
     var s = "";
     if (content.length == 0) return "";
     s = content.replace(/&amp;/g, "&");
-    s = s.replace(/<script.*?>window.daily.*>/g, "");
+    s = s.replace(/<script.*?>window.daily.*?]]>/g, "");
+    s = s.replace(/<img.*?c.statcounter.*?>/g, "");
+    s = s.replace(/<img.*?google-analytics.*?>/g, "");
+    s = s.replace(/<img.*?hm.baidu.*?>/g, "");
     s = s.replace(/<\?xml-stylesheet.*?>/g, "");
+    s = content.replace(/&amp;/g, "&");
+    s = s.replace(/<font color="red">订阅指南.*\n.*/g, "");
+    s = s.replace(/<script>[\s\S]*?googletag[\s\S]*?>/g, "");
+    s = s.replace(/<div>获取更多RSS[\s\S]*?<\/div>/g, "");
+    s = s.replace(/<script[\s\S]*<\/script>/g, "");
     // s = s.replace(/&lt;/g, "<");
     // s = s.replace(/&gt;/g, ">");
     // s = s.replace(/&nbsp;/g, " ");
@@ -258,11 +289,21 @@ Page({
   },
 
   // 点击跳转至文章详情页
-  handleRssItemTap: (event) => {
-    const articleIndex = event.currentTarget.dataset.articleIndex;
-    wx.navigateTo({
-      url: `../home/article?&id=${articleIndex}`,
+  handleRssItemTap: function(event) {
+    const id = event.currentTarget.dataset.articleIndex;
+    var rssData = rss_pool[id];
+    rss_pool[id].readed = true;
+    wx.setStorageSync('rss_pool', rss_pool);
+    this.setData({
+      rss_pool
     });
+    if (history.indexOf(rssData.link) == -1) history.push(rssData.link);
+    wx.setStorageSync('history', history);
+    rssData = JSON.stringify(rssData);
+    rssData = encodeURIComponent(rssData);
+    wx.navigateTo({
+      url: '../global/article?rssData=' + rssData,
+    })
   },
 
   //添加至稍后阅读
@@ -271,21 +312,17 @@ Page({
     const that = this;
     const articleid = event.currentTarget.dataset.articleIndex;
 
-    if(islatered[articleid]==0){
+    if (islatered[articleid] == 0) { //如果之前不在数组，则添加稍后阅读
       var obj = {};
       obj.title = rss_pool[articleid].title;
       obj.pubTime = rss_pool[articleid].pubTime;
       obj.author = rss_pool[articleid].author;
-      obj.id2 = articleid;
-      laters.push(obj);
+      obj.article = rss_pool[articleid].article;
+      laters.unshift(obj);
       islatered[articleid] = 1;
-    }
-    else{
-      for(var i in laters){
-        if (laters[i].title == rss_pool[articleid].title){
-          laters.splice(i,1);
-        }
-      }
+    } else {
+      for (var i in laters)
+        if (laters[i].title == rss_pool[articleid].title) laters.splice(i, 1);
       islatered[articleid] = 0;
     }
     wx.setStorageSync('laters', laters);

@@ -9,9 +9,9 @@
         <text class='pubTime'>{{pubTime}}</text>
       </view>
       <view class='article' id='body' slot="content">
-        <image wx:if="{{enclosure!=''}}" src="{{enclosure}}" class="enclosure"
+        <!-- <image wx:if="{{enclosure!=''}}" src="{{enclosure}}" class="enclosure"
         mode="aspectFit">
-        </image>
+        </image> -->
         <template is="entry" data="{{...article}}" />
       </view>
     </view>
