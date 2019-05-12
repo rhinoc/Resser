@@ -8,7 +8,6 @@ const rss = require('../../data/rss.js');
 var rssData = rss.rssData;
 const util = require('../../utils/util.js');
 const xml2json = require('../../utils/xml2json.js');
-
 var rss_pool = new Array();
 var rssed = 0;
 var idx = '';
@@ -34,22 +33,8 @@ Page({
    */
   onLoad: function (options) {
    rssed = 0;
-   idx = options.idx
-   id = options.id
-  },
-
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {
-    rss_list = wx.getStorageSync('rss_list')
+   idx = options.idx;
+   id = options.id;
     var sourceItem = rssData[idx].items[id];
     this.setData({
       favicon: sourceItem.favicon,
@@ -66,6 +51,20 @@ Page({
     this.setData({
       rssed,
     });
+  },
+
+  /**
+   * 生命周期函数--监听页面初次渲染完成
+   */
+  onReady: function () {
+
+  },
+
+  /**
+   * 生命周期函数--监听页面显示
+   */
+  onShow: function () {
+    rss_list = wx.getStorageSync('rss_list')
   },
 
   /**
@@ -142,11 +141,9 @@ Page({
 
   handleItemTap: function(event){
     const id = event.currentTarget.dataset.id;
-    var rssData = rss_pool[id];
-    // console.log(rssData);
+    var rssData = this.data.rss_pool[id];
     rssData = JSON.stringify(rssData);
     rssData = encodeURIComponent(rssData);
-    // console.log(rssData);
     wx.navigateTo({
       url: '../global/article?rssData='+rssData,
     })
@@ -154,14 +151,12 @@ Page({
 
 
   rssDecode: function (content) {
-    var s = "";
+    if (content==undefined) return "";
     if (content.length == 0) return "";
+    var s = "";
     s = content.replace(/&amp;/g, "&");
-    s = s.replace(/<script.*?>window.daily.*?]]>/g, "");
-    s = s.replace(/<img.*?c.statcounter.*?>/g, "");
-    s = s.replace(/<img.*?google-analytics.*?>/g, "");
-    s = s.replace(/<img.*?hm.baidu.*?>/g, "");
-    s = s.replace(/<\?xml-stylesheet.*?>/g, "");
+    // s = s.replace(/<!--.*?-->/g,"");
+    s = s.replace(/<!.*?>/g,"");
     s = content.replace(/&amp;/g, "&");
     s = s.replace(/<font color="red">订阅指南.*\n.*/g, "");
     s = s.replace(/<script>[\s\S]*?googletag[\s\S]*?>/g, "");
@@ -174,10 +169,20 @@ Page({
     // s = s.replace(/&#34;/g, "\"");
     // s = s.replace(/&#xA;/g, "");
     // s = s.replace(/&quot;/g, "\"");
+    s = s.replace(/&ldquo;/g,"“");
+    s = s.replace(/&rdquo;/g,"”");
+    s = s.replace(/&mdash;/g, "—");
+    s = s.replace(/&ndash;/g, "–");
     s = s.replace(/&#123;/g, "{");
     s = s.replace(/&#125;/g, "}");
     s = s.replace(/&#124;/g, "|");
     s = s.replace(/&#126;/g, "~");
+    s = s.replace(/<!--.*?-->/g, "");
+    s = s.replace(/<script.*?>window.daily.*?]]>/g, "");
+    s = s.replace(/<img.*?c.statcounter.*?>/g, "");
+    s = s.replace(/<img.*?google-analytics.*?>/g, "");
+    s = s.replace(/<img.*?hm.baidu.*?>/g, "");
+    s = s.replace(/<\?xml-stylesheet[\s\S]*?>/g, "");
     return s;
   },
 
@@ -194,14 +199,20 @@ Page({
         "Accept": "text/html,application/xhtml+xml,application/xml; q=0.9,image/webp,*/*;q=0.8"
       },
       success: function (res) {
+
         // var dataJson = that.rssDecode(res.data);
         var dataJson = that.rssDecode(res.body);
+        console.log(res.body);
+        console.log(dataJson);
         try {
+          console.log('采用解码输出');
           dataJson = xml2json(dataJson);
         } catch (error) {
+          console.log('采用原始输出');
           dataJson = xml2json(res.data);
         }
         rss_pool = that.data.rss_pool;
+        console.log(dataJson);
         var rssData = dataJson.feed || dataJson.rss.channel;
         if ('item' in rssData) var rssDataItem = rssData.item;
         else var rssDataItem = rssData.entry;
@@ -210,6 +221,10 @@ Page({
           obj.link = (rssDataItem.link || rssDataItem.id).text || rssDataItem.link.href;
           obj.author = '';
           obj.title = rssDataItem.title.text;
+          if(obj.title!=undefined){
+            obj.title = obj.title.replace(/&lt;/g, "<");
+            obj.title = obj.title.replace(/&gt;/g, ">");
+          }
           if ('content:encoded' in rssDataItem) {
             obj.article = rssDataItem["content:encoded"].text;
           } else {
@@ -244,8 +259,15 @@ Page({
             obj.link = (rssDataItem.link || rssDataItem.id).text || rssDataItem.link.href;
             obj.author = '';
             obj.title = rssDataItem.title.text;
+            if (obj.title != undefined) {
+              obj.title = obj.title.replace(/&lt;/g, "<");
+              obj.title = obj.title.replace(/&gt;/g, ">");
+            }
+            else continue;
             if ('content:encoded' in rssDataItem) {
               obj.article = rssDataItem["content:encoded"].text;
+              // if (rssDataItem.description.text.length > obj.article.length) obj.article = rssDataItem.description.text;
+              // console.log(obj.article);
             } else {
               obj.article = (rssDataItem.content || rssDataItem.description).text || rssDataItem.description.p || '';
             }

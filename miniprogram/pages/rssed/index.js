@@ -15,6 +15,11 @@ Page({
    * 页面的初始数据
    */
   data: {
+    rssUrlRules:[{
+      type:'url',
+      required:true,
+      message: '请输入正确的网址'
+    }],
     description: '',
     name: '',
     tagstr: '',
@@ -23,7 +28,15 @@ Page({
     rss_list: wx.getStorageSync('rss_list'),
   },
 
-
+    linvalidate:function(e) {
+      console.log(e);
+      if (e.detail.isError){
+        wx.lin.showMessage({
+          content: '请输入正确的网址',
+          type: 'warning'
+        })
+      } 
+    },
   /**
    * 从缓存读取数据，初始化数据
    */

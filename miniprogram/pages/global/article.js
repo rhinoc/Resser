@@ -211,10 +211,7 @@ Page({
   __bind_tap: function (e) {
     console.log(e);
     let element = e.target.dataset._el;
-    // if (e.currentTarget.dataset._el.attr.class == "h2w__p")
-    // if (e.currentTarget.dataset._el._e.tagName == "p")
     if (element.tag == "navigator"){
-      // var href = e.currentTarget.dataset._el.attr.href;
       var href = element.attr.href;
       wx.setClipboardData({
         data: href,
@@ -245,6 +242,7 @@ Page({
     s = s.replace(/<font color="red">订阅指南.*\n.*/g, "");
     s = s.replace(/<script>[\s\S]*?googletag[\s\S]*?>/g, "");
     s = s.replace(/<div>获取更多RSS[\s\S]*?<\/div>/g, "");
+    s = s.replace(/<figure class="image"><img src="data:.*?base64,.*?<\/figure>/g,"");
     s = s.replace(/<script[\s\S]*<\/script>/g, "");
     s = s.replace(/&lt;/g, "<");
     s = s.replace(/&gt;/g, ">");

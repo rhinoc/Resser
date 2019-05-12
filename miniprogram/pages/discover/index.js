@@ -4,11 +4,10 @@ const db = wx.cloud.database();
 const _ = db.command;
 const rss = require('../../data/rss.js');
 var rssData = rss.rssData;
-var rss_list = wx.getStorageSync('rss_list')||[];
+var rss_list = wx.getStorageSync('rss_list') || [];
 var rssed = new Array();
 var button = new Array();
 var query = '';
-var matched = [];
 
 
 Page({
@@ -28,12 +27,11 @@ Page({
     // console.log(rssData);
     rss_list = wx.getStorageSync('rss_list')
     for (var i in rssData) {
-      for (var j in rssData[i].items){
-        rssData[i].items[j].matched = 1;
+      for (var j in rssData[i].items) {
         rssData[i].items[j].rssed = 0;
-        if (rss_list.find(function (x) {
-          return x.rssUrl == rssData[i].items[j].rssUrl;
-        })) {
+        if (rss_list.find(function(x) {
+            return x.rssUrl == rssData[i].items[j].rssUrl;
+          })) {
           rssData[i].items[j].rssed = 1;
         } else {
           rssData[i].items[j].rssed = 0;
@@ -46,23 +44,29 @@ Page({
   },
 
   handleSearch: function(event) {
-    // query = event.detail.detail.value;
+    query = event.detail.detail.value;
     // console.log(query);
-    // if (query != '') {
-    //   for (var i in rssData) {
-    //     var str = (rssData[i].title) + (rssData[i].tag) + (rssData[i].rssUrl) + (rssData[i].link) + (rssData[i].description);
-    //     str = str.replace(/,/g, '');
-    //     if (str.match(query)) {
-    //       matched[i] = 1;
-    //     } else matched[i] = 0;
-    //   }
-    // } else {
-    //   for (var i in rssData) matched[i] = 1;
-    // }
+    if (query != '') {
+      this.setData({
+        searchMode: true
+      })
 
-    // this.setData({
-    //   matched
-    // });
+      for (var i in rssData) {
+        for (var j in rssData[i].items) {
+          var tempItem = rssData[i].items[j];
+          var str = tempItem.title + tempItem.tag + tempItem.rssUrl + tempItem.link + tempItem.description;
+          str = str.replace(/,/g, '');
+          if (str.match(query)) {
+            rssData[i].items[j].matched = true;
+          } else rssData[i].items[j].matched = false;
+        }
+      }
+      this.setData({ rssData});
+    } else {
+      this.setData({
+        searchMode: false,
+      })
+    }
   },
 
   onChange: function(event) {
@@ -70,20 +74,21 @@ Page({
     var that = this;
     var idx = event.currentTarget.dataset.cate;
     var id = event.currentTarget.dataset.item;
-    
+
     var sourceItem = rssData[idx].items[id];
-    if (sourceItem.rssed==0){
+    if (sourceItem.rssed == 0) {
       rss_list.push(sourceItem)
-    }
-    else{
-      for (var i in rss_list){
+    } else {
+      for (var i in rss_list) {
         if (rss_list[i].rssUrl == sourceItem.rssUrl) rss_list.splice(i, 1);
         console.log('删除');
       }
     }
     rssData[idx].items[id].rssed = 1 - rssData[idx].items[id].rssed;
 
-    this.setData({rssData});
+    this.setData({
+      rssData
+    });
 
     db.collection('user').where({
       _openid: openid
@@ -101,13 +106,13 @@ Page({
           }
         })
       },
-      fail: err => { }
+      fail: err => {}
     })
   },
 
 
   //跳转到我的
-  navToMy: function (event) {
+  navToMy: function(event) {
     wx.navigateTo({
       url: '../rssed/index',
     });
@@ -116,8 +121,10 @@ Page({
   onTap: function(event) {
     var idx = event.currentTarget.dataset.cate;
     var id = event.currentTarget.dataset.item;
-    var url = '../discover/more?&idx='+idx+'&id='+id;
-    wx.navigateTo({url});
+    var url = '../discover/more?&idx=' + idx + '&id=' + id;
+    wx.navigateTo({
+      url
+    });
   }
 
 })
