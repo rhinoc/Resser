@@ -39,7 +39,6 @@ Page({
   },
 
   onLoad: function() {
-    // wx.clearStorageSync();
     wx.stopPullDownRefresh()
     const that = this;
     wx.showLoading({
@@ -47,7 +46,7 @@ Page({
     })
     setTimeout(function() {
       wx.hideLoading()
-    }, 2000)
+    }, 1500)
     let openid = wx.getStorageSync('openid');
     //从云端读取用户数据库
     db.collection('user').where({
@@ -87,22 +86,12 @@ Page({
       });
 
       wx.setStorageSync('rss_list', rss_list);
-      // console.log(rss_list);
       try {
         that.getRss(this.data.rss_list, tags.length - 1); //加载从源获取到的数据
       } catch (err) {
         console.log(err);
       }
     });
-
-    //初始化稍后阅读按钮状态
-    for (var i in islatered) {
-      islatered[i] = 0;
-    };
-    this.setData({
-      islatered
-    })
-
   },
 
   getRss: function(rss_list, i) {
@@ -121,17 +110,14 @@ Page({
       success: function(res) {
         // var dataJson = that.rssDecode(res.data);
         var dataJson = that.rssDecode(res.body);
-        // console.log(res.data);
         try {
           dataJson = xml2json(dataJson);
         } catch (error) {
           dataJson = xml2json(res.data);
         }
-        // console.log(dataJson);
         rss_pool = that.data.rss_pool;
         try {
           var rssData = dataJson.feed || dataJson.rss.channel;
-          // console.log(rssData);
           if ('item' in rssData) var rssDataItem = rssData.item;
           else var rssDataItem = rssData.entry;
           if (!Array.isArray(rssDataItem)) { //当item直接为资讯内容时
@@ -140,38 +126,28 @@ Page({
             obj.source = rss_list[i].title;
             obj.tag = rss_list[i].tag;
             obj.link = (rssDataItem.link || rssDataItem.id).text || rssDataItem.link.href;
-            if (history.indexOf(obj.link) > -1) {
-              obj.readed = true;
-            } else obj.readed = false;
+            if (history.indexOf(obj.link) > -1) obj.readed = true;
+            else obj.readed = false;
             obj.author = '';
             obj.title = rssDataItem.title.text;
-            if ('content:encoded' in rssDataItem) {
-              obj.article = rssDataItem["content:encoded"].text;
-            } else {
-              obj.article = (rssDataItem.content || rssDataItem.description).text || rssDataItem.description.p || '';
-            }
+            if ('content:encoded' in rssDataItem) obj.article = rssDataItem["content:encoded"].text;
+            else obj.article = (rssDataItem.content || rssDataItem.description).text || rssDataItem.description.p || '';
             obj.pubTime = (rssDataItem.pubDate || rssDataItem.published || rssDataItem.updated).text || '';
             obj.pubTime = obj.pubTime ? util.formatDate("yyyy-MM-dd HH:mm", obj.pubTime) : ''
 
-            if ('dc:creator' in rssDataItem) {
-              obj.author = rssDataItem["dc:creator"].text;
-            } else if ('author' in rssDataItem) {
-              obj.author = rssDataItem.author.text || rssDataItem.author.name;
-            } else if ('author' in rssData) {
-              obj.author = rssData.author.name.text;
-            }
+            if ('dc:creator' in rssDataItem) obj.author = rssDataItem["dc:creator"].text;
+            else if ('author' in rssDataItem) obj.author = rssDataItem.author.text || rssDataItem.author.name;
+            else if ('author' in rssData) obj.author = rssData.author.name.text;
 
-            if ('enclosure' in rssDataItem) {
-              obj.enclosure = rssDataItem.enclosure.url;
-            } else {
-              // console.log(obj.article);
+            if ('enclosure' in rssDataItem) obj.enclosure = rssDataItem.enclosure.url;
+            else {
               var reg = /<img[\s\S](?!.*avatar).*?src=['"](.*?)['"]/;
               if (reg.test(obj.article)) obj.enclosure = RegExp.$1;
-              console.log(RegExp.$1);
             }
-            var now = new Date();
-            var pubTime = new Date(obj.pubTime);
-            var delta = now - pubTime;
+            // 显示指定时常内的资讯
+            // var now = new Date();
+            // var pubTime = new Date(obj.pubTime);
+            // var delta = now - pubTime;
             if ((rss_pool.length < 1 || obj.title != rss_pool[rss_pool.length - 1].title)) {
               rss_pool.push(obj);
             }
@@ -182,44 +158,30 @@ Page({
               obj.favicon = rss_list[i].favicon;
               obj.source = rss_list[i].title;
               obj.tag = rss_list[i].tag;
-              // console.log(rssDataItem);
               obj.link = (rssDataItem.link || rssDataItem.id).text || rssDataItem.link.href;
-              if (history.indexOf(obj.link) > -1) {
-                obj.readed = true;
-              } else obj.readed = false;
+              if (history.indexOf(obj.link) > -1) obj.readed = true;
+              else obj.readed = false;
               obj.author = '';
               obj.title = rssDataItem.title.text;
-              if ('content:encoded' in rssDataItem) {
-                obj.article = rssDataItem["content:encoded"].text;
-              } else {
-                obj.article = (rssDataItem.content || rssDataItem.description).text || rssDataItem.description.p || '';
-              }
-              if ('enclosure' in rssDataItem) {
-                obj.enclosure = rssDataItem.enclosure.url;
-              } else {
-                // console.log(obj.article);
+              if ('content:encoded' in rssDataItem) obj.article = rssDataItem["content:encoded"].text;
+              else obj.article = (rssDataItem.content || rssDataItem.description).text || rssDataItem.description.p || '';
+              if ('enclosure' in rssDataItem) obj.enclosure = rssDataItem.enclosure.url;
+              else {
                 var reg = /<img[\s\S](?!.*avatar).*?src=['"](.*?)['"]/;
                 if (reg.test(obj.article)) obj.enclosure = RegExp.$1;
-                // console.log(obj.enclosure);
               }
               try {
                 obj.pubTime = (rssDataItem.pubDate || rssDataItem.published || rssDataItem.updated).text || '';
               } catch (err) {
                 obj.pubTime = '';
               }
-
               obj.pubTime = obj.pubTime ? util.formatDate("yyyy-MM-dd HH:mm", obj.pubTime) : ''
-              if ('dc:creator' in rssDataItem) {
-                obj.author = rssDataItem["dc:creator"].text;
-              } else if ('author' in rssDataItem) {
-                obj.author = rssDataItem.author.text || rssDataItem.author.name;
-              } else if ('author' in rssData) {
-                obj.author = rssData.author.name.text;
-              }
+              if ('dc:creator' in rssDataItem) obj.author = rssDataItem["dc:creator"].text;
+              else if ('author' in rssDataItem) obj.author = rssDataItem.author.text || rssDataItem.author.name;
+              else if ('author' in rssData) obj.author = rssData.author.name.text;
               var now = new Date();
               var pubTime = new Date(obj.pubTime);
               var delta = now - pubTime;
-              // console.log(obj);
               if ((rss_pool.length < 1 || obj.title != rss_pool[rss_pool.length - 1].title)) {
                 rss_pool.push(obj);
               }
@@ -233,15 +195,13 @@ Page({
           return b['pubTime'] > a['pubTime'] ? 1 : -1
         })
 
-        for (var k in laters) {
-          for (var j in rss_pool) {
-            if (rss_pool[j].title == laters[k].title) {
-              islatered[j] = 1;
-            } else {
-              islatered[j] = 0;
-            }
+        for(var j in rss_pool){
+          islatered[j] = 0;
+          for(var k in laters){
+            if (rss_pool[j].titile == later[k].title) islatered[j]=1;
           }
         }
+
         that.setData({
           rss_pool,
           islatered

@@ -1,21 +1,45 @@
 <import src="../../towxml/entry.wxml" />
-
+<l-message />
 <view class='title'>
   {{title}}
+</view>
+<view class="container" wx:if='{{article}}'>
+  <view class='info-box'>
+    <text class='pubAuthor'>{{author}}</text>
+    <text class='pubTime'>{{pubTime}}</text>
   </view>
-    <view class="container" wx:if='{{article}}'>
-      <view class='info-box'>
-        <text class='pubAuthor'>{{author}}</text>
-        <text class='pubTime'>{{pubTime}}</text>
-      </view>
-      <view class='article' id='body' slot="content">
-        <!-- <image wx:if="{{enclosure!=''}}" src="{{enclosure}}" class="enclosure"
+  <view class='article' id='body' slot="content">
+    <!-- <image wx:if="{{enclosure!=''}}" src="{{enclosure}}" class="enclosure"
         mode="aspectFit">
         </image> -->
-        <template is="entry" data="{{...article}}" />
-      </view>
-    </view>
+    <template is="entry" data="{{...article}}" />
+  </view>
+</view>
 
-    <l-button class="menu" l-class="button" wx:if="{{isfavored==true}}" size="long" bind:lintap="onMenu">已收藏</l-button>
+<view class="footer">
+          <view class="line"></view>
+          <text class="footer-text">我是有底线的</text>
+          <view class="line"></view>
+</view>
 
-    <l-button wx:else class="menu" l-class="button" size="long" bind:lintap="onMenu">收藏</l-button>
+<view class="float-box">
+  <view class="float-button" bindtap="backTop" wx:if="{{backTop}}">
+    <image class='float-img' src="../../images/up.png" />
+  </view>
+  <view class="float-button" bindtap="onFavor" wx:if="{{isfavored && showButton}}" animation="{{ani}}">
+    <image class='float-img' src="../../images/favored.png" />
+  </view>
+  <view class="float-button" bindtap="onFavor" wx:if="{{(!isfavored)&&showButton}}" animation="{{ani}}">
+    <image class='float-img' src="../../images/favor.png" animation="{{ani}}"/>
+  </view>
+
+  <view class="float-button" bindtap="copyLink" wx:if="{{showButton}}" animation="{{ani}}">
+    <image class='float-img' src="../../images/link.png" />
+  </view>
+  <button class="float-button" open-type="share" wx:if="{{showButton}}" animation="{{ani}}" style='margin-bottom: -20rpx;'>
+    <image class='float-img' src="../../images/share.png" />
+  </button>
+  <view class="float-button" bindtap="onMore" animation="{{anir}}">
+    <image class='float-img' src="../../images/more.png" />
+  </view>
+</view>

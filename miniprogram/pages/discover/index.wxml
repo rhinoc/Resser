@@ -17,7 +17,7 @@
           <view>--------------</view>
           <view class='rss-description'>{{item.description}}</view>
         </view>
-        <l-button l-class="button" shape="square" width='110' catch:lintap='onChange' data-idx='{{index}}'>{{rssed[index]}}</l-button>
+        <l-button l-class="button" shape="square" width='110' bind:lintap='onChange' data-idx='{{index}}'>{{rssed[index]}}</l-button>
       </view>
     </block>
   </view>

@@ -1,11 +1,14 @@
 const app = getApp() //获取应用实例
 var article = '';
 var favors = wx.getStorageSync('favors') || [];
+var backTop = false;
 Page({
   /**
    * Page initial data
    */
   data: {
+    backTop: false,
+    showButton: false,
     isfavored: false,
     favorid: -1,
     linkurl: '',
@@ -23,8 +26,6 @@ Page({
     var rssData = options.rssData;
     rssData = decodeURIComponent(rssData);
     rssData = JSON.parse(rssData);
-    console.log(rssData.article);
-    // console.log(typeof (rssData.article));
     if (typeof(rssData.article)=='object'){
       this.setData({
         title: rssData.title,
@@ -71,7 +72,16 @@ Page({
    * Lifecycle function--Called when page show
    */
   onShow: function () {
-
+    this.animation = wx.createAnimation({
+      duration: 300,
+      timingFunction: 'ease-in',
+      delay: 0
+    });
+    this.animationr = wx.createAnimation({
+      duration: 200,
+      timingFunction: 'ease-in',
+      delay: 0
+    });
   },
 
   /**
@@ -88,8 +98,31 @@ Page({
 
   },
 
-  onMenu: function (e) {
+  onMore: function(e){
+    const that = this;
+    var showButton = !this.data.showButton;
+    this.setData({
+      showButton,
+    })
+    if (showButton){
+      this.animationr.rotate(180).step()
+      this.animation.translateY(-20).step()
+      this.setData({
+        ani: this.animation.export(),
+        anir: this.animationr.export()
+      })
+    }
+    else {
+      this.animationr.rotate(-180).step()
+      // that.animation.translateY(20).step()
+      this.setData({
+        // ani: this.animation.export()
+        anir: this.animationr.export()
+      })
+    }
+  },
 
+  onFavor: function (e) {
     if (!this.data.isfavored) {
       var obj = {};
       obj.article = this.data.article;
@@ -101,6 +134,10 @@ Page({
       this.setData({
         isfavored: true
       })
+      wx.lin.showMessage({
+        type: 'success',
+        content: '已收藏'
+      })
     }
     else {
       var favorid = this.data.favorid;
@@ -108,6 +145,10 @@ Page({
       wx.setStorageSync('favors', favors);
       this.setData({
         isfavored: false
+      })
+      wx.lin.showMessage({
+        type: 'success',
+        content: '收藏已取消'
       })
     }
   },
@@ -128,15 +169,42 @@ Page({
   },
 
   onPageScroll: function (e) {
+    var scrollTop = e.scrollTop
+    backTop = scrollTop > 200 ? true : false
+    if (backTop!=this.data.backTop){
+      this.setData({
+        backTop
+      })
+    }
   },
 
   /**
    * Called when user click on the top right corner to share
    */
   onShareAppMessage: function () {
+    wx.showShareMenu({
+      withShareTicket: true
+    })
 
   },
 
+  copyLink: function (e) {
+    var href = this.data.linkurl;
+    wx.setClipboardData({
+      data: href,
+      success: function (res) {
+        wx.getClipboardData({
+          success: function (res) {
+            wx.hideToast();
+            wx.lin.showMessage({
+              type: 'success',
+              content: '原文链接已复制'
+            })
+          }
+        })
+      }
+    })
+  },
 
   //复制页面中链接
   __bind_tap: function (e) {
@@ -144,10 +212,10 @@ Page({
     wx.setClipboardData({
       data: href,
       success: function (res) {
-        wx.getClipboardData({
-          success: function (res) {
-            wx.showToast({})
-          }
+        wx.hideToast();
+        wx.lin.showMessage({
+          type: 'success',
+          content: ' 内容已复制'
         })
       }
     })
@@ -177,7 +245,14 @@ Page({
     s = s.replace(/&#126;/g, "~");
     return s;
   },
-
+  
+  backTop: function(){
+    wx.pageScrollTo({
+      scrollTop: 0,
+      duration: 500
+    })
+    this.setData({backtop:false});
+  },
   getArticle: function (url) {
     var that = this;
     url = url.replace(/\*/g, "%2a");
