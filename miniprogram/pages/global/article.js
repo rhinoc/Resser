@@ -208,17 +208,30 @@ Page({
 
   //复制页面中链接
   __bind_tap: function (e) {
-    var href = e.currentTarget.dataset._el.attr.href;
-    wx.setClipboardData({
-      data: href,
-      success: function (res) {
-        wx.hideToast();
-        wx.lin.showMessage({
-          type: 'success',
-          content: ' 内容已复制'
-        })
-      }
-    })
+    console.log(e);
+    let element = e.target.dataset._el;
+    // if (e.currentTarget.dataset._el.attr.class == "h2w__p")
+    // if (e.currentTarget.dataset._el._e.tagName == "p")
+    if (element.tag == "navigator"){
+      // var href = e.currentTarget.dataset._el.attr.href;
+      var href = element.attr.href;
+      wx.setClipboardData({
+        data: href,
+        success: function (res) {
+          wx.hideToast();
+          wx.lin.showMessage({
+            type: 'success',
+            content: ' 内容已复制'
+          })
+        }
+      })
+    }
+    else if (element.tag=="image"){
+      wx.previewImage({
+        current: element.attr.src,
+        urls: [element.attr.src],
+      })
+    } 
   },
 
   htmlDecode: function (content) {

@@ -85,7 +85,7 @@
 /*正文样式*/
 .h2w {
     font-family: "STHeitiTC-Light", "Microsoft YaHei Light", "Hiragino Sans GB", -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-    font-size: 28rpx;
+    font-size: 32rpx;
     line-height: 1.8;
     word-wrap: break-word;
     word-wrap: break-word;
@@ -94,7 +94,7 @@
 
 .h2w__main {
     margin: 0 40rpx 40rpx 40rpx;
-    padding-top: 10rpx;
+    padding-top: 40rpx;
 }
 
 /**标题**/
@@ -110,7 +110,7 @@
 .h2w__h1 {
     border-bottom-style: double;
     border-bottom-width: 6rpx;
-    font-size: 40rpx;
+    font-size: 42rpx;
     padding-bottom: 10rpx;
     margin-bottom: 20rpx;
 }
@@ -118,7 +118,7 @@
 .h2w__h2 {
     border-bottom-style: solid;
     border-bottom-width: 1rpx;
-    font-size: 36rpx;
+    font-size: 40rpx;
     padding-bottom: 8rpx;
     margin-bottom: 18rpx;
 }
@@ -187,6 +187,8 @@
 .h2w__td {
     padding: 8rpx 16rpx;
     font-size: 28rpx;
+    border-width: 1rpx;
+    border-style: solid;
     display: table-cell;
 }
 
@@ -198,10 +200,11 @@
 .h2w__pre {
     /*white-space:nowrap;*/
     padding: 20rpx;
-    font-size: 80%;
+    font-size: 28rpx;
     word-break: normal;
     border-width: 1rpx;
     border-style: solid;
+    margin-bottom: 40rpx;
     white-space: nowrap;
     overflow-x: auto;
 }
