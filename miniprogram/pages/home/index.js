@@ -198,7 +198,7 @@ Page({
         for(var j in rss_pool){
           islatered[j] = 0;
           for(var k in laters){
-            if (rss_pool[j].titile == later[k].title) islatered[j]=1;
+            if (rss_pool[j].titile == laters[k].title) islatered[j]=1;
           }
         }
 
@@ -278,6 +278,7 @@ Page({
       obj.pubTime = rss_pool[articleid].pubTime;
       obj.author = rss_pool[articleid].author;
       obj.article = rss_pool[articleid].article;
+      obj.link = rss_pool[articleid].link;
       laters.unshift(obj);
       islatered[articleid] = 1;
     } else {

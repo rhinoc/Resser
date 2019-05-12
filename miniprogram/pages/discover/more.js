@@ -1,5 +1,7 @@
 // 发现页-点击某个源
 // 参考home/index和dicover/index
+const db = wx.cloud.database();
+const _ = db.command;
 const openid = wx.getStorageSync('openid');
 var rss_list = wx.getStorageSync('rss_list') || [];
 const rss = require('../../data/rss.js');
@@ -8,8 +10,7 @@ const xml2json = require('../../utils/xml2json.js');
 var rssData = rss.rssData;
 var rss_pool = new Array();
 var rssed = '';
-const db = wx.cloud.database();
-const _ = db.command;
+
 Page({
 
   /**
@@ -30,17 +31,18 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    var idx = options.idx
     var id = options.id
+    var sourceItem=rssData[idx].items[id];
     this.setData({
-      favicon: rssData[id].favicon,
-      title: rssData[id].title,
-      rssUrl: rssData[id].rssUrl,
-      description: rssData[id].description,
-      id,
+      favicon: sourceItem.favicon,
+      title: sourceItem.title,
+      rssUrl: sourceItem.rssUrl,
+      description: sourceItem.description,
     })
     rss_list = wx.getStorageSync('rss_list')
     if (rss_list.find(function (x) {
-      return x.rssUrl == rssData[id].rssUrl;
+      return x.rssUrl == sourceItem.rssUrl;
     })) {
       console.log("已订阅");
       rssed = "-";
@@ -55,7 +57,7 @@ Page({
       button,
     });
 
-    this.getRss(rssData[id].rssUrl);
+    this.getRss(sourceItem.rssUrl);
   },
 
   /**

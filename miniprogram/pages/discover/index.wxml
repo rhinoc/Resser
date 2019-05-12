@@ -1,14 +1,52 @@
 <!--pages/rsscenter/rsscenter.wxml-->
 <view class="container">
-  <!--  搜索框start  -->
   <view class='searchbar'>
     <l-search-bar bind:linconfirm="handleSearch" bind:linblur="handleSearch" bind:linchange="handleSearch" bind:linfocus="handleSearch" clear="{{true}}" placeholder="搜索" />
   </view>
 
 
   <!-- 订阅源模块 -->
+  <view wx:for="{{rssData}}" wx:for-item="cates" wx:key="{{index}}" wx:for-index="idx">
+    <view class="cate-name">{{cates.cate}}</view>
+    <scroll-view scroll-x class='cate-list'>
+      <view class='source-item' wx:for="{{cates.items}}" wx:for-item="item" wx:key="" wx:for-index="id">
+        <view bindtap='onTap'>
+          <image class='source-icon' src='{{item.favicon}}'></image>
+          <view class='source-title'>{{item.title}}</view>
+        </view>
+        <button class='button' wx:if="{{item.rssed==1}}" bindtap='onChange' data-cate="{{idx}}" data-item="{{id}}">取消订阅</button>
+        <button class='button' wx:else bindtap='onChange' data-cate="{{idx}}" data-item="{{id}}">订阅</button>
+      </view>
+    </scroll-view>
+  </view>
+</view>
+<l-button class="favor" l-class="button" size="long" bind:lintap="navToMy">我的订阅</l-button>
+<!-- <scroll-view class="cate-list" scroll-x style="width: auto;overflow:hidden;">
+        <view class="source-item" wx:for="{{cates.items}}" wx:for-item="item" wx:key="{{item}}">
+          <image class='source-icon' mode='aspectFit' src='{{item.favicon}}'></image>
+          <view>{{item.title}}</view> -->
+<!-- <l-button l-class="button" bind:lintap='onChange' data-idx='{{index}}'>订阅</l-button>
+        </view>
+    </scroll-view>
+  </view> -->
 
-  <view class="zan-row">
+<!-- <view class="scroll_box"> 
+    <scroll-view class="scroll-view_x" scroll-x style="width: auto;overflow:hidden;">
+      <view class="item_list" wx:for="{{list}}">
+        <image src="../../images/head.jpg" class="item_book_img" mode="aspectFill"></image>
+        <view class="item_book_text">测试数据</view>
+      </view>
+     
+    </scroll-view> -->
+<!-- <view class="cate-name">设计</view>
+  <view class="cate-name">财经</view>
+  <view class="cate-name">书影音</view>
+  <view class="cate-name">体育</view>
+  <view class="cate-name">摄影</view>
+  <view class="cate-name">游戏</view>
+  <view class="cate-name">娱乐</view>
+  <view class="cate-name">科学</view> -->
+<!-- <view class="zan-row">
     <block wx:for="{{rssData}}" wx:key="{{index}}">
       <view class="zan-col zan-col-6" wx:if="{{matched[index]}}" bindtap='onTap' data-id='{{index}}'>
         <image class='avatar' mode='aspectFit' src='{{item.favicon}}'></image>
@@ -20,8 +58,4 @@
         <l-button l-class="button" shape="square" width='110' bind:lintap='onChange' data-idx='{{index}}'>{{rssed[index]}}</l-button>
       </view>
     </block>
-  </view>
-
-  <l-button class="favor" l-class="button" size="long" bind:lintap="navToMy">我的订阅</l-button>
-
-</view>
+  </view> -->

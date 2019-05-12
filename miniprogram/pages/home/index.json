@@ -5,7 +5,6 @@
     "van-tab": "/dist/tab/index",
     "van-tabs": "/dist/tabs/index",
     "l-card": "/dist/card/index",
-    "wxparser": "plugin://wxparserPlugin/wxparser",
     "l-tag":"/dist/tag/index",
     "l-button": "/dist/button/index"
   }

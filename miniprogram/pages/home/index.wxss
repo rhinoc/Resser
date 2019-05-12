@@ -3,6 +3,9 @@
   height: 54rpx;
   width: 54rpx;
   vertical-align:middle;
+  border-radius:0.3em;
+margin-right:0.3em;
+
 
 }
 

@@ -28,8 +28,6 @@ height:2rpx;
 background-color:#d1d3d7;
 }
 
-
-
 .enclosure{
   height: 600rpx;
   width: 700rpx;
@@ -146,29 +144,3 @@ margin-left:86rpx;
   font-size:30rpx;
 }
 
-.float-box {
-  position: fixed;
-  bottom: 20rpx;
-  right: 40rpx;
-  text-align: center;
-  /* overflow: hidden; */
-}
-.float-button {
-  padding: 0 !important;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 80rpx;
-  height: 80rpx;
-  border-radius: 50%;
-  box-shadow:0 4rpx 20rpx 0 rgba(212,217,223,.5);
-  background: #fff;
-  z-index: 100;
-  opacity: 0.9;
-  margin-bottom: 20rpx;
-}
-
-.float-img{
-  width: 60rpx;
-  height: 60rpx;
-}

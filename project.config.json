@@ -6,7 +6,7 @@
 		"ignore": []
 	},
 	"setting": {
-		"urlCheck": false,
+		"urlCheck": true,
 		"es6": true,
 		"postcss": true,
 		"minified": true,
@@ -16,7 +16,7 @@
 		"checkInvalidKey": true
 	},
 	"compileType": "miniprogram",
-	"libVersion": "2.0.4",
+	"libVersion": "2.2.3",
 	"appid": "wx8fbb94f41e02da91",
 	"projectname": "%E9%98%85%E8%A7%81",
 	"isGameTourist": false,
@@ -41,7 +41,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 14,
+			"current": 1,
 			"list": [
 				{
 					"id": -1,
@@ -51,8 +51,8 @@
 					"scene": null
 				},
 				{
-					"id": -1,
-					"name": "discovery",
+					"id": 1,
+					"name": "发现",
 					"pathName": "pages/discover/index",
 					"query": "",
 					"scene": null

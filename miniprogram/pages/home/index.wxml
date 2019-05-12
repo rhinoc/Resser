@@ -81,7 +81,7 @@
 
     <van-tab wx:for="{{cates}}" wx:key="cates" title="{{item}}" key="{{index}}">
       <view class="tab-content">
-        <view class='source-item' wx:for="{{rss_pool}}" wx:for-item="rssItem" wx:for-index="idx" wx:key="pool">
+        <view class='source-item' wx:for="{{rss_pool}}" wx:for-item="rssItem" wx:for-index="idx" wx:key="pool" bindtap='handleRssItemTap' data-article-index='{{idx}}'>
           <view wx:if="{{item==rssItem.tag[0]}}" class='rss-item'>
             <l-card wx:if="{{rssItem.enclosure}}" type="cover" l-class="card" image="{{rssItem.enclosure}}" title="{{rssItem.title}}">
               <view class="cover-footer">

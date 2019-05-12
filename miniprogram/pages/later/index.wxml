@@ -1,3 +1,4 @@
+<l-message />
 <l-slide-view wx:for="{{laters}}" wx:key="{{index}}" key="{{index}}" height="140" width="750" slide-width="300" auto-close="true">
   <view slot="left" class="left" bindtap='onTap' data-article-index='{{index}}'>
     <view class='left-con'>
@@ -9,3 +10,8 @@
     <view class="del" bindtap='onDel' data-article-index='{{index}}'>删除</view>
   </view>
 </l-slide-view>
+<view class="float-box">
+  <view class="float-button" bindtap="onClearLater">
+    <image class='float-img' src="../../images/trash.png" />
+  </view>
+</view>

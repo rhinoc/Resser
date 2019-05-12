@@ -1,7 +1,7 @@
 {
   "navigationBarTitleText": "稍后阅读",
   "usingComponents": {
-    "l-card": "/dist/card/index",
-    "l-slide-view": "/dist/slide-view/index"
+    "l-slide-view": "/dist/slide-view/index",
+    "l-message": "/dist/message/index"
   }
 }

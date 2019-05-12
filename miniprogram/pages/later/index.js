@@ -74,10 +74,11 @@ Page({
 
   },
 
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-
+  onClearLater: function() {
+    wx.removeStorageSync('laters');
+    wx.lin.showMessage({
+      type: 'success',
+      content: '已清空',
+    })
   }
 })

@@ -26,30 +26,30 @@ Page({
     var rssData = options.rssData;
     rssData = decodeURIComponent(rssData);
     rssData = JSON.parse(rssData);
+    var title = rssData.title;
+    for (var i in favors) {
+      if (favors[i].title == title) {
+        this.setData({
+          favorid: i,
+          isfavored: true
+        })
+      }
+    }
     if (typeof(rssData.article)=='object'){
       this.setData({
         title: rssData.title,
         author: rssData.author,
         pubTime: rssData.pubTime,
         article: rssData.article,
+        linkurl: rssData.link,
       });
     }
     else {
-      var title = rssData.title;
-      for (var i in favors) {
-        if (favors[i].title == title) {
-          this.setData({
-            favorid: i,
-            isfavored: true
-          })
-        }
-      }
       var author = rssData.author;
       var pubTime = rssData.pubTime;
       var linkurl = rssData.link;
       article = rssData.article;
       article = this.htmlDecode(article);
-      // console.log('41', article);
       article = app.towxml.toJson(article, 'html');
       this.setData({
         article,
@@ -129,6 +129,7 @@ Page({
       obj.title = this.data.title;
       obj.pubTime = this.data.pubTime;
       obj.author = this.data.author;
+      obj.link = this.data.linkurl;
       favors.unshift(obj);
       wx.setStorageSync('favors', favors);
       this.setData({

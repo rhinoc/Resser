@@ -1,7 +1,4 @@
 {
-  "window": {
-    "navigationStyle": "custom"
-  },
   "navigationBarTitleText": "收藏集",
   "usingComponents": {
     "l-card": "/dist/card/index",
