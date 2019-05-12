@@ -41,7 +41,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 1,
+			"current": 15,
 			"list": [
 				{
 					"id": -1,
@@ -146,6 +146,13 @@
 					"name": "article2",
 					"pathName": "pages/global/article",
 					"query": "rssData=%7B%22favicon%22%3A%22http%3A%2F%2Fwww.zreading.cn%2Ffavicon.ico%22%2C%22source%22%3A%22%E5%B7%A6%E5%B2%B8%E8%AF%BB%E4%B9%A6%22%2C%22tag%22%3A%5B%22%E5%8D%9A%E5%AE%A2%22%2C%22%E9%98%85%E8%AF%BB%22%2C%22%E5%AD%A6%E4%B9%A0%22%5D%2C%22link%22%3A%22https%3A%2F%2Fwww.zreading.cn%2Farchives%2F6936.html%22%2C%22readed%22%3Atrue%2C%22author%22%3A%22%E5%B7%A6%E5%B2%B8%22%2C%22title%22%3A%22%E8%AF%AD%E4%B8%8D%E6%83%8A%E4%BA%BA%E6%AD%BB%E4%B8%8D%E4%BC%91%EF%BC%88253%EF%BC%89%E5%87%A1%E4%BA%8B%E5%88%B0%E4%BA%86%E5%9B%9E%E5%BF%86%E7%9A%84%E6%97%B6%E5%80%99%EF%BC%8C%E7%9C%9F%E5%AE%9E%E5%BE%97%E5%83%8F%E5%81%87%E7%9A%84%E4%B8%80%E6%A0%B7%E3%80%82%22%2C%22article%22%3A%22%E7%94%9F%E6%B4%BB%EF%BC%9A%20%E4%BA%BA%E4%B8%96%E9%97%B4%E7%9C%9F%E6%98%AF%E9%9A%BE%E5%A4%84%E7%9A%84%E5%9C%B0%E6%96%B9%EF%BC%8C%E8%AF%B4%E4%B8%80%E4%B8%AA%E4%BA%BA%E2%80%9C%E4%B8%8D%E9%80%9A%E4%B8%96%E6%95%85%E2%80%9D%EF%BC%8C%E5%9B%BA%E7%84%B6%E4%B8%8D%E6%98%AF%E5%A5%BD%E8%AF%9D%EF%BC%8C%E4%BD%86%E8%AF%B4%E4%BB%96%E2%80%9C%E6%B7%B1%E4%BA%8E%E4%B8%96%E6%95%85%E2%80%9D%E4%B9%9F%E4%B8%8D%E6%98%AF%E5%A5%BD%E8%AF%9D%E3%80%82%E2%80%94%E2%80%94%E9%B2%81%E8%BF%85%2030%20%5B%26%238230%3B%5D%22%2C%22pubTime%22%3A%222019-05-07%2023%3A37%22%7D",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "发现->",
+					"pathName": "pages/discover/more",
+					"query": "idx=0&id=0",
 					"scene": null
 				}
 			]

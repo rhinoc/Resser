@@ -10,7 +10,7 @@
     <view class="cate-name">{{cates.cate}}</view>
     <scroll-view scroll-x class='cate-list'>
       <view class='source-item' wx:for="{{cates.items}}" wx:for-item="item" wx:key="" wx:for-index="id">
-        <view bindtap='onTap'>
+        <view bindtap='onTap' data-cate="{{idx}}" data-item="{{id}}">
           <image class='source-icon' src='{{item.favicon}}'></image>
           <view class='source-title'>{{item.title}}</view>
         </view>

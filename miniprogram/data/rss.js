@@ -176,6 +176,20 @@ const rssData = [
     ]
   },
   {
+    cate: "书影音",
+    items:[
+      {
+        favicon: "",
+        title: '豆瓣影评', 
+        link: 'https://www.douban.com',
+        description: '豆瓣成员投票选出的最佳影评',
+        rssUrl: 'https://www.douban.com/feed/review/movie',
+        type: 'feed',
+        tag: ['电影']
+    },
+    ]
+  },
+  {
     cate: "阅读",
     items: [{
         favicon: "https://images.weserv.nl/?url=ssl:daily.zhihu.com/img/new_home_v3/top_logo.png",
@@ -204,6 +218,7 @@ const rssData = [
       },
     ]
   }
+
 
   // {
   //   favicon: "https://static001.infoq.cn/static/infoq/favicon/favicon-32x32.png",

@@ -106,7 +106,7 @@ Page({
   },
 
 
-  //跳转到我的+
+  //跳转到我的
   navToMy: function (event) {
     wx.navigateTo({
       url: '../rssed/index',
@@ -116,7 +116,7 @@ Page({
   onTap: function(event) {
     var idx = event.currentTarget.dataset.cate;
     var id = event.currentTarget.dataset.item;
-    var url = '../discover/more?&idx='+idx+'&id'+id;
+    var url = '../discover/more?&idx='+idx+'&id='+id;
     wx.navigateTo({url});
   }
 

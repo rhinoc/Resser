@@ -5,11 +5,14 @@ const _ = db.command;
 const openid = wx.getStorageSync('openid');
 var rss_list = wx.getStorageSync('rss_list') || [];
 const rss = require('../../data/rss.js');
+var rssData = rss.rssData;
 const util = require('../../utils/util.js');
 const xml2json = require('../../utils/xml2json.js');
-var rssData = rss.rssData;
+
 var rss_pool = new Array();
-var rssed = '';
+var rssed = 0;
+var idx = '';
+var id = '';
 
 Page({
 
@@ -17,9 +20,8 @@ Page({
    * 页面的初始数据
    */
   data: {
-    rssed:'',
+    rssed:0,
     button:'',
-    id: '',
     favicon:'',
     title:'',
     rssUrl:'',
@@ -31,33 +33,9 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    var idx = options.idx
-    var id = options.id
-    var sourceItem=rssData[idx].items[id];
-    this.setData({
-      favicon: sourceItem.favicon,
-      title: sourceItem.title,
-      rssUrl: sourceItem.rssUrl,
-      description: sourceItem.description,
-    })
-    rss_list = wx.getStorageSync('rss_list')
-    if (rss_list.find(function (x) {
-      return x.rssUrl == sourceItem.rssUrl;
-    })) {
-      console.log("已订阅");
-      rssed = "-";
-      var button = true;
-    } else {
-      console.log("未订阅");
-      rssed = "+";
-      var button = false;
-    }
-    this.setData({
-      rssed,
-      button,
-    });
-
-    this.getRss(sourceItem.rssUrl);
+   rssed = 0;
+   idx = options.idx
+   id = options.id
   },
 
   /**
@@ -71,6 +49,23 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
+    rss_list = wx.getStorageSync('rss_list')
+    var sourceItem = rssData[idx].items[id];
+    this.setData({
+      favicon: sourceItem.favicon,
+      title: sourceItem.title,
+      rssUrl: sourceItem.rssUrl,
+      description: sourceItem.description,
+    })
+    this.getRss(sourceItem.rssUrl);
+    if (rss_list.find(function (x) {
+      return x.rssUrl == sourceItem.rssUrl;
+    })) {
+      rssed = 1;
+    }
+    this.setData({
+      rssed,
+    });
   },
 
   /**
@@ -112,23 +107,18 @@ Page({
   onChange: function (event) {
     console.log(event);
     var that = this;
-    var id = event.currentTarget.dataset.id;
-    var rssItemData = rssData[id];
-
-    if (rssed == "+") {
-      rssed = "-";
-      // button = true;
-      this.setData({ rssed});
-      rss_list.push(rssItemData);
+    var sourceItem = rssData[idx].items[id];
+    if (sourceItem.rssed == 0) {
+      rss_list.push(sourceItem)
     }
     else {
-      rssed = "+";
-      // button = false;
-      this.setData({ rssed});
       for (var i in rss_list) {
-        if (rss_list[i].rssUrl == rssItemData.rssUrl) rss_list.splice(i, 1);
+        if (rss_list[i].rssUrl == sourceItem.rssUrl) rss_list.splice(i, 1);
+        console.log('删除');
       }
     }
+    rssed = 1-rssed;
+    this.setData({ rssed });
 
     db.collection('user').where({
       _openid: openid
@@ -140,6 +130,7 @@ Page({
             subscribe: rss_list
           },
           success(res) {
+            console.log('成功修改云数据库')
             wx.setStorageSync('rss_list', rss_list);
             this.onload();
           }
