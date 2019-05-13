@@ -8,12 +8,20 @@
 	"setting": {
 		"urlCheck": true,
 		"es6": true,
+		"enhance": false,
 		"postcss": true,
 		"minified": true,
 		"newFeature": true,
-		"nodeModules": true,
+		"nodeModules": false,
 		"uglifyFileName": false,
-		"checkInvalidKey": true
+		"checkInvalidKey": true,
+		"checkSiteMap": true,
+		"uploadWithSourceMap": true,
+		"babelSetting": {
+			"ignore": [],
+			"disablePlugins": [],
+			"outputPath": ""
+		}
 	},
 	"compileType": "miniprogram",
 	"libVersion": "2.2.3",
@@ -41,7 +49,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 16,
+			"current": 18,
 			"list": [
 				{
 					"id": -1,
@@ -72,10 +80,10 @@
 					"scene": null
 				},
 				{
-					"id": -1,
-					"name": "我的订阅",
-					"pathName": "pages/favorite/index",
-					"query": "id=0",
+					"id": 4,
+					"name": "阅历",
+					"pathName": "pages/user/report",
+					"query": "",
 					"scene": null
 				},
 				{
@@ -153,6 +161,20 @@
 					"name": "发现->",
 					"pathName": "pages/discover/more",
 					"query": "idx=0&id=0",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "发现",
+					"pathName": "pages/discover/index",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "帮助",
+					"pathName": "pages/about/help",
+					"query": "",
 					"scene": null
 				},
 				{

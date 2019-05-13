@@ -1,33 +1,75 @@
-//index.js
 const util = require('../../utils/util.js');
 const xml2json = require('../../utils/xml2json.js');
 const app = getApp() //获取应用实例
 const db = wx.cloud.database();
+
 var rss_pool = new Array();
-var islatered = new Array();
 var laters = wx.getStorageSync('laters') || [];
 var history = wx.getStorageSync('history') || [];
+var openid = wx.getStorageSync('openid') || '';
+var rss_list = wx.getStorageSync('rss_list');
+var temp = {};
 
 Page({
   /**
    * 页面的初始数据
    */
   data: {
+    isEmpty: false,
     userData: [],
     rss_list: [],
     rss_pool: [],
     cates: [],
     length: 0,
     openid: '',
-    islatered: [],
   },
 
   /**
    * 打开小程序时
    */
   onShow: function(options) {
+    rss_list = wx.getStorageSync('rss_list');
+    openid = wx.getStorageSync('openid') || '';
     laters = wx.getStorageSync('laters') || [];
     history = wx.getStorageSync('history') || [];
+    for (var j in rss_pool) {
+      rss_pool[j].islatered=false;
+      for (var k in laters)
+        if (rss_pool[j].link == laters[k].link) {
+          rss_pool[j].islatered = true;
+          continue;}
+    }
+    this.setData({rss_pool});
+
+    if (rss_list.length == 0) this.setData({
+      isEmpty: true
+    });
+    else this.setData({
+      isEmpty: false
+    });
+
+    if (openid!=temp.openid) {
+      console.log("openid changed");
+      this.setData({
+        openid,
+      })
+      this.onLoad();
+    }
+    else{
+      try{
+        var flag = false;
+        for (var i in rss_list) if (rss_list[i].rssUrl != temp.rss_list[i].rssUrl) flag = true;
+        if (flag) {
+          console.log("rss_list changed");
+          this.setData({ rss_list });
+          this.onLoad();
+        }
+      }
+      catch(error){
+        this.onLoad();
+      }
+      
+    }
   },
 
   onPullDownRefresh: function() {
@@ -39,59 +81,75 @@ Page({
   },
 
   onLoad: function() {
-    wx.stopPullDownRefresh()
-    const that = this;
-    wx.showLoading({
-      title: '加载中',
-    })
-    setTimeout(function() {
-      wx.hideLoading()
-    }, 1500)
-    let openid = wx.getStorageSync('openid');
-    //从云端读取用户数据库
-    db.collection('user').where({
-      _openid: openid
-    }).get().then(res => {
-      let userData = res.data[0];
-      console.log(userData);
-      let rss_list = userData.subscribe;
-      that.setData({
-        userData,
-        rss_list
-      })
-      that.setData({
-        openid: userData._openid
-      })
-      //读取用户数据
-      var tags = new Array();
-      for (var i in userData.subscribe) { //没有设置tag的源统一划到“全部”下
-        try {
-          var obj = userData.subscribe[i].tag["0"];
-          tags[i] = obj;
-        } catch (err) {
-          tags[i] = '全部';
-        }
-      }
-      var cates = Array.from(new Set(tags));
-      for (var i in cates) { //除去“全部”外其余的tag
-        if (cates[i] == '全部') cates.splice(i, 1);
-      }
-      that.setData({
-        cates
-      });
+    if (openid == '') {
+      wx.lin.showMessage({
+          type: 'warning',
+          duration: 2000,
+          content: '两秒后将自动跳转到「我的」页面'
+        }),
+        setTimeout(function() {
+          wx.switchTab({
+            url: '../user/index',
+          })
+        }, 2000);
+    } else {
+      wx.stopPullDownRefresh()
+      const that = this;
+      if (rss_list.length != 0) {
+        wx.showLoading({
+          title: '加载中',
+        })
+        setTimeout(function() {
+          wx.hideLoading()
+        }, 1500)
 
-      //将读取到的用户数据赋值给Page中rss_list
-      that.setData({
-        length: tags.length,
-      });
+        //从云端读取用户数据库
+        db.collection('user').where({
+          _openid: openid
+        }).get().then(res => {
+          let userData = res.data[0];
+          let rss_list = userData.subscribe;
+          that.setData({
+            userData,
+            rss_list,
+            openid: userData._openid
+          })
+          //读取用户数据
+          var tags = new Array();
+          for (var i in userData.subscribe) { //没有设置tag的源统一划到“全部”下
+            try {
+              var obj = userData.subscribe[i].tag["0"];
+              tags[i] = obj;
+            } catch (err) {
+              tags[i] = '全部';
+            }
+          }
+          var cates = Array.from(new Set(tags));
+          for (var i in cates) { //除去“全部”外其余的tag
+            if (cates[i] == '全部') cates.splice(i, 1);
+          }
+          that.setData({
+            cates
+          });
 
-      wx.setStorageSync('rss_list', rss_list);
-      try {
-        that.getRss(this.data.rss_list, tags.length - 1); //加载从源获取到的数据
-      } catch (err) {
-        console.log(err);
+          //将读取到的用户数据赋值给Page中rss_list
+          that.setData({
+            length: tags.length,
+          });
+
+          wx.setStorageSync('rss_list', rss_list);
+          try {
+            that.getRss(this.data.rss_list, tags.length - 1); //加载从源获取到的数据
+          } catch (err) {
+            console.log(err);
+          }
+        });
+        temp = {
+          openid,
+          rss_list
+        };
       }
-    });
+    }
   },
 
   getRss: function(rss_list, i) {
@@ -99,7 +157,7 @@ Page({
     rss_pool = new Array();
     var url = rss_list[i].rssUrl;
     wx.vrequest({
-    // wx.request({
+      // wx.request({
       url: url,
       data: {},
       header: {
@@ -117,6 +175,7 @@ Page({
         }
         rss_pool = that.data.rss_pool;
         try {
+          // console.log(res.body);
           var rssData = dataJson.feed || dataJson.rss.channel;
           if ('item' in rssData) var rssDataItem = rssData.item;
           else var rssDataItem = rssData.entry;
@@ -126,8 +185,11 @@ Page({
             obj.source = rss_list[i].title;
             obj.tag = rss_list[i].tag;
             obj.link = (rssDataItem.link || rssDataItem.id).text || rssDataItem.link.href;
+            obj.base = rss_list[i].link||'';
             if (history.indexOf(obj.link) > -1) obj.readed = true;
             else obj.readed = false;
+            if (laters.indexOf(obj.link) > -1) obj.islatered = true;
+            else obj.islatered = false;
             obj.author = '';
             obj.title = rssDataItem.title.text;
             if ('content:encoded' in rssDataItem) obj.article = rssDataItem["content:encoded"].text;
@@ -148,8 +210,8 @@ Page({
             // var now = new Date();
             // var pubTime = new Date(obj.pubTime);
             // var delta = now - pubTime;
-            if ((rss_pool.length < 1 || obj.title != rss_pool[rss_pool.length - 1].title)) {
-              rss_pool.push(obj);
+            if ((rss_pool.length < 1 || obj.title != rss_pool[0].title)) {
+              rss_pool.unshift(obj);
             }
           } else {
             for (var j = 0; j < (rssData.item || rssData.entry).length; j++) {
@@ -159,8 +221,11 @@ Page({
               obj.source = rss_list[i].title;
               obj.tag = rss_list[i].tag;
               obj.link = (rssDataItem.link || rssDataItem.id).text || rssDataItem.link.href;
+              obj.base = rss_list[i].link || '';
               if (history.indexOf(obj.link) > -1) obj.readed = true;
               else obj.readed = false;
+              if (laters.indexOf(obj.link) > -1) obj.islatered = true;
+              else obj.islatered = false;
               obj.author = '';
               obj.title = rssDataItem.title.text;
               if ('content:encoded' in rssDataItem) obj.article = rssDataItem["content:encoded"].text;
@@ -182,8 +247,8 @@ Page({
               var now = new Date();
               var pubTime = new Date(obj.pubTime);
               var delta = now - pubTime;
-              if ((rss_pool.length < 1 || obj.title != rss_pool[rss_pool.length - 1].title)) {
-                rss_pool.push(obj);
+              if ((rss_pool.length < 1 || obj.title != rss_pool[0].title)) {
+                rss_pool.unshift(obj);
               }
             }
           }
@@ -191,27 +256,22 @@ Page({
           console.log(error);
         }
 
+        //按时间先后排序
         rss_pool.sort(function(a, b) {
           return b['pubTime'] > a['pubTime'] ? 1 : -1
         })
 
-        for(var j in rss_pool){
-          islatered[j] = 0;
-          for(var k in laters){
-            if (rss_pool[j].titile == laters[k].title) islatered[j]=1;
-          }
-        }
+        
 
         that.setData({
           rss_pool,
-          islatered
         });
         wx.setStorageSync('rss_pool', rss_pool);
       }
     });
-    if (i > 0) {
-      this.getRss(rss_list, i - 1)
-    } else {
+
+    if (i > 0) this.getRss(rss_list, i - 1)
+    else {
       this.setData({
         rss_list,
         rss_pool,
@@ -224,16 +284,7 @@ Page({
     var s = "";
     if (content.length == 0) return "";
     s = content.replace(/&amp;/g, "&");
-    s = s.replace(/<script.*?>window.daily.*?]]>/g, "");
-    s = s.replace(/<img.*?c.statcounter.*?>/g, "");
-    s = s.replace(/<img.*?google-analytics.*?>/g, "");
-    s = s.replace(/<img.*?hm.baidu.*?>/g, "");
-    s = s.replace(/<\?xml-stylesheet.*?>/g, "");
-    s = content.replace(/&amp;/g, "&");
-    s = s.replace(/<font color="red">订阅指南.*\n.*/g, "");
-    s = s.replace(/<script>[\s\S]*?googletag[\s\S]*?>/g, "");
-    s = s.replace(/<div>获取更多RSS[\s\S]*?<\/div>/g, "");
-    s = s.replace(/<script[\s\S]*<\/script>/g, "");
+    s = s.replace(/<!--*?[\s\S]*?-->/g,"");
     // s = s.replace(/&lt;/g, "<");
     // s = s.replace(/&gt;/g, ">");
     // s = s.replace(/&nbsp;/g, " ");
@@ -245,6 +296,16 @@ Page({
     s = s.replace(/&#125;/g, "}");
     s = s.replace(/&#124;/g, "|");
     s = s.replace(/&#126;/g, "~");
+    s = s.replace(/<script.*?>window.daily.*?]]>/g, "");
+    s = s.replace(/<img.*?c.statcounter.*?>/g, "");
+    s = s.replace(/<img.*?google-analytics.*?>/g, "");
+    s = s.replace(/<img.*?hm.baidu.*?>/g, "");
+    s = s.replace(/<\?xml-stylesheet.*?>/g, "");
+    s = s.replace(/<font color="red">订阅指南.*\n.*/g, "");
+    s = s.replace(/<script>[\s\S]*?googletag[\s\S]*?>/g, "");
+    s = s.replace(/<div>获取更多RSS[\s\S]*?<\/div>/g, "");
+    s = s.replace(/<script[\s\S]*<\/script>/g, "");
+    s = s.replace(/<img src=".*?feedburner.*?theinitium.*?>/g,"");
     return s;
   },
 
@@ -268,27 +329,26 @@ Page({
 
   //添加至稍后阅读
   onLater: function(event) {
-    // console.log(event);
     const that = this;
     const articleid = event.currentTarget.dataset.articleIndex;
 
-    if (islatered[articleid] == 0) { //如果之前不在数组，则添加稍后阅读
+    if (!rss_pool[articleid].islatered) { //数组中没有，则添加稍后阅读
       var obj = {};
       obj.title = rss_pool[articleid].title;
       obj.pubTime = rss_pool[articleid].pubTime;
       obj.author = rss_pool[articleid].author;
       obj.article = rss_pool[articleid].article;
       obj.link = rss_pool[articleid].link;
+      obj.base = rss_pool[articleid].base;
       laters.unshift(obj);
-      islatered[articleid] = 1;
     } else {
       for (var i in laters)
-        if (laters[i].title == rss_pool[articleid].title) laters.splice(i, 1);
-      islatered[articleid] = 0;
+        if (laters[i].link == rss_pool[articleid].link) laters.splice(i, 1);
     }
+    rss_pool[articleid].islatered = !rss_pool[articleid].islatered;
     wx.setStorageSync('laters', laters);
     that.setData({
-      islatered
+      rss_pool
     });
 
   }

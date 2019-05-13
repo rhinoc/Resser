@@ -1,38 +1,13 @@
-<!--index.wxml-->
-<view wx:if="{{openid}}">
+<view wx:if="{{openid!=''}}">
   <van-tabs swipeable sticky>
-    <!-- <van-tab title="未读">
-      <view class="tab-content">
-        <view class='source-item' wx:for="{{rss_pool}}" wx:for-item="item" wx:for-index="idx" wx:key="all" bindtap='handleRssItemTap' data-article-index='{{idx}}' wx:if="{{!item.readed}}">
-          <view class='rss-item'>
-            <l-card wx:if="{{item.enclosure}}" type="cover" l-class="card" image="{{item.enclosure}}" title="{{item.title}}">
-              <view class="cover-footer">
-                <div>
-                  <image class="source-icon" src="{{item.favicon}}"></image>
-                  <span class="source-name">{{item.source}}</span>
-                </div>
-                <l-tag class='latera' catchtap="onLater" shape="circle" bg-color="#f3f3f3" font-color="#3963BC" slot="more" select="{{islatered[idx]}}" data-article-index='{{idx}}'>
-                  稍后阅读
-                </l-tag>
-              </view>
-            </l-card>
-
-            <l-card wx:else type="avatar" l-class="card" image="{{item.favicon}}" title="{{item.source}}" describe="{{item.pubTime}}">
-              <view class="content">{{item.title}}
-              </view>
-              <l-tag class='laterb' catchtap="onLater" shape="circle" bg-color="#f3f3f3" font-color="#3963BC" slot="more" select="{{islatered[idx]}}" data-article-index='{{idx}}'>
-                稍后阅读
-              </l-tag>
-            </l-card>
-          </view>
-        </view>
-      </view>
-    </van-tab> -->
-
-
-
     <van-tab title="全部">
       <view class="tab-content">
+        <view class='rss-item' wx:if="{{isEmpty}}">
+          <l-card type="avatar" l-class="card" image="../../images/info.png" title="通知">
+            <view class="content">你还没有订阅任何源哦，去发现页面探索一下吧 :)
+            </view>
+          </l-card>
+        </view>
         <view class='source-item' wx:for="{{rss_pool}}" wx:for-item="item" wx:for-index="idx" wx:key="all" bindtap='handleRssItemTap' data-article-index='{{idx}}'>
           <view class='rss-item' wx:if="{{!item.readed}}">
             <l-card wx:if="{{item.enclosure}}" type="cover" l-class="card" image="{{item.enclosure}}" title="{{item.title}}">
@@ -41,7 +16,7 @@
                   <image class="source-icon" src="{{item.favicon}}"></image>
                   <span class="source-name">{{item.source}}</span>
                 </div>
-                <l-tag class='latera' catchtap="onLater" shape="circle" bg-color="#f3f3f3" font-color="#3963BC" slot="more" select="{{islatered[idx]}}" data-article-index='{{idx}}'>
+                <l-tag class='latera' catchtap="onLater" shape="circle" bg-color="#f3f3f3" font-color="#3963BC" slot="more" select="{{item.islatered}}" data-article-index='{{idx}}'>
                   稍后阅读
                 </l-tag>
               </view>
@@ -49,7 +24,7 @@
             <l-card wx:else type="avatar" l-class="card" image="{{item.favicon}}" title="{{item.source}}" describe="{{item.pubTime}}">
               <view class="content">{{item.title}}
               </view>
-              <l-tag class='laterb' catchtap="onLater" shape="circle" bg-color="#f3f3f3" font-color="#3963BC" slot="more" select="{{islatered[idx]}}" data-article-index='{{idx}}'>
+              <l-tag class='laterb' catchtap="onLater" shape="circle" bg-color="#f3f3f3" font-color="#3963BC" slot="more" select="{{item.islatered}}" data-article-index='{{idx}}'>
                 稍后阅读
               </l-tag>
             </l-card>
@@ -61,7 +36,7 @@
                   <image class="source-icon" src="{{item.favicon}}"></image>
                   <span class="source-name-readed">{{item.source}}</span>
                 </div>
-                <l-tag class='latera' catchtap="onLater" shape="circle" bg-color="#f3f3f3" font-color="#3963BC" slot="more" select="{{islatered[idx]}}" data-article-index='{{idx}}'>
+                <l-tag class='latera' catchtap="onLater" shape="circle" bg-color="#f3f3f3" font-color="#3963BC" slot="more" select="{{item.islatered}}" data-article-index='{{idx}}'>
                   稍后阅读
                 </l-tag>
               </view>
@@ -69,13 +44,13 @@
             <l-card wx:else type="avatar" l-class="card" l-title-class="readed" image="{{item.favicon}}" title="{{item.source}}" describe="{{item.pubTime}}">
               <view class="content">{{item.title}}
               </view>
-              <l-tag class='laterb' catchtap="onLater" shape="circle" bg-color="#f3f3f3" font-color="#3963BC" slot="more" select="{{islatered[idx]}}" data-article-index='{{idx}}'>
+              <l-tag class='laterb' catchtap="onLater" shape="circle" bg-color="#f3f3f3" font-color="#3963BC" slot="more" select="{{item.islatered}}" data-article-index='{{idx}}'>
                 稍后阅读
               </l-tag>
             </l-card>
           </view>
         </view>
-        </view>
+      </view>
     </van-tab>
 
 
@@ -89,7 +64,7 @@
                   <image class="source-icon" src="{{rssItem.favicon}}"></image>
                   <span class="source-name">{{rssItem.source}}</span>
                 </div>
-                <l-tag class='latera' catchtap="onLater" shape="circle" bg-color="#f3f3f3" font-color="#3963BC" slot="more" select="{{islatered[idx]}}" data-article-index='{{idx}}'>
+                <l-tag class='latera' catchtap="onLater" shape="circle" bg-color="#f3f3f3" font-color="#3963BC" slot="more" select="{{rssItem.islatered}}" data-article-index='{{idx}}'>
                   稍后阅读
                 </l-tag>
               </view>
@@ -99,7 +74,7 @@
               <view class="content">{{rssItem.title}}
               </view>
 
-              <l-tag class='laterb' catchtap="onLater" shape="circle" bg-color="#f3f3f3" font-color="#3963BC" slot="more" select="{{islatered[idx]}}" data-article-index='{{idx}}'>
+              <l-tag class='laterb' catchtap="onLater" shape="circle" bg-color="#f3f3f3" font-color="#3963BC" slot="more" select="{{rssItem.islatered}}" data-article-index='{{idx}}'>
                 稍后阅读
               </l-tag>
             </l-card>
@@ -109,5 +84,11 @@
     </van-tab>
   </van-tabs>
 </view>
+
 <view wx:else>
+  <l-card type="avatar" l-class="card" image="../../images/info.png" title="通知">
+    <view class="content">你还没有登陆哦，请先前往「我的」页面登陆 :)
+    </view>
+  </l-card>
+  <l-message />
 </view>

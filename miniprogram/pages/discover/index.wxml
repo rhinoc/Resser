@@ -6,25 +6,27 @@
 
   <!-- 搜索模式 -->
   <view wx:if="{{searchMode}}">
-    <view wx:for="{{rssData}}" wx:for-item="cates" wx:key="{{index}}" wx:for-index="idx">
+    <block wx:for="{{rssData}}" wx:for-item="cates" wx:key="{{index}}" wx:for-index="idx">
       <view class='search-col' wx:for="{{cates.items}}" wx:for-item="sitem" wx:key="" wx:for-index="id" wx:if="{{sitem.matched}}">
-        <view bindtap='onTap' data-cate="{{idx}}" data-item="{{id}}">
-          <image class='search-source-icon' src='{{sitem.favicon}}'></image>
-          <view class='rss-title'>{{sitem.title}}</view>
-          <view class='rss-description'>{{sitem.description}}</view>
-        </view> 
-        <l-button special="{{true}}" wx:if="{{sitem.rssed==1}}" bind:lintap="onChange" data-cate="{{idx}}" data-item="{{id}}">
-          <view class="container">
-            <image mode="aspectFit" class="subs-checked" src='../../images/check.png'></image>
+        <view style='display:inline-block' bindtap='onTap' data-cate="{{idx}}" data-item="{{id}}">
+          <image style='display:inline-block' class='search-source-icon' src='{{sitem.favicon}}'></image>
+          <view class='rss-text'>
+            <view class='rss-title'>{{sitem.title}}</view>
+            <view class='rss-description'>{{sitem.description}}</view>
+          </view>
+        </view>
+        <l-button l-class="button" special="{{true}}" wx:if="{{sitem.rssed==1}}" bind:lintap="onChange" data-cate="{{idx}}" data-item="{{id}}">
+          <view>
+            <image mode="aspectFit" class="search-subs-checked" src='../../images/check.png'></image>
           </view>
         </l-button>
         <l-button special="{{true}}" bind:lintap="onChange" data-cate="{{idx}}" data-item="{{id}}" wx:else>
-          <view class="container">
-            <image mode="aspectFit" class="subs" src='../../images/add.png'></image>
+          <view>
+            <image mode="aspectFit" class="search-subs" src='../../images/add.png'></image>
           </view>
         </l-button>
       </view>
-    </view>
+    </block>
   </view>
 
   <!-- 普通模式 -->
@@ -51,8 +53,6 @@
         </l-button>
       </view>
     </scroll-view>
+    <l-button class="favor" l-class="button" size="long" bind:lintap="navToMy">管理我的订阅</l-button>
   </view>
-
 </view>
-
-<l-button class="favor" l-class="button" size="long" bind:lintap="navToMy">我的订阅</l-button>

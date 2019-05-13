@@ -2,3 +2,10 @@
 page {
   background: #F4F6F9;
 }
+
+.group {
+  background-color: white;
+  padding: 0 10%;
+  width:600rpx;
+  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+}

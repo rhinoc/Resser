@@ -22,7 +22,7 @@ Page({
    * Lifecycle function--Called when page load
    */
   onLoad: function (options) {
-    var that = this;
+    const that = this;
     var rssData = options.rssData;
     rssData = decodeURIComponent(rssData);
     rssData = JSON.parse(rssData);
@@ -51,14 +51,27 @@ Page({
       article = rssData.article;
       article = this.htmlDecode(article);
       article = app.towxml.toJson(article, 'html');
+      if(rssData.base!=''){
+        var temp = article;
+        try{
+          article = app.towxml.initData(article, {
+            base: rssData.base,
+          })
+        }
+        catch (err) {
+          console.log(err);
+          article = temp;
+        }
+      }
       this.setData({
         article,
         title,
         pubTime,
         author,
         linkurl
-      })
-    }   
+      }) 
+    }
+      
   },
 
   /**

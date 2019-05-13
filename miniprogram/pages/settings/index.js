@@ -86,10 +86,8 @@ Page({
       content: "这将会清空收藏集和稍后阅读",
       success: (res) => {
         if (res.confirm) {
-          console.log('用户点击确定')
           wx.clearStorage();
         } else if (res.cancel) {
-          console.log('用户点击取消')
         }
       }
     })

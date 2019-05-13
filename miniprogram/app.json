@@ -11,7 +11,8 @@
     "pages/later/index",
     "pages/user/report",
     "pages/discover/more",
-    "pages/global/article"
+    "pages/global/article",
+    "pages/about/help"
   ],
   "window": {
     "pageOrientation": "auto",
@@ -46,6 +47,5 @@
       }
     ]
   },
-  "plugins": {
-  }
+  "plugins": {}
 }

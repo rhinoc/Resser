@@ -80,5 +80,6 @@ Page({
       type: 'success',
       content: '已清空',
     })
+    this.setData({ laters:[] });
   }
 })

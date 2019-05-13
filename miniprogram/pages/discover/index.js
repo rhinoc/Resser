@@ -16,7 +16,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-    rssData: rss.rssData || [], // rss源数据
+    rssData: rss.rssData, // rss源数据
     rssItemData: {}, // 当前选中的源数据             
   },
 
@@ -25,18 +25,25 @@ Page({
    */
   onShow: function(options) {
     // console.log(rssData);
-    rss_list = wx.getStorageSync('rss_list')
-    for (var i in rssData) {
-      for (var j in rssData[i].items) {
-        rssData[i].items[j].rssed = 0;
-        if (rss_list.find(function(x) {
-            return x.rssUrl == rssData[i].items[j].rssUrl;
-          })) {
-          rssData[i].items[j].rssed = 1;
-        } else {
+    rss_list = wx.getStorageSync('rss_list') || [];
+    if (rss_list.length > 0) {
+      for (var i in rssData) {
+        for (var j in rssData[i].items) {
           rssData[i].items[j].rssed = 0;
+          if (rss_list.find(function(x) {
+              return x.rssUrl == rssData[i].items[j].rssUrl;
+            })) {
+            rssData[i].items[j].rssed = 1;
+          } else {
+            rssData[i].items[j].rssed = 0;
+          }
         }
       }
+    }
+    else{
+      for (var i in rssData)
+        for (var j in rssData[i].items)
+          rssData[i].items[j].rssed = 0;
     }
     this.setData({
       rssData,
@@ -45,7 +52,6 @@ Page({
 
   handleSearch: function(event) {
     query = event.detail.detail.value;
-    // console.log(query);
     if (query != '') {
       this.setData({
         searchMode: true
@@ -61,7 +67,9 @@ Page({
           } else rssData[i].items[j].matched = false;
         }
       }
-      this.setData({ rssData});
+      this.setData({
+        rssData
+      });
     } else {
       this.setData({
         searchMode: false,
@@ -70,7 +78,7 @@ Page({
   },
 
   onChange: function(event) {
-    console.log(event);
+    // console.log(event);
     var that = this;
     var idx = event.currentTarget.dataset.cate;
     var id = event.currentTarget.dataset.item;

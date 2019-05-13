@@ -104,6 +104,12 @@ Page({
       show:true
     })
   },
+
+  onHelp(e){
+    wx.navigateTo({
+      url: '../about/help',
+    })
+  },
   onName(e) {
     name = e.detail.detail.value;
   },

@@ -98,6 +98,7 @@ text-align: center;
   /* margin-top:20rpx; */
   height: 40rpx;
   width: 40rpx;
+  border-radius:1em;
 }
 
 .rss-info {

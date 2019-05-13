@@ -1,4 +1,5 @@
 const app = getApp()
+const db = wx.cloud.database()
 
 Page({
   data: {
@@ -7,10 +8,10 @@ Page({
   },
 
   onShow: function() {
-
   },
 
   onLoad: function() {
+    this.getOpenId();
     let username = wx.getStorageSync('username'),
       avatar = wx.getStorageSync('avatar');
     if (username) {
@@ -19,24 +20,30 @@ Page({
     }
   },
 
-
+  getOpenId(){
+    let that = this;
+    wx.cloud.callFunction({
+      name:'getOpenId',
+      complete: res => {
+        wx.setStorageSync('openid', res.result)
+      }
+    })
+  },
   getUserInfoHandler: function(e) {
-    // console.log(e)
+    console.log(e)
     let d = e.detail.userInfo
-    wx.setStorageSync('openid', d.openid);
-    this.setData({//这里要setData，否则页面不会更新
+    this.setData({
       avatar: d.avatarUrl,
       username: d.nickName
     })
     wx.setStorageSync('username', d.nickName)
     wx.setStorageSync('avatar', d.avatarUrl)
-
-    const db = wx.cloud.database()
-
+    let openid = wx.getStorageSync('openid');
     db.collection('user').where({
-      _openid: d.openid
+      _openid:openid
     }).get({
       success: res => {
+        console.log(openid);
         console.log('查询用户:', res)
         if (res.data && res.data.length > 0) {
           console.log('用户已存在')
@@ -44,16 +51,7 @@ Page({
           setTimeout(() => {
             db.collection('user').add({
               data: {
-                _openid: d.openid,
-                subscribe: [{
-                  "title":"Dicerorhinus",
-                  "link":"http://rhinoc.top/",
-                  "description":"开发团队成员@rhinoc的在线博客",
-                  "rssUrl":"https://rhinoc.top/atom.xml",
-                  "type":"feed",
-                  "favicon":"https://rhinoc.top/images/ava.png",
-                  "tag":["博客","开发"]
-                }]
+                subscribe: []
               },
               success: function() {
                 console.log('新建用户成功')

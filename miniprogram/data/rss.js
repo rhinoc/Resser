@@ -63,7 +63,7 @@ const rssData = [
         favicon: "https://pic.rhinoc.top/en.jpg",
         title: '瘾科技', //ok
         link: 'https://cn.engadget.com/',
-        description: '',
+        description: '来自Engadget中国版团队的科技新闻和评测，掌握最新消费性电子产品消息',
         rssUrl: 'https://feedx.co/rss/engadget.xml',
         type: 'rss',
         tag: ['科技'],
@@ -86,15 +86,15 @@ const rssData = [
         type: 'description',
         tag: ['科技', '移动互联网']
       },
-      {
-        title: '梅花网', //not very ok 图片403
-        link: 'https://www.meihua.info/',
-        description: '营销者的信息中心',
-        favicon: 'https://pic.rhinoc.top/meihua.jpg',
-        rssUrl: 'https://www.meihua.info/feed',
-        type: 'description',
-        tag: ['科技', '资讯', '营销']
-      },
+      // {
+      //   title: '梅花网', //not very ok 图片403
+      //   link: 'https://www.meihua.info/',
+      //   description: '营销者的信息中心',
+      //   favicon: 'https://pic.rhinoc.top/meihua.jpg',
+      //   rssUrl: 'https://www.meihua.info/feed',
+      //   type: 'description',
+      //   tag: ['科技', '资讯', '营销']
+      // },
       {
         favicon: "https://pic.rhinoc.top/qdaily.jpg",
         title: '好奇心日报', //ok
@@ -161,7 +161,7 @@ const rssData = [
         favicon: "https://pic.rhinoc.top/drib.jpg",
         title: 'Dribbble', //ok 图片载入慢
         link: 'https://www.dribbble.com',
-        description: '',
+        description: 'Discover the world’s top designers & creatives',
         rssUrl: 'https://rsshub.app/dribbble/popular/week',
         type: 'rss',
         tag: ['设计'],
@@ -212,7 +212,7 @@ const rssData = [
       favicon: "https://pic.rhinoc.top/zhidao.jpg",
       title: '知道日报', //ok
       link: 'https://zhidao.baidu.com/daily/',
-      description: '',
+      description: '百度知道重磅推出的品牌内容栏目，泛生活领域的专业知识问答平台',
       rssUrl: 'https://feedx.co/rss/zhidaodaily.xml',
       type: 'feed',
       tag: ['阅读', '知识', '问答']
@@ -236,7 +236,7 @@ const rssData = [
     {
       title: '果壳科学人',//not very ok 图片403
       link: 'http://www.guokr.com/scientific/',
-      description: '',
+      description: '科技有意思',
       rssUrl: 'https://feedx.co/rss/guokrscientific.xml',
       favicon: 'https://pic.rhinoc.top/guokr.jpg',
       tag: ['文艺'],
@@ -254,7 +254,7 @@ const rssData = [
       favicon: "https://pic.rhinoc.top/pengpai.jpg",
       title: '上海书评', //not very okay 图片403
       link: 'http://www.thepaper.cn/list_masonry.jsp?nodeid=26878',
-      description: '',
+      description: '《澎湃新闻·上海书评》，全球百位华文写作名家撰稿',
       rssUrl: 'https://feedx.co/rss/shanghaishuping.xml',
       type: 'feed',
       tag: ['影音']
@@ -314,7 +314,7 @@ const rssData = [
     },
     {
       title: '人民网 · 时政频道', //ok
-      link: 'http://www.people.com.cn/',
+      link: 'http://people.com.cn',
       description: '网上的人民日报',
       rssUrl: 'http://www.people.com.cn/rss/politics.xml',
       favicon: 'https://pic.rhinoc.top/people.jpg',
@@ -347,7 +347,7 @@ const rssData = [
     {
       title: '华盛顿邮报 The Washington Post',
       link: 'https://www.washingtonpost.com',//ok
-      description: '',
+      description: 'Democracy Dies in Darkness',
       rssUrl: 'https://feedx.co/rss/washingtonpost.xml',
       favicon: 'https://pic.rhinoc.top/wp.jpg',
       tag: ['时政', '国外'],
@@ -389,7 +389,7 @@ const rssData = [
         favicon: "https://pic.rhinoc.top/doubanmovie.jpg",
         title: '豆瓣 · 正在上映', //ok
         link: 'https://www.douban.com',
-        description: '',
+        description: '正在上映的电影',
         rssUrl: 'https://rsshub.app/douban/movie/playing',
         type: 'feed',
         tag: ['影音']
@@ -398,7 +398,7 @@ const rssData = [
         favicon: "https://pic.rhinoc.top/doubanmovie.jpg",
         title: '豆瓣 · 即将上映', //ok
         link: 'https://www.douban.com',
-        description: '',
+        description: '即将上映的电影',
         rssUrl: 'https://rsshub.app/douban/movie/later',
         type: 'feed',
         tag: ['影音']
@@ -407,7 +407,7 @@ const rssData = [
         favicon: "https://pic.rhinoc.top/doubanmovie.jpg",
         title: '豆瓣 · 北美票房榜', //ok
         link: 'https://www.douban.com',
-        description: '',
+        description: '北美电影票房总排行',
         rssUrl: 'https://rsshub.app/douban/movie/ustop',
         type: 'feed',
         tag: ['影音']
@@ -429,7 +429,7 @@ const rssData = [
     cate: "科学",
     items: [
       {
-        title: 'National Geographic',
+        title: '国家地理 National Geographic',
         link: 'https://www.nationalgeographic.com/', //ok
         description: 'A world leader in geography, cartography and exploration.',
         rssUrl: 'https://feedx.co/rss/natgeo.xml',
@@ -455,7 +455,7 @@ const rssData = [
       {
         title: '懂球帝',//ok
         link: 'http://www.dongqiudi.com',
-        description: '',
+        description: '提供专业足球资讯、足球视频、免费足球直播等内容',
         rssUrl: 'https://feedx.co/rss/dongqiudi.xml',
         favicon: 'https://feedx.co/wp-content/uploads/2018/03/dongqiudi.jpg',
         tag: ['体育'],
@@ -470,7 +470,7 @@ const rssData = [
       {
         title: '3dmgame',//ok
         link: 'http://m.3dmgame.com/info/',
-        description: '',
+        description: '为中国游戏玩家提供游戏汉化和游戏资讯等内容,',
         rssUrl: 'https://feedx.co/rss/3dmgame.xml',
         favicon: 'https://pic.rhinoc.top/3dm.jpg',
         tag: ['娱乐', '游戏'],

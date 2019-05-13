@@ -32,10 +32,10 @@
     <view class='icon'>
       <image src='/images/email.png'></image>
     </view>
-  <view class='text'>
-    <view>通过 Email 反馈</view>
-    <view>{{email}}</view>
-  </view>
+    <view class='text'>
+      <view>通过 Email 反馈</view>
+      <view>{{email}}</view>
+    </view>
   </view>
   <view class='i' catchtap='copy' data-title='QQ' data-content='{{qq}}'>
     <view class='icon'>

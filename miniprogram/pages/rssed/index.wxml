@@ -1,11 +1,3 @@
-<view class="container">
-  <l-button width="750" special="true" size="long" bind:lintap="onAdd">
-    <view class="box">
-      <l-icon size="40" name="add" color="#3963bc" />
-    </view>
-  </l-button>
-</view>
-
 <l-slide-view wx:for="{{rss_list}}" wx:key="{{index}}" key="{{index}}" height="140" width="750" slide-width="300" auto-close="true">
   <view slot="left" class="left">
     <view class='left-con'>
@@ -22,6 +14,14 @@
   </view>
 </l-slide-view>
 
+<view class="float-box">
+  <view class="float-button" style="background-color:#55C200" bindtap="onHelp">
+    <image class='float-img' src="../../images/help.png" />
+  </view>
+  <view class="float-button" style="background-color:#3281ff" bindtap="onAdd">
+    <image class='float-img' src="../../images/add.png" />
+  </view>
+</view>
 
 <l-popup show="{{show}}" locked="{{true}}" contentAlign="bottom" bind:lintap="onAdd" data-type='add'>
 <l-message type="{{type}}" content="{{content}}"/>

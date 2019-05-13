@@ -1,25 +1,20 @@
 <!--index.wxml-->
 <view class="container">
-  <!--头像&昵称-->
-  <view>
-    <label>
-      <image class='userinfo-avatar' src='{{avatar}}'></image>
-    </label>
-  </view> 
-  <view class="userinfo-nickname">
-    <text>{{username}}</text>
-  </view>
-  </view>
+  <l-avatar open-data="{{['userAvatarUrl','userNickName']}}" placement="bottom"/>
   <!--选项-->
 <view class="container">
-  <text>本月阅历报告</text>
-  <text>{{}}</text><text>型订阅者</text>
-  <text>新宠</text><text>{{}}</text><text>个订阅源</text>
-  <text>取关</text><text>{{}}</text><text>个订阅源</text>
-  <text>最爱订阅源</text> 
-     <text>共阅读了它的</text><text>{{}}</text><text>篇文章</text>
-     <text>共收藏了它的</text><text>{{}}</text><text>篇文章</text>
-  <text>本月Resser共阅读</text><text>{{}}</text><text>篇文章</text>
-  <text>稍后阅读中蒸发</text><text>{{}}</text><text>篇文章</text>
-  <text>碎片化阅读总时长</text><text>{{}}</text><text>时</text>
+  <text>--</text> 
+   <text>我的订阅源{{allrssnum}}个</text> 
+   <text>我的收藏夹{{allfavnum}}篇</text> 
+   <text>本月Resser共阅读{{allread}}篇文章</text>
+   <text>--</text> 
+  <text>最爱订阅源 </text> 
+    <label>
+      <image src='{{favicon}}'></image>
+    </label>
+     <text>{{title}}</text>
+     <text>Tag {{tag}}</text>
+     <text>阅读了它的{{readnum}}篇文章</text>
+     <text>收藏了它的{{favnum}}篇文章</text>
+</view>
 </view>
