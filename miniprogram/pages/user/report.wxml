@@ -1,20 +1,23 @@
-<!--index.wxml-->
-<view class="container">
-  <l-avatar open-data="{{['userAvatarUrl','userNickName']}}" placement="bottom"/>
-  <!--选项-->
-<view class="container">
-  <text>--</text> 
-   <text>我的订阅源{{allrssnum}}个</text> 
-   <text>我的收藏夹{{allfavnum}}篇</text> 
-   <text>本月Resser共阅读{{allread}}篇文章</text>
-   <text>--</text> 
-  <text>最爱订阅源 </text> 
-    <label>
-      <image src='{{favicon}}'></image>
-    </label>
-     <text>{{title}}</text>
-     <text>Tag {{tag}}</text>
-     <text>阅读了它的{{readnum}}篇文章</text>
-     <text>收藏了它的{{favnum}}篇文章</text>
+<view class="card">
+  <l-avatar open-data="{{['userAvatarUrl','userNickName']}}" placement="bottom" l-class="avatar" size="200" l-class-text="name"/>
+
+  <view class="container">
+
+    <text class="oneword">{{oneword}}</text>
+    <text class="onefrom">《{{onefrom}}》</text>
+    
+    <text class="p">自我们相识以来，你已经阅见上阅读{{allread}}了篇文章</text>
+    <text class="p">一次次订阅和取消，你最终留下了{{allrssnum}}个订阅源</text>
+    <text class="p">有{{allfavnum}}篇文章被精心保存在「收藏集」中</text>
+
+  </view>
+
 </view>
+
+<!-- 订阅源阅读分布图 -->
+<view class="figure">
+<image class='icon' src="{{'../../images/tab_activity.png'}}"></image>
+<canvas canvas-id="hisource" class="myCanvas" style="width:{{chartWidth}}px;height:{{chartHeight}}px;"/>
+<image class='icon' src="{{'../../images/tab_activity.png'}}"></image>
+<canvas canvas-id="fsource" class="myCanvas" style="width:{{chartWidth}}px;height:{{chartHeight}}px;"/>
 </view>

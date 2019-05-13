@@ -1,4 +1,8 @@
 /**index.wxss**/
+Page{
+background: #F4F6F9;
+}
+
 .container {
   padding-top: 40rpx; 
   flex-direction: column;
@@ -32,4 +36,67 @@
   padding: 0 10%;
   width:600rpx;
   box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+}
+.myCanvas{
+  background-color: #f4f4f4;
+}
+.downloadChart {
+  font-size: 16px;
+  background: #699fed;
+  border-radius: 6px;
+  color: white;
+  width: 70%;
+  margin-top: 32px;
+}
+
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  max-width: 650rpx;
+  margin: auto;
+  margin-top:100rpx;
+  text-align: center;
+  padding-bottom: 50rpx; 
+  margin-bottom: 0rpx;
+}
+
+.avatar{
+  margin-top:-50rpx;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
+.p{
+  text-align: left;
+}
+.name{
+  font-weight: bold;
+  font-size:40rpx !important;
+  color:#000 !important;
+}
+.oneword{
+  vertical-align: middle; 
+  line-height: normal; 
+  white-space: nowrap; 
+  display: inline-block; 
+  font-size: 30rpx;
+}
+
+.onefrom{
+  vertical-align: middle; 
+  line-height: normal; 
+  display: inline-block; 
+  font-size: 25rpx;
+  margin-bottom: 50rpx;
+}
+
+.icon{
+  margin-top:50rpx;
+  width: 50rpx;
+  height: 50rpx;
+  margin-bottom: 50rpx;
+}
+
+.figure{
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  align-items: center;
 }

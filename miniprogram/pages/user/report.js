@@ -1,116 +1,136 @@
 const app = getApp();
+var chart = require("../../utils/chart.js");
 var rss_list = wx.getStorageSync('rss_list') || [];
 var monthreport = wx.getStorageSync('monthreport') || [];
 const rss = require('../../data/rss.js');
 var rssData = rss.rssData;
 var favors = wx.getStorageSync('favors') || [];
 var rss_pool = wx.getStorageSync('rss_pool') || [];
-var history = wx.getStorageSync('history') || [];
+var history = wx.getStorageSync('history') || '';
+
 
 Page({
   data: {
-    allrssnum: 0,//全部订阅源数
-    allfavnum: 0,//文章收藏数
-    allread: 0,//阅读总文章数
-    favicon: '',//最爱订阅源图
-    readnum: 0,//最爱订阅源阅读篇数
-    favnum: 0,//最爱订阅源收藏篇数
-    title: '',//最爱订阅源名字
-    tag: '',//最爱订阅源标签
+    allrssnum: 0, //全部订阅源数
+    allfavnum: 0, //文章收藏数
+    allread: 0, //阅读总文章数
+    readnum: 0, //最爱订阅源阅读篇数
+    favnum: 0, //最爱订阅源收藏篇数
+    oneword: '',
+    onefrom: '',
   },
 
-  onShow: function () {
-    favors = wx.getStorageSync('favors') || [];
-    rss_pool = wx.getStorageSync('rss_pool') || [];
-    history = wx.getStorageSync('history') || [];
-
+  onLoad: function() {
+    const that =this;
     this.setData({
       allrssnum: rss_list.length,
       allfavnum: favors.length,
-      allread: history.length
-    });
-    // console.log(allrssnum);
-    // console.log(allfavnum);
-
-    monthreport = wx.getStorageSync('monthreport') || [];
-    rss_list = wx.getStorageSync('rss_list') || [];
-    rssData = rss.rssData;
-    favors = wx.getStorageSync('favors') || '';
-    rss_pool = wx.getStorageSync('rss_pool') || '';
-
-    console.log(monthreport);
-
-    //计算收藏夹中各订阅源收藏数,避免收藏夹有删减带来最爱源收藏数量大于总收藏数的尴尬
-    var allread = 0;
-    for (let k = 0; k < monthreport.length; k++) {
-      monthreport[k].favnum = 0;
-      this.setData({ monthreport });
-      allread = allread + monthreport[k].readnum;
-    };
-    this.setData({ allread });
-    for (let i = 0; i < favors.length; i++) {
-      for (let j = 0; j < rss_pool.length; j++) {
-        if (favors[i].link == rss_pool[j].link) {
-          for (let k = 0; k < monthreport.length; k++) {
-            if (rss_pool[j].favicon == monthreport[k].favicon) {
-              monthreport[k].favnum = monthreport[k].favnum + 1;
-              this.setData({ monthreport });
-            }
-          }
-        }
-      }
-    };
-    // console.log('favnum',monthreport[1].favnum);
-    wx.setStorageSync('monthreport', monthreport);
-    // console.log('num',monthreport[2].favnum);
-    //最爱订阅源阅读文章、图标、收藏文章数
-    let max = monthreport[0].readnum + monthreport[0].favnum;
-    var idx = -1;
-    for (let i = 0; i < monthreport.length - 1; i++) {
-      idx = max < (monthreport[i + 1].readnum + monthreport[i + 1].favnum) ? (i + 1) : idx;
-      max = max < (monthreport[i + 1].readnum + monthreport[i + 1].favnum) ? (monthreport[i + 1].readnum + monthreport[i + 1].favnum) : max;
-    };
-    console.log('max', max);
-    console.log('idx', idx);
-    var readnum = monthreport[idx].readnum;
-    var favnum = monthreport[idx].favnum;
-    var favicon = monthreport[idx].favicon;
-    this.setData({
-      readnum,
-      favnum,
-      favicon,
+      allread: history.length,
     });
 
-    //最爱源的名字、链接、标签
-    var idi = 0;
-    var idj = 0;
-    // console.log('length1',length1);
-    // console.log('item', rssData[0]);
-    // console.log('item',rssData[0].items.length);
-    for (let i = 0; i < rssData.length; i++) {
-      for (let j = 0; j < rssData[i].items.length; j++) {
-        if (rssData[i].items[j].favicon == favicon) {
-          idi = i;
-          idj = j;
-        }
-      }
+
+    wx.vrequest({
+      // wx.request({
+      url: 'https://v2.jinrishici.com/sentence',
+      data: {},
+      method: 'GET',
+      header: {
+        'Content-Type': 'application/xml',
+        'X-User-Token':'dchL4tGDyxTJvTT7njwtqDNU9llQyrSD'
+        },
+      success: function (res) {
+        var dataJson = JSON.parse(res.body);
+        console.log(dataJson);
+        that.setData({
+          oneword: dataJson.data.content,
+          onefrom: dataJson.data.origin.title
+        })
+      }});
+
+
+    rss_list.sort(function(a, b) {
+      return b['count'] > a['count'] ? 1 : -1
+    })
+
+    var names = [];
+    var favicons = [];
+    var counts = [];
+    var sum = 0;
+    for (var i in rss_list){
+      names[i] = rss_list[i].title;
+      favicons[i] = rss_list[i].favicon;
+      counts[i] = rss_list[i].count || 0;
+      sum+=counts[i];
     }
-    // console.log('i',idi);
-    // console.log('j',idj);
-    var title = rssData[idi].items[idj].title;
-    var rssUrl = rssData[idi].items[idj].rssUrl;
-    var tag = rssData[idi].cate;
-    this.setData({
-      title,
-      rssUrl,
-      tag,
+    var percents1 = counts;
+    for (var i in percents1){
+      percents1[i] = percents1[i] * 100 / sum;
+      percents1[i] = +percents1[i].toFixed(2);
+    }
+
+    favors.sort(function (a, b) {
+      return b['source'] > a['source'] ? 1 : -1
     })
 
 
+    var fsource = 0;
+    var mark = '';
+    var percents2 = [];
+    var names2 = [];
+    sum = 0;
+    for(var i in favors){
+      if(favors[i].source!=mark){
+         if (percents2[fsource]==undefined) percents2[fsource]=0;
+         percents2[fsource]+=1;
+         mark = favors[i].source;
+         names2[fsource] = mark;
+         fsource+=1;
+         sum+=1;
+      }
+    }
+    console.log(names2);
+    console.log(percents2)
+    for (var i in percents2) {
+      percents2[i] = percents2[i] * 100 / sum;
+      percents2[i] = +percents2[i].toFixed(2);
+    }
 
-  },
+    console.log(names2,percents2);
+    chart.draw(this, 'hisource', {
+      title: {
+        text: "阅读来源分布",
+        color: "#333333"
+      },
+      xAxis: {
+        data: names
+      },
+      series: [
+        {
+          name: names,
+          category: "pie",
+          data: percents1
+        }
+      ]
+    });
 
-  onLoad: function () {
+    chart.draw(this, 'fsource', {
+      title: {
+        text: "收藏来源分布",
+        color: "#333333"
+      },
+      xAxis: {
+        data: names2,
+      },
+      series: [
+        {
+          name: names2,
+          category: "pie",
+          data: percents2
+        }
+      ]
+    });
+
+
+
   }
-
 })

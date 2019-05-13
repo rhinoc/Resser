@@ -13,6 +13,7 @@ Page({
     favorid: -1,
     linkurl: '',
     title: '',
+    source:'',
     author: '',
     pubTime: '',
     article: '',
@@ -42,12 +43,14 @@ Page({
         pubTime: rssData.pubTime,
         article: rssData.article,
         linkurl: rssData.link,
+        source: rssData.source,
       });
     }
     else {
       var author = rssData.author;
       var pubTime = rssData.pubTime;
       var linkurl = rssData.link;
+      var source= rssData.source,
       article = rssData.article;
       article = this.htmlDecode(article);
       article = app.towxml.toJson(article, 'html');
@@ -56,6 +59,7 @@ Page({
         try{
           article = app.towxml.initData(article, {
             base: rssData.base,
+            app:this,
           })
         }
         catch (err) {
@@ -68,7 +72,8 @@ Page({
         title,
         pubTime,
         author,
-        linkurl
+        linkurl,
+        source
       }) 
     }
       
@@ -143,6 +148,7 @@ Page({
       obj.pubTime = this.data.pubTime;
       obj.author = this.data.author;
       obj.link = this.data.linkurl;
+      obj.source= this.data.source;
       favors.unshift(obj);
       wx.setStorageSync('favors', favors);
       this.setData({
