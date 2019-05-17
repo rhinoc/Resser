@@ -2,7 +2,7 @@
   <van-tabs swipeable sticky>
     <van-tab title="全部">
       <view class="tab-content">
-        <view class='rss-item' wx:if="{{isEmpty}}">
+        <view class='rss-item' wx:if="{{isEmpty}}" bindtap='navTo'>
           <l-card type="avatar" l-class="card" image="../../images/info.png" title="通知">
             <view class="content">你还没有订阅任何源哦，去发现页面探索一下吧 :)
             </view>

@@ -4,7 +4,7 @@ const db = wx.cloud.database()
 Page({
   data: {
     username: '',
-    avatar: '/images/default.png',
+    avatar: '/images/user.svg',
   },
 
   onShow: function() {
@@ -36,8 +36,6 @@ Page({
       avatar: d.avatarUrl,
       username: d.nickName
     })
-    wx.setStorageSync('username', d.nickName)
-    wx.setStorageSync('avatar', d.avatarUrl)
     let openid = wx.getStorageSync('openid');
     db.collection('user').where({
       _openid:openid

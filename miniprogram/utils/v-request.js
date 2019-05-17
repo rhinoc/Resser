@@ -47,7 +47,7 @@ wx.vrequest = function (options) {
     params.body = data
   }
 
-  // 转发options。 options 属性仍可读取，被使用
+  // 转发options options 属性仍可读取，被使用
   params.headers = options.header
   params.mode = options.mode
   params.credentials = options.credentials
@@ -63,12 +63,9 @@ wx.vrequest = function (options) {
         options: params
       },
       success: res => {
-
         const { result } = res;
         // console.log((result))
         // 如果datatype='json'，则解析后
-
-
         options.success && options.success(result);
         RES(result);
       },

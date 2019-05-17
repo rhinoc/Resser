@@ -60,7 +60,7 @@ function calculateY(dMin, dMax, iMaxAxisNum) {
   var iAxisIndex;
   for (iAxisIndex = 1; true; iAxisIndex++) {
     var y = dStartPoint + dInterval * iAxisIndex;
-    console.log(y);
+    // console.log(y);
     yIndex.push(y);
     if (y > dMax)
       break;

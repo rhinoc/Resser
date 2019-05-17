@@ -24,22 +24,22 @@
 
 <view class="float-box">
   <view class="float-button" bindtap="backTop" wx:if="{{backTop}}">
-    <image class='float-img' src="../../images/up.png" />
+    <image class='float-img' src="../../images/up.svg" />
   </view>
   <view class="float-button" bindtap="onFavor" wx:if="{{isfavored && showButton}}" animation="{{ani}}" style='margin-top: 60rpx;'>
-    <image class='float-img' src="../../images/favored.png"/>
+    <image class='float-img' src="../../images/star-fill.svg"/>
   </view>
   <view class="float-button" bindtap="onFavor" wx:if="{{(!isfavored)&&showButton}}" animation="{{ani}}" style='margin-top: 60rpx;'>
-    <image class='float-img' src="../../images/favor.png"/>
+    <image class='float-img' src="../../images/star.svg"/>
   </view>
 
   <view class="float-button" bindtap="copyLink" wx:if="{{showButton}}" animation="{{ani}}">
-    <image class='float-img' src="../../images/link.png" />
+    <image class='float-img' src="../../images/link.svg" />
   </view>
   <button class="float-button" open-type="share" wx:if="{{showButton}}" animation="{{ani}}" style='margin-bottom: -20rpx;'>
-    <image class='float-img' src="../../images/share.png" />
+    <image class='float-img' src="../../images/share.svg" />
   </button>
   <view class="float-button" bindtap="onMore" animation="{{anir}}">
-    <image class='float-img' src="../../images/more.png" />
+    <image class='float-img' src="../../images/moreread.svg" />
   </view>
 </view>

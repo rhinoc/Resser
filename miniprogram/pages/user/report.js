@@ -1,11 +1,9 @@
 const app = getApp();
 var chart = require("../../utils/chart.js");
-var rss_list = wx.getStorageSync('rss_list') || [];
-var monthreport = wx.getStorageSync('monthreport') || [];
 const rss = require('../../data/rss.js');
 var rssData = rss.rssData;
+var rss_list = wx.getStorageSync('rss_list') || [];
 var favors = wx.getStorageSync('favors') || [];
-var rss_pool = wx.getStorageSync('rss_pool') || [];
 var history = wx.getStorageSync('history') || '';
 
 
@@ -14,13 +12,14 @@ Page({
     allrssnum: 0, //全部订阅源数
     allfavnum: 0, //文章收藏数
     allread: 0, //阅读总文章数
-    readnum: 0, //最爱订阅源阅读篇数
-    favnum: 0, //最爱订阅源收藏篇数
     oneword: '',
     onefrom: '',
   },
 
-  onLoad: function() {
+  onShow: function() {
+    rss_list = wx.getStorageSync('rss_list') || [];
+    favors = wx.getStorageSync('favors') || [];
+    history = wx.getStorageSync('history') || '';
     const that =this;
     this.setData({
       allrssnum: rss_list.length,
@@ -73,29 +72,10 @@ Page({
     })
 
 
-    var fsource = 0;
-    var mark = '';
-    var percents2 = [];
-    var names2 = [];
-    sum = 0;
-    for(var i in favors){
-      if(favors[i].source!=mark){
-         if (percents2[fsource]==undefined) percents2[fsource]=0;
-         percents2[fsource]+=1;
-         mark = favors[i].source;
-         names2[fsource] = mark;
-         fsource+=1;
-         sum+=1;
-      }
-    }
-    console.log(names2);
-    console.log(percents2)
-    for (var i in percents2) {
-      percents2[i] = percents2[i] * 100 / sum;
-      percents2[i] = +percents2[i].toFixed(2);
-    }
-
-    console.log(names2,percents2);
+    
+    console.log(names,percents1);
+    if (!isNaN(percents1[0])){
+      //绘制第一张图
     chart.draw(this, 'hisource', {
       title: {
         text: "阅读来源分布",
@@ -112,7 +92,32 @@ Page({
         }
       ]
     });
+    }
+    
 
+    var fsource = 0;
+    var mark = '';
+    var percents2 = [];
+    var names2 = [];
+    sum = 0;
+    for (var i in favors) {
+      if (favors[i].source != mark) {
+        if (percents2[fsource] == undefined) percents2[fsource] = 0;
+        percents2[fsource] += 1;
+        mark = favors[i].source;
+        names2[fsource] = mark;
+        fsource += 1;
+        sum += 1;
+      }
+    }
+    for (var i in percents2) {
+      percents2[i] = percents2[i] * 100 / sum;
+      percents2[i] = +percents2[i].toFixed(2);
+    }
+
+    console.log(names2, percents2);
+    if (!isNaN(percents2[0])){
+    //绘制第二张图
     chart.draw(this, 'fsource', {
       title: {
         text: "收藏来源分布",
@@ -129,6 +134,8 @@ Page({
         }
       ]
     });
+    }
+    
 
 
 

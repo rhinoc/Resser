@@ -1,4 +1,9 @@
 /**index.wxss**/
+
+Page{
+background: #F4F6F9;
+}
+
 .container {
   padding-top: 40rpx; 
   flex-direction: column;
@@ -18,12 +23,13 @@
   margin-top: 50rpx;  
   border-radius: 50%;  
   /* border: 2px solid #fff;   */
-  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);  
+  box-shadow: 0 4rpx 20rpx 0 rgba(42,104,205,.15);
+  background-color: white;
 }
 
 .userinfo-nickname {
   color: #000;
-  font-size:14px;
+  font-size:28rpx;
   margin-bottom: 20rpx;
 }
 
@@ -31,5 +37,8 @@
   margin-top: 8%;
   padding: 0 10%;
   width:600rpx;
-  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4rpx 20rpx 0 rgba(42,104,205,.15);
+
+  background-color:white;
+
 }

@@ -6,7 +6,7 @@
     <text class="oneword">{{oneword}}</text>
     <text class="onefrom">《{{onefrom}}》</text>
     
-    <text class="p">自我们相识以来，你已经阅见上阅读{{allread}}了篇文章</text>
+    <text class="p">自我们相识以来，你已经阅读{{allread}}了篇文章</text>
     <text class="p">一次次订阅和取消，你最终留下了{{allrssnum}}个订阅源</text>
     <text class="p">有{{allfavnum}}篇文章被精心保存在「收藏集」中</text>
 

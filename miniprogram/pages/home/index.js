@@ -115,8 +115,10 @@ Page({
       }).get().then(res => {
         let userData = res.data[0];
         let rss_list = userData.subscribe;
+        let isEmpty = rss_list.length == 0 ? true : false;
         console.log(userData);
         that.setData({
+          isEmpty,
           userData,
           rss_list,
           openid: userData._openid
@@ -199,10 +201,8 @@ Page({
             obj.tag = rss_list[i].tag;
             obj.link = (rssDataItem.link || rssDataItem.id).text || rssDataItem.link.href;
             obj.base = rss_list[i].link || '';
-            if (history.indexOf(obj.link) > -1) obj.readed = true;
-            else obj.readed = false;
-            if (laters.indexOf(obj.link) > -1) obj.islatered = true;
-            else obj.islatered = false;
+            obj.readed = history.indexOf(obj.link) > -1? true: false;
+            obj.islatered = laters.indexOf(obj.link) > -1? true: false;
             obj.author = '';
             obj.title = rssDataItem.title.text;
             if (obj.title.length != 0) {
@@ -241,12 +241,10 @@ Page({
               obj.tag = rss_list[i].tag;
               obj.link = (rssDataItem.link || rssDataItem.id).text || rssDataItem.link.href;
               obj.base = rss_list[i].link || '';
-              if (history.indexOf(obj.link) > -1) obj.readed = true;
-              else obj.readed = false;
-              if (laters.indexOf(obj.link) > -1) obj.islatered = true;
-              else obj.islatered = false;
+              obj.readed = history.indexOf(obj.link) > -1 ? true : false;
+              obj.islatered = laters.indexOf(obj.link) > -1 ? true : false;
               obj.author = '';
-              obj.title = rssDataItem.title.text;
+              obj.title = rssDataItem.title.text || '';
               if (obj.title.length != 0) {
                 obj.title = obj.title.replace(/&ldquo;/g, "“");
                 obj.title = obj.title.replace(/&rdquo;/g, "”");
@@ -338,9 +336,10 @@ Page({
     var rssData = rss_pool[id];
     rss_pool[id].readed = true;
     for (var i in rss_list) {
-      if (rss_list[i].favicon = rss_pool[i].favicon) {
+      if (rss_list[i].title == rss_pool[id].source) {
         if (rss_list[i].count == undefined) rss_list[i].count = 1;
         else rss_list[i].count += 1;
+        console.log(rss_list[i].title)
       }
     }
     db.collection('user').where({
@@ -401,7 +400,14 @@ Page({
       rss_pool
     });
 
+  },
+
+  navTo: function(){
+    wx.switchTab({
+      url: '../discover/index',
+      success: function(res) {},
+      fail: function(res) {},
+      complete: function(res) {},
+    })
   }
-
-
 })
