@@ -37,18 +37,21 @@ Page({
       }
     }
     if (typeof(rssData.article)=='object'){
+      console.log('object type article');
       this.setData({
         title: rssData.title,
         author: rssData.author,
-        pubTime: rssData.pubTime,
+        pubTime: rssData.oriTime,
         article: rssData.article,
         linkurl: rssData.link,
         source: rssData.source,
       });
     }
     else {
+      console.log(typeof(rssData.article),' type article');
       var author = rssData.author;
-      var pubTime = rssData.pubTime;
+      if (typeof(author)=='object') author = author.text;
+      var pubTime = rssData.oriTime;
       var linkurl = rssData.link;
       var source= rssData.source,
       article = rssData.article;
@@ -149,6 +152,7 @@ Page({
       obj.article = this.data.article;
       obj.title = this.data.title;
       obj.pubTime = this.data.pubTime;
+      obj.oriTime = this.data.oriTime;
       obj.author = this.data.author;
       obj.link = this.data.linkurl;
       obj.source= this.data.source;
