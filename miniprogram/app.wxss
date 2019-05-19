@@ -1,4 +1,10 @@
 /**app.wxss**/
+.describe {
+text-overflow:ellipsis;
+max-width:460rpx;
+overflow:hidden;
+}
+
 
 .container {
   height: 100%;

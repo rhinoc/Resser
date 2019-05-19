@@ -1,8 +1,8 @@
-const util = require('../../utils/util.js');
+const utilsDays = require('../../utils/utils-days.js');
 const xml2json = require('../../utils/xml2json.js');
+const util = require('../../utils/util.js');
 const app = getApp() //获取应用实例
 const db = wx.cloud.database();
-
 var rss_pool = new Array();
 var laters = wx.getStorageSync('laters') || [];
 var history = wx.getStorageSync('history') || [];
@@ -18,11 +18,11 @@ Page({
   data: {
     isEmpty: false,
     userData: [],
-    rss_list: [],
+    rss_list: rss_list,
     rss_pool: [],
     cates: [],
     length: 0,
-    openid: '',
+    openid: openid,
   },
 
   /**
@@ -126,12 +126,12 @@ Page({
         //读取用户数据
         var tags = new Array();
         for (var i in userData.subscribe) { //没有设置tag的源统一划到“全部”下
-
           try {
             var obj = userData.subscribe[i].tag["0"];
-            tags[i] = obj;
+            if (obj) tags[i] = obj;
           } catch (err) {
             tags[i] = '全部';
+            userData.subscribe[i].tag["0"]='全部';
           }
         }
         var cates = Array.from(new Set(tags));
@@ -177,20 +177,15 @@ Page({
         "Accept": "text/html,application/xhtml+xml,application/xml; q=0.9,image/webp,*/*;q=0.8"
       },
       success: function(res) {
-        // var dataJson = that.rssDecode(res.data);
         var dataJson = that.rssDecode(res.body);
-        // console.log(dataJson);
-        // console.log(res.body);
         try {
           dataJson = xml2json(dataJson);
         } catch (error) {
-          // console.log(dataJson);
           dataJson = xml2json(res.body);
           console.log(res.body);
         }
         rss_pool = that.data.rss_pool;
         try {
-          // console.log(res.body);
           var rssData = dataJson.feed || dataJson.rss.channel;
           if ('item' in rssData) var rssDataItem = rssData.item;
           else var rssDataItem = rssData.entry;
@@ -200,12 +195,13 @@ Page({
             obj.source = rss_list[i].title;
             obj.tag = rss_list[i].tag;
             obj.link = (rssDataItem.link || rssDataItem.id).text || rssDataItem.link.href;
-            obj.base = rss_list[i].link || '';
-            obj.readed = history.indexOf(obj.link) > -1? true: false;
-            obj.islatered = laters.indexOf(obj.link) > -1? true: false;
+            obj.readed = history.indexOf(obj.link) > -1 ? true : false;
+            obj.islatered = laters.indexOf(obj.link) > -1 ? true : false;
             obj.author = '';
             obj.title = rssDataItem.title.text;
-            if (obj.title.length != 0) {
+            if (obj.title.length != 0 && obj.title != undefined) {
+              obj.title = obj.title.replace(/&lt;/g, "<");
+              obj.title = obj.title.replace(/&gt;/g, ">");
               obj.title = obj.title.replace(/&ldquo;/g, "“");
               obj.title = obj.title.replace(/&rdquo;/g, "”");
               obj.title = obj.title.replace(/&mdash;/g, "—");
@@ -213,8 +209,14 @@ Page({
             }
             if ('content:encoded' in rssDataItem) obj.article = rssDataItem["content:encoded"].text;
             else obj.article = (rssDataItem.content || rssDataItem.description).text || rssDataItem.description.p || '';
-            obj.pubTime = (rssDataItem.pubDate || rssDataItem.published || rssDataItem.updated).text || '';
-            obj.pubTime = obj.pubTime ? util.formatDate("yyyy-MM-dd HH:mm", obj.pubTime) : ''
+
+            try {
+              obj.pubTime = (rssDataItem.pubDate || rssDataItem.published || rssDataItem.updated).text;
+              obj.oriTime = obj.pubTime ? util.formatDate("yyyy-MM-dd HH:mm", obj.pubTime) : ''
+              obj.pubTime = utilsDays.formatTime(obj.oriTime);
+            } catch (err) {
+              obj.pubTime = ''
+            };
 
             if ('dc:creator' in rssDataItem) obj.author = rssDataItem["dc:creator"].text;
             else if ('author' in rssDataItem) obj.author = rssDataItem.author.text || rssDataItem.author.name;
@@ -229,9 +231,7 @@ Page({
             // var now = new Date();
             // var pubTime = new Date(obj.pubTime);
             // var delta = now - pubTime;
-            if ((rss_pool.length < 1 || obj.title != rss_pool[0].title)) {
-              rss_pool.unshift(obj);
-            }
+            if ((rss_pool.length < 1 || obj.title != rss_pool[0].title)) rss_pool.unshift(obj);
           } else {
             for (var j = 0; j < (rssData.item || rssData.entry).length; j++) {
               rssDataItem = (rssData.item || rssData.entry)[j]
@@ -245,34 +245,41 @@ Page({
               obj.islatered = laters.indexOf(obj.link) > -1 ? true : false;
               obj.author = '';
               obj.title = rssDataItem.title.text || '';
-              if (obj.title.length != 0) {
+              if (obj.title != undefined && obj.title.length != 0) {
+                obj.title = obj.title.replace(/&lt;/g, "<");
+                obj.title = obj.title.replace(/&gt;/g, ">");
                 obj.title = obj.title.replace(/&ldquo;/g, "“");
                 obj.title = obj.title.replace(/&rdquo;/g, "”");
                 obj.title = obj.title.replace(/&mdash;/g, "—");
                 obj.title = obj.title.replace(/&ndash;/g, "–");
-              }
+              } else continue;
               if ('content:encoded' in rssDataItem) obj.article = rssDataItem["content:encoded"].text;
-              else obj.article = (rssDataItem.content || rssDataItem.description).text || rssDataItem.description.p || '';
+              else {
+                if ('summary' in rssDataItem) obj.article = rssDataItem.summary.text;
+                else if ('content' in rssDataItem) obj.article = rssDataItem.content.text;
+                else if ('description' in rssDataItem) obj.article = rssDataItem.description.text || rssDataItem.description.p;
+                else obj.article = '';
+              }
               if ('enclosure' in rssDataItem) obj.enclosure = rssDataItem.enclosure.url;
               else {
                 var reg = /<img[\s\S](?!.*avatar).*?src=['"](.*?)['"]/;
-                if (reg.test(obj.article)) obj.enclosure = RegExp.$1;
+                if (reg.test(obj.article) && RegExp.$1.indexOf("?tex") == -1) obj.enclosure = RegExp.$1; 
               }
               try {
-                obj.pubTime = (rssDataItem.pubDate || rssDataItem.published || rssDataItem.updated).text || '';
+                obj.pubTime = (rssDataItem.pubDate || rssDataItem.published || rssDataItem.updated).text;
+                obj.oriTime = obj.pubTime ? util.formatDate("yyyy-MM-dd HH:mm", obj.pubTime) : ''
+                obj.pubTime = utilsDays.formatTime(obj.oriTime);
+                // console.log(obj.pubTime);
               } catch (err) {
                 obj.pubTime = '';
               }
-              obj.pubTime = obj.pubTime ? util.formatDate("yyyy-MM-dd HH:mm", obj.pubTime) : ''
               if ('dc:creator' in rssDataItem) obj.author = rssDataItem["dc:creator"].text;
               else if ('author' in rssDataItem) obj.author = rssDataItem.author.text || rssDataItem.author.name;
               else if ('author' in rssData) obj.author = rssData.author.name.text;
-              var now = new Date();
-              var pubTime = new Date(obj.pubTime);
-              var delta = now - pubTime;
-              if ((rss_pool.length < 1 || obj.title != rss_pool[0].title)) {
-                rss_pool.unshift(obj);
-              }
+              // var now = new Date();
+              // var pubTime = new Date(obj.pubTime);
+              // var delta = now - pubTime;
+              if ((rss_pool.length < 1 || obj.title != rss_pool[0].title)) rss_pool.unshift(obj);
             }
           }
         } catch (error) {
@@ -281,7 +288,7 @@ Page({
 
         //按时间先后排序
         rss_pool.sort(function(a, b) {
-          return b['pubTime'] > a['pubTime'] ? 1 : -1
+          return b['oriTime'] > a['oriTime'] ? 1 : -1
         })
 
         that.setData({
@@ -306,8 +313,6 @@ Page({
     if (content.length == 0) return "";
     s = content.replace(/&amp;/g, "&");
     s = s.replace(/<!--*?[\s\S]*?-->/g, "");
-    // s = s.replace(/&lt;/g, "<");
-    // s = s.replace(/&gt;/g, ">");
     // s = s.replace(/&nbsp;/g, " ");
     // s = s.replace(/&#39;/g, "\'");
     // s = s.replace(/&#34;/g, "\"");
@@ -402,7 +407,7 @@ Page({
 
   },
 
-  navTo: function(){
+  navTo: function() {
     wx.switchTab({
       url: '../discover/index',
       success: function(res) {},

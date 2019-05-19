@@ -77,6 +77,13 @@ Page({
     }
   },
 
+  navToPage: function(event) {
+    var page = event.detail.index;
+    wx.navigateTo({
+      url: 'page?&id='+page
+    })
+
+  },
   onChange: function(event) {
     // console.log(event);
     var that = this;
@@ -129,7 +136,10 @@ Page({
   onTap: function(event) {
     var idx = event.currentTarget.dataset.cate;
     var id = event.currentTarget.dataset.item;
-    var url = '../discover/more?&idx=' + idx + '&id=' + id;
+    var sourceItem = rssData[idx].items[id];
+    sourceItem = JSON.stringify(sourceItem);
+    sourceItem = encodeURIComponent(sourceItem);
+    var url = '../discover/more?&sourceItem='+sourceItem;
     wx.navigateTo({
       url
     });

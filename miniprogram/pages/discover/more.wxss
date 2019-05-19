@@ -16,8 +16,8 @@ margin-bottom: 20rpx !important;
 .source {
   z-index: 100;
   width:750rpx !important;
-  margin-bottom: 60rpx !important;
-  margin-top:-100rpx !important;
+  /* margin-bottom: 60rpx !important;
+  margin-top:-100rpx !important; */
   position:sticky;
   top: 0;
   border-radius:0 !important;
@@ -27,16 +27,16 @@ margin-bottom: 20rpx !important;
 overflow: visible;
 }
 
-.pure_top {
+/* .pure_top {
   width:100%;
   height: 180rpx;
   position: relative;
   z-index: 101;
   overflow: hidden;
   margin-top: -120rpx;
-}
+} */
 
-.pure_top::after {
+/* .pure_top::after {
   content: '';
   width: 140%;
   height: 80px;
@@ -46,4 +46,4 @@ overflow: visible;
   z-index: -1;
   border-radius: 0 0 50% 50%;
   background: #3281ff;
-}
+} */

@@ -13,10 +13,15 @@
  */
 
 const request = require('request');
+// const iconv = require('iconv-lite');
 exports.main = (evt, ctx) => {
   return new Promise((RES, REJ) => {
     request(evt.options, (err, res, body) => {
       if (err) return REJ(err);
+      // if (res.indexOf('encoding=\"gb2312\"')){
+      //   var data = iconv.decode(res,'gbk');
+      //   RES(data);
+      // }
       RES(res);
     })
   });

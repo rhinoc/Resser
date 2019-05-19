@@ -54,27 +54,30 @@ Page({
       article = rssData.article;
       article = this.htmlDecode(article);
       article = app.towxml.toJson(article, 'html');
-      if(rssData.base!=''){
-        var temp = article;
-        try{
-          article = app.towxml.initData(article, {
-            base: rssData.base,
-            app:this,
-          })
-        }
-        catch (err) {
-          console.log(err);
-          article = temp;
-        }
-      }
-      this.setData({
-        article,
-        title,
-        pubTime,
-        author,
-        linkurl,
-        source
-      }) 
+      // if(rssData.base!=''){
+      //   var temp = article;
+      //   try{
+      //     article = app.towxml.initData(article, {
+      //       base: rssData.base,
+      //       app:this,
+      //     })
+      //   }
+      //   catch (err) {
+      //     console.log(err);
+      //     article = temp;
+      //   }
+      // }
+      try{
+        this.setData({
+          article,
+          title,
+          pubTime,
+          author,
+          linkurl,
+          source
+        }) 
+      }catch(err){}
+      
     }
       
   },

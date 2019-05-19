@@ -30,33 +30,27 @@
   </view>
 
   <!-- 普通模式 -->
-  <view wx:if="{{!searchMode}}" wx:for="{{rssData}}" wx:for-item="cates" wx:key="{{index}}" wx:for-index="idx">
-  <!-- <l-grid>
-    <l-grid-item key="1" slot="1" >
-        <view class="num">3</view>
-        <view class="text">公众号</view>
-     </l-grid-item>
+  <l-grid wx:if="{{!searchMode}}" bind:lintap="navToPage">
+    <l-grid-item key="1" slot="1">
+      <image class="favicon" src="../../images/wechat.png"></image>
+    </l-grid-item>
     <l-grid-item key="2" slot="2">
-        <view class="num">134</view>
-        <view class="text">Bilibili</view>
+      <image class="favicon" src="../../images/zhihu.png"></image>
     </l-grid-item>
     <l-grid-item key="3" slot="3">
-        <view class="num">1648</view>
-        <view class="text">微博</view>
+      <image class="favicon" src="../../images/tieba.png"></image>
     </l-grid-item>
     <l-grid-item key="4" slot="4">
-        <view class="num">3</view>
-        <view class="text">知乎</view>
-     </l-grid-item>
+      <image class="favicon" src="../../images/bilibili.png"></image>
+    </l-grid-item>
     <l-grid-item key="5" slot="5">
-        <view class="num">134</view>
-        <view class="text">简书</view>
+      <image class="favicon" src="../../images/weibo.png"></image>
     </l-grid-item>
     <l-grid-item key="6" slot="6">
-        <view class="num">1648</view>
-        <view class="text">Github</view>
+      <image class="favicon" src="../../images/juejin.png"></image>
     </l-grid-item>
-</l-grid> -->
+  </l-grid>
+  <view wx:if="{{!searchMode}}" wx:for="{{rssData}}" wx:for-item="cates" wx:key="{{index}}" wx:for-index="idx">
     <view class="cate-name">
       <image class='cate-icon' src="{{'../../images/'+idx+'.png'}}"></image>
       {{cates.cate}}

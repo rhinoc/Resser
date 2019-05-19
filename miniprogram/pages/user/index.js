@@ -8,16 +8,10 @@ Page({
   },
 
   onShow: function() {
+    this.getOpenId();
   },
 
   onLoad: function() {
-    this.getOpenId();
-    let username = wx.getStorageSync('username'),
-      avatar = wx.getStorageSync('avatar');
-    if (username) {
-      this.setData({ username })
-      this.setData({ avatar })
-    }
   },
 
   getOpenId(){

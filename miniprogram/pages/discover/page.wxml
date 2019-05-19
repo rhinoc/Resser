@@ -1,0 +1,35 @@
+<van-picker id='myPicker' columns="{{ pickers }}" bind:change="onPicker" visible-item-count="{{3}}" active-class="pick-active"/>
+<view class='adder'>
+  <l-message type="{{type}}" content="{{content}}" />
+  <l-input label="名称" label-width="130" placeholder="输入名称" bind:linchange="onName" value="" />
+  <l-input label="参数" label-width="130" placeholder="{{placeholder}}" bind:linchange="onRss" value="" />
+  <view class="buttons">
+  <l-button type="default" bind:lintap='onSubmit' l-class="button">添加</l-button>
+  <l-button type="default" bind:lintap='onHelp' l-class="button">帮助</l-button>
+  </view>
+</view>
+
+<view wx:for="{{rssData}}" wx:for-item="cates" wx:key="{{index}}" wx:for-index="idx">
+<view class="cate-name">
+  <image class='cate-icon' src="{{'../../images/page'+idx+'.svg'}}"></image>
+  {{cates.cate}}
+</view>
+<scroll-view scroll-x class='cate-list'>
+  <view class='source-item' wx:for="{{cates.items}}" wx:for-item="item" wx:key="" wx:for-index="id">
+    <view bindtap='onTap' data-cate="{{idx}}" data-item="{{id}}">
+      <image class='source-icon' src='{{item.favicon}}'></image>
+      <view class='source-title'>{{item.title}}</view>
+    </view>
+    <l-button special="{{true}}" wx:if="{{item.rssed==1}}" bind:lintap="onChange" data-cate="{{idx}}" data-item="{{id}}">
+      <view class="container">
+        <image mode="aspectFit" class="subs-checked" src='../../images/check.png'></image>
+      </view>
+    </l-button>
+    <l-button special="{{true}}" bind:lintap="onChange" data-cate="{{idx}}" data-item="{{id}}" wx:else>
+      <view class="container">
+        <image mode="aspectFit" class="subs" src='../../images/add.png'></image>
+      </view>
+    </l-button>
+  </view>
+</scroll-view>
+</view>

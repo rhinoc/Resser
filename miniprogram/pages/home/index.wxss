@@ -1,55 +1,87 @@
 /**index.wxss**/
 
-Page{
-background: #F4F6F9!important;
+Page {
+  background: #f4f6f9 !important;
 }
-.card content{
+
+.card content {
   font-weight: 500;
 }
-.source-icon {
-  height: 48rpx;
-  width: 48rpx;
-  vertical-align:middle;
-  border-radius:0.3em;
-margin-right:0.3em;
-}
 
-.cover-footer{
+.cover-footer-left{
   display:flex;
-margin-top:5rpx;
 flex-direction:row;
-justify-content:space-between;
-
+align-items:center;
 }
-.enclosure{
-  height: 200rpx;
-  max-width: 700rpx;
-  margin:5%;
+.source-info {
+  display: flex;
+  flex-direction: column;
 }
-
-.readed{
-  color:#888 !important;
-}
-
-.latera{
-  vertical-align:middle;
-line-height:60rpx;
-
-
-}
-
 .source-name {
-  font-size: 24rpx;
-  margin-left:0.4ch;
-  line-height:60rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 28rpx;
+  line-height: 30rpx;
   color: #444;
 }
 
 .source-name-readed {
-  font-size: 24rpx;
-  margin-left:0.4ch;
-  line-height:60rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 28rpx;
+  line-height: 30rpx;
   color: #888;
+}
+
+.source-icon {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 60rpx;
+  width: 60rpx;
+  vertical-align: middle;
+  border-radius: 0.3em;
+  margin-right: 30rpx;
+}
+
+.source-time {
+  color: #777;
+  font-size: 22rpx;
+  margin-top: 2rpx;
+  text-overflow: ellipsis;
+  max-width: 460rpx;
+  overflow: hidden;
+}
+
+.source-time-readed {
+  color: #888;
+  font-size: 22rpx;
+  margin-top: 2rpx;
+  text-overflow: ellipsis;
+  max-width: 460rpx;
+  overflow: hidden;
+}
+
+.cover-footer {
+  display: flex;
+  margin-top: 10rpx;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.enclosure {
+  height: 200rpx;
+  max-width: 700rpx;
+  margin: 5%;
+}
+
+.readed {
+  color: #888 !important;
+}
+
+.latera {
+  vertical-align: middle;
+  line-height: 60rpx;
 }
 
 .title {
@@ -59,20 +91,17 @@ line-height:60rpx;
   color: #000;
 }
 
-
 .rss-item {
   padding: 12rpx 12rpx 12rpx 24rpx;
   position: relative;
   /* border-bottom: 1rpx solid #F3F3F3; */
 }
 
-
 .rss-item-readed {
-  color:#888;
+  color: #888;
   padding: 12rpx 12rpx 12rpx 24rpx;
   position: relative;
   /* border-bottom: 1rpx solid #F3F3F3; */
-
 }
 
 .rss-item-title {
@@ -91,8 +120,8 @@ line-height:60rpx;
   text-align: left;
 }
 
-.rss-item-des{
-  margin-top:3%;
+.rss-item-des {
+  margin-top: 3%;
   color: #4d4d4d;
   font-size: 26rpx;
   display: -webkit-box;
@@ -100,10 +129,10 @@ line-height:60rpx;
   overflow: hidden;
   text-overflow: ellipsis;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp:1; 
+  -webkit-line-clamp: 1;
 }
 
 .van-tabs__line {
-background-color:#3281ff;
-border-radius:3px;
+  background-color: #3281ff;
+  border-radius: 3px;
 }

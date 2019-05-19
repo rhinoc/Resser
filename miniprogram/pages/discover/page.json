@@ -1,0 +1,9 @@
+{
+  "usingComponents": {
+    "l-button": "/dist/button/index",
+    "l-search-bar": "/dist/search-bar/index",
+    "l-input":"/dist/input/index",
+    "van-picker": "/dist/picker/index",
+    "l-message": "/dist/message/index"
+  }
+}

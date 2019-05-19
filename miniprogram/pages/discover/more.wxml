@@ -1,11 +1,11 @@
-<view class="pure_top"></view>
-<l-card type="avatar" l-class="source" image="{{favicon}}" title="{{title}}" describe="{{rssUrl}}">
+<!-- <view class="pure_top"></view> -->
+<l-card type="avatar" l-class="source" image="{{sourceItem.favicon}}" title="{{sourceItem.title}}" describe="{{sourceItem.rssUrl}}">
   <view class="avatar-content">
-    {{description}}
+    {{sourceItem.description}}
   </view>
   <view class="avatar-share-container">
   </view>
-  <l-tag shape="circle" bg-color="#f3f3f3" font-color="#3963BC" slot="more" size="large" bind:lintap="onChange" wx:if="{{rssed==1}}" select="{{true}}">
+  <l-tag shape="circle" bg-color="#f3f3f3" font-color="#3963BC" slot="more" size="large" bind:lintap="onChange" wx:if="{{sourceItem.rssed==1}}" select="{{true}}">
     已订阅
   </l-tag>
   <l-tag shape="circle" bg-color="#f3f3f3" font-color="#3963BC" slot="more" size="large" bind:lintap="onChange" wx:else>

@@ -12,7 +12,8 @@
     "pages/user/report",
     "pages/discover/more",
     "pages/global/article",
-    "pages/about/help"
+    "pages/about/help",
+    "pages/discover/page"
   ],
   "window": {
     "pageOrientation": "auto",

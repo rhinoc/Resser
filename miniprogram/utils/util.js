@@ -28,7 +28,7 @@ function formatDate(fmt, date) {
     "H+": oriDate.getHours(), //小时
     "m+": oriDate.getMinutes(), //分
     "s+": oriDate.getSeconds(), //秒
-    "q+": Math.floor((oriDate.getMonth() + 3) / 3), //季度
+    "q+": Math.floor((oriDate.getMonth() + 3) / 3), 
     "S": oriDate.getMilliseconds() //毫秒
   };
 
