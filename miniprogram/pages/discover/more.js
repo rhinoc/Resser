@@ -1,230 +1,133 @@
-// 发现页-点击某个源
-const db = wx.cloud.database();
-const _ = db.command;
-const openid = wx.getStorageSync('openid');
-var rss_list = wx.getStorageSync('rss_list') || [];
-const xml2json = require('../../utils/xml2json.js');
-const util = require('../../utils/util.js');
-const utilsDays = require('../../utils/utils-days.js');
-var rss_pool = new Array();
-var sourceItem = [];
+var e = wx.cloud.database(), t = (e.command, wx.getStorageSync("openid")), l = wx.getStorageSync("rss_list") || [], r = require("../../utils/xml2json.js"), a = require("../../utils/util.js"), i = require("../../utils/utils-days.js"), o = wx.getStorageSync("history") || [], n = new Array(), c = [];
 
 Page({
-
-  /**
-   * 页面的初始数据
-   */
   data: {
     sourceItem: [],
-    rss_pool: [],
+    rss_pool: []
   },
-
-  /**
-   * 生命周期函数--监听页面加载
-   */
-  onLoad: function(options) {
-    console.log(options)
-    sourceItem = options.sourceItem;
-    sourceItem = decodeURIComponent(sourceItem);
-    sourceItem = JSON.parse(sourceItem);
-
-    this.setData({
-      sourceItem
-    })
-    this.getRss(sourceItem.rssUrl);
+  onLoad: function (e) {
+    console.log(e), c = e.sourceItem, c = decodeURIComponent(c), c = JSON.parse(c),
+      this.setData({
+        sourceItem: c
+      }), this.getRss(c.rssUrl);
   },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function() {
-    rss_list = wx.getStorageSync('rss_list')
+  onShow: function () {
+    l = wx.getStorageSync("rss_list");
   },
-
-  onChange: function(event) {
-    var that = this;
-    if (sourceItem.rssed == 0) {
-      rss_list.push(sourceItem)
-    } else {
-      for (var i in rss_list) {
-        if (rss_list[i].rssUrl == sourceItem.rssUrl) rss_list.splice(i, 1);
-        console.log('删除');
-      }
-    }
-    sourceItem.rssed = 1 - sourceItem.rssed;
-    this.setData({
-      sourceItem
-    });
-
-    db.collection('user').where({
-      _openid: openid
+  onChange: function (r) {
+    if (0 == c.rssed) l.push(c); else for (var a in l) l[a].rssUrl == c.rssUrl && l.splice(a, 1),
+      console.log("删除");
+    c.rssed = 1 - c.rssed, this.setData({
+      sourceItem: c
+    }), e.collection("user").where({
+      _openid: t
     }).get({
-      success: res => {
-        var getid = res.data["0"]._id;
-        db.collection('user').doc(getid).update({
+      success: function (t) {
+        var r = t.data[0]._id;
+        e.collection("user").doc(r).update({
           data: {
-            subscribe: rss_list
+            subscribe: l
           },
-          success(res) {
-            console.log('成功修改云数据库')
-            wx.setStorageSync('rss_list', rss_list);
-            this.onload();
+          success: function (e) {
+            console.log("成功修改云数据库"), wx.setStorageSync("rss_list", l), this.onload();
           }
-        })
+        });
       },
-      fail: err => {}
-    })
+      fail: function (e) { }
+    });
   },
-
-  handleItemTap: function(event) {
-    const id = event.currentTarget.dataset.id;
-    var rssData = this.data.rss_pool[id];
-    rssData = JSON.stringify(rssData);
-    rssData = encodeURIComponent(rssData);
-    wx.navigateTo({
-      url: '../global/article?rssData=' + rssData,
-    })
+  handleItemTap: function (e) {
+    var t = e.currentTarget.dataset.id, l = this.data.rss_pool[t];
+    -1 == o.indexOf(l.link) && o.push(l.link), wx.setStorageSync("history", o), l = JSON.stringify(l),
+      l = encodeURIComponent(l), wx.navigateTo({
+        url: "../global/article?rssData=" + l
+      });
   },
-
-
-  rssDecode: function(content) {
-    if (content == undefined) return "";
-    if (content.length == 0) return "";
-    var s = "";
-    s = content.replace(/&amp;/g, "&");
-    // s = s.replace(/<!--.*?-->/g,"");
-    s = s.replace(/<!.*?>/g, "");
-    s = content.replace(/&amp;/g, "&");
-    s = s.replace(/<font color="red">订阅指南.*\n.*/g, "");
-    s = s.replace(/<script>[\s\S]*?googletag[\s\S]*?>/g, "");
-    s = s.replace(/<div>获取更多RSS[\s\S]*?<\/div>/g, "");
-    s = s.replace(/<script[\s\S]*<\/script>/g, "");
-    // s = s.replace(/&lt;/g, "<");
-    // s = s.replace(/&gt;/g, ">");
-    // s = s.replace(/&nbsp;/g, " ");
-    // s = s.replace(/&#39;/g, "\'");
-    // s = s.replace(/&#34;/g, "\"");
-    // s = s.replace(/&#xA;/g, "");
-    // s = s.replace(/&quot;/g, "\"");
-    s = s.replace(/&ldquo;/g, "“");
-    s = s.replace(/&rdquo;/g, "”");
-    s = s.replace(/&mdash;/g, "—");
-    s = s.replace(/&ndash;/g, "–");
-    s = s.replace(/&#123;/g, "{");
-    s = s.replace(/&#125;/g, "}");
-    s = s.replace(/&#124;/g, "|");
-    s = s.replace(/&#126;/g, "~");
-    s = s.replace(/<!--.*?-->/g, "");
-    s = s.replace(/<script.*?>window.daily.*?]]>/g, "");
-    s = s.replace(/<img.*?c.statcounter.*?>/g, "");
-    s = s.replace(/<img.*?google-analytics.*?>/g, "");
-    s = s.replace(/<img.*?hm.baidu.*?>/g, "");
-    s = s.replace(/<\?xml-stylesheet[\s\S]*?>/g, "");
-    return s;
+  rssDecode: function (e) {
+    if (null == e) return "";
+    if (0 == e.length) return "";
+    return e.replace(/&amp;/g, "&").replace(/<![\s\S]*?>/g, ""), e.replace(/&amp;/g, "&").replace(/<font color="red">订阅指南.*\n.*/g, "").replace(/<script>[\s\S]*?googletag[\s\S]*?>/g, "").replace(/<div>获取更多RSS[\s\S]*?<\/div>/g, "").replace(/<style[\s\S]*?<\/style>/g, "").replace(/<script[\s\S]*<\/script>/g, "").replace(/&nbsp;/g, " ").replace(/&ldquo;/g, "“").replace(/&rdquo;/g, "”").replace(/&mdash;/g, "—").replace(/&ndash;/g, "–").replace(/&#123;/g, "{").replace(/&#125;/g, "}").replace(/&#124;/g, "|").replace(/&#126;/g, "~").replace(/<!--[\s\S]*?-->/g, "").replace(/<script.*?>window.daily.*?]]>/g, "").replace(/<img.*?c.statcounter.*?>/g, "").replace(/<img.*?google-analytics.*?>/g, "").replace(/<img.*?hm.baidu.*?>/g, "").replace(/<\?xml-stylesheet[\s\S]*?>/g, "");
   },
-
-  getRss: function(url) {
-    const that = this;
-    rss_pool = new Array();
-    wx.vrequest({
-      // wx.request({
-      url: url,
+  thenDecode: function (e) {
+    var t = e.feed || e.rss.channel;
+    if ("item" in t) var l = t.item; else l = t.entry;
+    if (Array.isArray(l)) for (var r = 0; r < (t.item || t.entry).length; r++) {
+      if (l = (t.item || t.entry)[r], (o = {}).link = (l.link || l.id).text || l.link.href,
+        o.author = "", o.title = l.title.text, null != o.title && 0 != o.title.length) {
+        o.title = o.title.replace(/&lt;/g, "<"), o.title = o.title.replace(/&gt;/g, ">"),
+          o.title = o.title.replace(/&ldquo;/g, "“"), o.title = o.title.replace(/&rdquo;/g, "”"),
+          o.title = o.title.replace(/&mdash;/g, "—"), o.title = o.title.replace(/&ndash;/g, "–"),
+          o.article = "content:encoded" in l ? l["content:encoded"].text : "content" in l ? l.content.text : "description" in l ? l.description.p || l.description.text : "summary" in l ? l.summary.text : "";
+        try {
+          o.source = c.title, o.pubTime = (l.pubDate || l.published || l.updated).text || "",
+            o.oriTime = o.pubTime ? a.formatDate("yyyy-MM-dd HH:mm", o.pubTime) : "", o.pubTime = i.formatTime(o.oriTime);
+        } catch (e) {
+          o.pubTime = "";
+        }
+        "dc:creator" in l ? o.author = l["dc:creator"].text : "author" in l ? o.author = l.author.text || l.author.name.text : "author" in t && (o.author = t.author.text || t.author.name.text),
+          o.article && (o.text = o.article.replace(/<[\s\S]*?>/g, "")), (n.length < 1 || o.title != n[n.length - 1].title) && n.push(o);
+      }
+    } else {
+      var o;
+      (o = {}).link = (l.link || l.id).text || l.link.href, o.author = "", o.title = l.title.text,
+        0 != o.title.length && null != o.title && (o.title = o.title.replace(/&lt;/g, "<"),
+          o.title = o.title.replace(/&gt;/g, ">"), o.title = o.title.replace(/&ldquo;/g, "“"),
+          o.title = o.title.replace(/&rdquo;/g, "”"), o.title = o.title.replace(/&mdash;/g, "—"),
+          o.title = o.title.replace(/&ndash;/g, "–")), o.article = "content:encoded" in l ? l["content:encoded"].text : "content" in l ? l.content.text : "description" in l ? l.description.p || l.description.text : "summary" in l ? l.summary.text : "";
+      try {
+        o.source = c.title, o.pubTime = (l.pubDate || l.published || l.updated).text || "",
+          o.oriTime = o.pubTime ? a.formatDate("yyyy-MM-dd HH:mm", o.pubTime) : "", o.pubTime = i.formatTime(o.oriTime);
+      } catch (e) {
+        o.pubTime = "";
+      }
+      "dc:creator" in l ? o.author = l["dc:creator"].text : "author" in l ? o.author = l.author.text || l.author.name : "author" in t && (o.author = t.author.name.text),
+        o.article && (o.text = o.article.replace(/<[\s\S]*?>/g, "")), (n.length < 1 || o.title != n[n.length - 1].title) && n.push(o);
+    }
+  },
+  getRss: function (e) {
+    var t = this;
+    n = new Array(), wx.request({
+      url: e,
       data: {},
       header: {
-        'Content-Type': 'application/xml',
-        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.103 Safari/537.36",
-        "Accept": "text/html,application/xhtml+xml,application/xml; q=0.9,image/webp,*/*;q=0.8"
+        "Content-Type": "application/xml",
+        Accept: "text/html,application/xhtml+xml,application/xml; q=0.9,image/webp,*/*;q=0.8"
       },
-      success: function(res) {
-        console.log(res);
-        // var dataJson = that.rssDecode(res.data);
-        var dataJson = that.rssDecode(res.body);
-        // console.log(dataJson);
+      success: function (e) {
+        console.log(e);
+        var l = t.rssDecode(e.data);
         try {
-          console.log('采用解码输出');
-          dataJson = xml2json(dataJson);
-        } catch (error) {
-          console.log('采用原始输出');
-          dataJson = xml2json(res.body);
+          console.log("采用解码输出"), l = r(l);
+        } catch (t) {
+          console.log("采用原始输出"), l = r(e.data);
         }
-        rss_pool = that.data.rss_pool;
-        console.log(dataJson);
-        var rssData = dataJson.feed || dataJson.rss.channel;
-        if ('item' in rssData) var rssDataItem = rssData.item;
-        else var rssDataItem = rssData.entry;
-        if (!Array.isArray(rssDataItem)) { //当item直接为资讯内容时
-          var obj = {};
-          obj.link = (rssDataItem.link || rssDataItem.id).text || rssDataItem.link.href;
-          obj.author = '';
-          obj.title = rssDataItem.title.text;
-          if (obj.title.length != 0 && obj.title != undefined) {
-            obj.title = obj.title.replace(/&lt;/g, "<");
-            obj.title = obj.title.replace(/&gt;/g, ">");
-            obj.title = obj.title.replace(/&ldquo;/g, "“");
-              obj.title = obj.title.replace(/&rdquo;/g, "”");
-              obj.title = obj.title.replace(/&mdash;/g, "—");
-              obj.title = obj.title.replace(/&ndash;/g, "–");
-          }
-          if ('content:encoded' in rssDataItem) obj.article = rssDataItem["content:encoded"].text;
-          else obj.article = (rssDataItem.content || rssDataItem.description || rssDataItem.summary).text || rssDataItem.description.p || '';
-          try {
-            obj.pubTime = (rssDataItem.pubDate || rssDataItem.published || rssDataItem.updated).text || '';
-            obj.oriTime = obj.pubTime ? util.formatDate("yyyy-MM-dd HH:mm", obj.pubTime) : ''
-            obj.pubTime = utilsDays.formatTime(obj.oriTime);
-        } catch (err) {obj.pubTime = ''};
-
-          if ('dc:creator' in rssDataItem) obj.author = rssDataItem["dc:creator"].text;
-          else if ('author' in rssDataItem) obj.author = rssDataItem.author.text || rssDataItem.author.name;
-          else if ('author' in rssData) obj.author = rssData.author.name.text;
-          // var now = new Date();
-          // var pubTime = new Date(obj.pubTime);
-          // var delta = now - pubTime;
-          if ((rss_pool.length < 1 || obj.title != rss_pool[0].title)) rss_pool.push(obj);
-        } else {
-          for (var j = 0; j < (rssData.item || rssData.entry).length; j++) {
-            rssDataItem = (rssData.item || rssData.entry)[j]
-            var obj = {};
-            obj.link = (rssDataItem.link || rssDataItem.id).text || rssDataItem.link.href;
-            obj.author = '';
-            obj.title = rssDataItem.title.text;
-            if (obj.title != undefined && obj.title.length != 0) {
-                obj.title = obj.title.replace(/&lt;/g, "<");
-                obj.title = obj.title.replace(/&gt;/g, ">");
-                obj.title = obj.title.replace(/&ldquo;/g, "“");
-                obj.title = obj.title.replace(/&rdquo;/g, "”");
-                obj.title = obj.title.replace(/&mdash;/g, "—");
-                obj.title = obj.title.replace(/&ndash;/g, "–");
-            } else continue;
-            if ('content:encoded' in rssDataItem)
-              obj.article = rssDataItem["content:encoded"].text;
-            else {
-              if ('summary' in rssDataItem) obj.article = rssDataItem.summary.text;
-              else if ('content' in rssDataItem) obj.article = rssDataItem.content.text;
-              else if ('description' in rssDataItem) obj.article = rssDataItem.description.text || rssDataItem.description.p;
-              else obj.article = '';
-            }
+        n = t.data.rss_pool, console.log(l), t.thenDecode(l), t.setData({
+          rss_pool: n
+        });
+      },
+      fail: function (l) {
+        console.log("采用v-request"), wx.vrequest({
+          url: e,
+          data: {},
+          header: {
+            "Content-Type": "application/xml",
+            "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.103 Safari/537.36",
+            Accept: "text/html,application/xhtml+xml,application/xml; q=0.9,image/webp,*/*;q=0.8"
+          },
+          success: function (e) {
+            console.log(e);
+            var l = t.rssDecode(e.body);
             try {
-              obj.pubTime = (rssDataItem.pubDate || rssDataItem.published || rssDataItem.updated).text || '';
-              obj.oriTime = obj.pubTime ? util.formatDate("yyyy-MM-dd HH:mm", obj.pubTime) : '';
-              obj.pubTime = utilsDays.formatTime(obj.oriTime);
-            } catch (err) {
-              obj.pubTime = '';
+              console.log("采用解码输出"), l = r(l);
+            } catch (t) {
+              console.log("采用原始输出"), l = r(e.body);
             }
-            if ('dc:creator' in rssDataItem) obj.author = rssDataItem["dc:creator"].text;
-            else if ('author' in rssDataItem) obj.author = rssDataItem.author.text || rssDataItem.author.name.text;
-            else if ('author' in rssData) obj.author = rssData.author.text || rssData.author.name.text;
-
-            // var now = new Date();
-            // var pubTime = new Date(obj.pubTime);
-            // var delta = now - pubTime;
-            if ((rss_pool.length < 1 || obj.title != rss_pool[rss_pool.length - 1].title)) rss_pool.push(obj);
+            n = t.data.rss_pool, console.log(l), t.thenDecode(l), t.setData({
+              rss_pool: n
+            });
           }
-        }
-
-        that.setData({
-          rss_pool
         });
       }
     });
   }
-})
+});

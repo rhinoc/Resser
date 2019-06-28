@@ -14,6 +14,8 @@ Page({
     allread: 0, //阅读总文章数
     oneword: '',
     onefrom: '',
+    displayChart: 1,
+    canvass: []
   },
 
   onShow: function() {
@@ -29,7 +31,6 @@ Page({
 
 
     wx.vrequest({
-      // wx.request({
       url: 'https://v2.jinrishici.com/sentence',
       data: {},
       method: 'GET',
@@ -39,7 +40,6 @@ Page({
         },
       success: function (res) {
         var dataJson = JSON.parse(res.body);
-        console.log(dataJson);
         that.setData({
           oneword: dataJson.data.content,
           onefrom: dataJson.data.origin.title
@@ -135,9 +135,18 @@ Page({
       ]
     });
     }
-    
 
 
+  },
 
+  onShare: function(){
+    this.setData({
+      displayChart: 0,
+      shareOne: {
+        avatar: wx.getStorageSync("avatar"),
+        nickname: wx.getStorageSync("username"),
+        showShareModel: 1
+      }
+    });
   }
 })

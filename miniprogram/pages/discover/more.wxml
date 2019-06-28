@@ -1,24 +1,21 @@
-<!-- <view class="pure_top"></view> -->
-<l-card type="avatar" l-class="source" image="{{sourceItem.favicon}}" title="{{sourceItem.title}}" describe="{{sourceItem.rssUrl}}">
-  <view class="avatar-content">
+<l-card describe="{{sourceItem.rssUrl}}" image="{{sourceItem.favicon}}" lClass="source" title="{{sourceItem.title}}" type="avatar">
+    <view class="avatar-content">
     {{sourceItem.description}}
   </view>
-  <view class="avatar-share-container">
-  </view>
-  <l-tag shape="circle" bg-color="#f3f3f3" font-color="#3963BC" slot="more" size="large" bind:lintap="onChange" wx:if="{{sourceItem.rssed==1}}" select="{{true}}">
+    <view class="avatar-share-container"></view>
+    <l-tag bgColor="#f3f3f3" bind:lintap="onChange" fontColor="#3963BC" select="{{true}}" shape="circle" size="large" slot="more" wx:if="{{sourceItem.rssed==1}}">
     已订阅
   </l-tag>
-  <l-tag shape="circle" bg-color="#f3f3f3" font-color="#3963BC" slot="more" size="large" bind:lintap="onChange" wx:else>
+    <l-tag bgColor="#f3f3f3" bind:lintap="onChange" fontColor="#3963BC" shape="circle" size="large" slot="more" wx:else>
     订阅
   </l-tag>
 </l-card>
-
-
-<l-card type="primary" wx:for="{{rss_pool}}" plaintext="true" wx:for-item="item" wx:for-index="idx" wx:key="all" bindtap='handleItemTap' data-id='{{idx}}'
-          title="{{item.title}}" l-class="item">
+<l-card bindtap="handleItemTap" data-id="{{idx}}" lClass="item" plaintext="true" title="{{item.title}}" type="primary" wx:for="{{rss_pool}}" wx:for-index="idx" wx:key="all">
+    <view class="content">{{item.text}}
+    </view>
     <view class="pubtime">
-{{item.pubTime}}
+        <image class="ic-time" src="../../images/ic_time.png"></image>
+        <text>{{item.pubTime}}</text>
     </view>
 </l-card>
-
-<!-- </view> -->
+<view class="footer">阅见 · DeveSA</view>

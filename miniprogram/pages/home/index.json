@@ -5,8 +5,9 @@
     "van-tab": "/dist/tab/index",
     "van-tabs": "/dist/tabs/index",
     "l-card": "/dist/card/index",
-    "l-tag":"/dist/tag/index",
+    "l-tag": "/dist/tag/index",
     "l-button": "/dist/button/index",
-    "l-message": "/dist/message/index"
+    "l-message": "/dist/message/index",
+    "l-search-bar": "/dist/search-bar/index"
   }
 }

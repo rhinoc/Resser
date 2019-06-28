@@ -1,198 +1,150 @@
-// 导入rss源数据
-const db = wx.cloud.database();
-const _ = db.command;
-const rss = require('../../data/rss.js');
-var rss_list = wx.getStorageSync('rss_list');
-var rssUrl = '';
-var tag = [];
-var name = '';
-var description = ''
-const openid = wx.getStorageSync('openid');
-// pages/rsscenter/rsscenter.js
+var t = wx.cloud.database(), s = (t.command, require("../../data/rss.js"), wx.getStorageSync("rss_list")), e = "", n = [], a = "", i = "", o = wx.getStorageSync("openid"), r = "", c = -1;
+
 Page({
-
-  /**
-   * 页面的初始数据
-   */
   data: {
-    rssUrlRules:[{
-      type:'url',
-      required:true,
-      message: '请输入正确的网址'
+    rssUrlRules: [{
+      type: "url",
+      required: !0,
+      message: "请输入正确的网址"
     }],
-    description: '',
-    name: '',
-    tagstr: '',
-    rssUrl: '',
-    show: false,
-    rss_list: wx.getStorageSync('rss_list'),
+    description: "",
+    name: "",
+    tagstr: "",
+    rssUrl: "",
+    show: !1,
+    rss_list: wx.getStorageSync("rss_list")
   },
-
-    linvalidate:function(e) {
-      console.log(e);
-      if (e.detail.isError){
-        wx.lin.showMessage({
-          content: '请输入正确的网址',
-          type: 'warning'
-        })
-      } 
-    },
-  /**
-   * 从缓存读取数据，初始化数据
-   */
-  initList: function () {
-
+  linvalidate: function (t) {
+    console.log(t), t.detail.isError && wx.lin.showMessage({
+      content: "请输入正确的网址",
+      type: "warning"
+    });
   },
-
-  /**
-   * 生命周期函数--监听页面加载
-   */
-  onLoad: function (options) {
-   
-  },
-
-  onShow: function(options){
-    rss_list = wx.getStorageSync('rss_list');
-    this.setData({ rss_list })
-  },
-
-  onDel(e) {
-    const that = this;
-    var id = e.currentTarget.dataset.id;
-    var rssItemData = rss_list[id];
-    for (var i in rss_list) {
-      if (rss_list[i].rssUrl == rssItemData.rssUrl) rss_list.splice(i, 1);
-    }
-    db.collection('user').where({
-      _openid: openid
-    }).get({
-      success: res => {
-        var getid = res.data["0"]._id;
-        db.collection('user').doc(getid).update({
-          data: {
-            subscribe: rss_list
-          },
-          success(res) {
-            console.log(rss_list);
-            wx.setStorageSync('rss_list', rss_list);
-            that.setData({rss_list})
-          }
-        })
-      }
-    })
-  },
-
-  onEdit(e) {
-    console.log(e);
-    var id = e.currentTarget.dataset.id;
-    var rssItemData = rss_list[id];
-    name = rssItemData.title;
-    rssUrl = rssItemData.rssUrl;
-    tag = rssItemData.tag;
-    description = rssItemData.description;
-    var str = tag.join(' ');
-    this.setData({
-      name,
-      rssUrl,
-      description,
-      tagstr: str,
-      show: true
-    })
-  },
-  onAdd(e){
-    this.setData({
-      show:true
-    })
-  },
-
-  onHelp(e){
+  initList: function () { },
+  onLoad: function (t) { },
+  navToMore: function (t) {
+    var e = t.currentTarget.dataset.id, n = s[e];
+    n = JSON.stringify(n);
+    var a = "../discover/more?&sourceItem=" + (n = encodeURIComponent(n));
     wx.navigateTo({
-      url: '../about/help',
-    })
+      url: a
+    });
   },
-  onName(e) {
-    name = e.detail.detail.value;
+  onShow: function (t) {
+    s = wx.getStorageSync("rss_list"), this.setData({
+      rss_list: s
+    });
   },
-  onRss(e) {
-    rssUrl = e.detail.detail.value;
+  onDel: function (e) {
+    var n = this, a = e.currentTarget.dataset.id, i = s[a];
+    for (var r in s) s[r].rssUrl == i.rssUrl && s.splice(r, 1);
+    t.collection("user").where({
+      _openid: o
+    }).get({
+      success: function (e) {
+        var a = e.data[0]._id;
+        t.collection("user").doc(a).update({
+          data: {
+            subscribe: s
+          },
+          success: function (t) {
+            console.log(s), wx.setStorageSync("rss_list", s), n.setData({
+              rss_list: s
+            });
+          }
+        });
+      }
+    });
   },
-  onTag(e) {
-    var str = e.detail.detail.value;
-    tag = str.split(' ');
-  },
-  onDes(e) {
-    description = e.detail.detail.value;
-  },
-  onCancel(e) {
+  onEdit: function (t) {
+    console.log(t), c = t.currentTarget.dataset.id, r = t.target.dataset.type;
+    var o = s[c];
+    a = o.title, e = o.rssUrl, n = o.tag, i = o.description;
+    var l = n.join(" ");
     this.setData({
-      show: false
-    })
+      name: a,
+      rssUrl: e,
+      description: i,
+      tagstr: l,
+      show: !0
+    });
   },
-
-
-  onSubmit(e) {
-    let that = this;
-    if (name==''||rssUrl=='')
-    {
-      wx.lin.showMessage({
-        content: '名称和地址不能为空',
-        type: 'warning'
-      })
-    }
-    else{
-      var index = -1;
-      for (var i in rss_list) {
-        if (rss_list[i].rssUrl == rssUrl) {
-          index = i;
-        }
-      }
-      if (index == -1) {
-        var rssItemData = {
-          favicon: 'https://cdn.staticaly.com/favicons/' + rssUrl,
-          title: name,
-          link: '',
-          description: description,
-          rssUrl: rssUrl,
-          type: 'rss',
-          tag: tag,
+  onAdd: function (t) {
+    this.setData({
+      show: !0
+    });
+  },
+  onHelp: function (t) {
+    wx.navigateTo({
+      url: "../about/help"
+    });
+  },
+  onName: function (t) {
+    a = t.detail.detail.value;
+  },
+  onRss: function (t) {
+    e = t.detail.detail.value;
+  },
+  onTag: function (t) {
+    var s = t.detail.detail.value;
+    n = s.split(" ");
+  },
+  onDes: function (t) {
+    i = t.detail.detail.value;
+  },
+  onCancel: function (t) {
+    this.setData({
+      name: "",
+      rssUrl: "",
+      description: "",
+      tagstr: "",
+      show: !1
+    }), r = "", c = -1;
+  },
+  onSubmit: function (l) {
+    var u = this;
+    if ("" == a || "" == e) wx.lin.showMessage({
+      content: "名称和地址不能为空",
+      type: "warning"
+    }); else {
+      if ("edit" == r) {
+        (d = s[c]).title = a, d.rssUrl = e, d.tag = n, s.splice(c, 1), s.push(d), wx.lin.showMessage({
+          content: "保存成功",
+          type: "success"
+        }), r = "", c = -1;
+      } else {
+        var d = {
+          favicon: "cloud://v-request-b2e31a.762d-v-request-b2e31a/favicons/rss.png",
+          title: a,
+          link: "",
+          description: i,
+          rssUrl: e,
+          tag: n,
+          rssed: 1
         };
-        rss_list.push(rssItemData);
-        wx.lin.showMessage({
-          content: '添加成功',
-          type: 'success'
-        })
+        s.push(d), wx.lin.showMessage({
+          content: "添加成功",
+          type: "success"
+        });
       }
-      else {
-        var rssItemData = rss_list[index];
-        rssItemData.title = name;
-        rssItemData.rssUrl = rssUrl;
-        rssItemData.tag = tag;
-        rss_list.splice(index, 1);
-        rss_list.push(rssItemData);
-        wx.lin.showMessage({
-          content: '保存成功',
-          type: 'success'
-        })
-      }
-      db.collection('user').where({
-        _openid: openid
+      t.collection("user").where({
+        _openid: o
       }).get({
-        success: res => {
-          var getid = res.data["0"]._id;
-          db.collection('user').doc(getid).update({
+        success: function (e) {
+          var n = e.data[0]._id;
+          t.collection("user").doc(n).update({
             data: {
-              subscribe: rss_list
+              subscribe: s
             },
-            success(res) {
-              that.setData({
-                rss_list,
-                show: false,
-              })
-              wx.setStorageSync('rss_list', rss_list)
+            success: function (t) {
+              u.setData({
+                rss_list: s,
+                show: !1
+              }), wx.setStorageSync("rss_list", s);
             }
-          })
+          });
         }
-      })
+      });
     }
-  },
-})
+  }
+});

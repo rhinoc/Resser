@@ -1,102 +1,149 @@
-/**index.wxss**/
-Page{
-background: #F4F6F9;
+page {
+    background: #f4f6f9;
 }
 
 .container {
-  padding-top: 40rpx; 
-  flex-direction: column;
-}
-.userinfo {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+    padding-top: 40rpx;
+    flex-direction: column;
 }
 
-.userinfo-avatar {
-  overflow:hidden;  
-  display: block;  
-  width: 138rpx;  
-  height: 138rpx;  
-  margin: 20rpx;  
-  margin-top: 50rpx;  
-  border-radius: 50%;  
-  /* border: 2px solid #fff;   */
-  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);  
+.share-button {
+    background: linear-gradient(45deg,#4777FF,#4892FF);
+    width: 60%;
+    height: 66rpx;
+    line-height: 66rpx;
+    border-radius: 33rpx;
+    margin-top: 20rpx;
+    color: #fff;
+    font-size: 30rpx;
+    border: none;
 }
 
-.userinfo-nickname {
-  color: #000;
-  font-size:14px;
-  margin-bottom: 20rpx;
-}
-
-.group {
-  margin-top: 8%;
-  padding: 0 10%;
-  width:600rpx;
-  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
-}
-.myCanvas{
-  background-color: #f4f4f4;
-}
-.downloadChart {
-  font-size: 16px;
-  background: #699fed;
-  border-radius: 6px;
-  color: white;
-  width: 70%;
-  margin-top: 32px;
+.header {
+    font-size: 28rpx;
+    height: 228rpx;
+    width: 750rpx;
+    font-weight: 300;
+    color: rgba(255,255,255,1);
+    line-height: 36rpx;
+    background: #3381ff;
+    border-radius: 0 0 20rpx 20rpx;
+    box-shadow: 0 4px 20px 0 rgba(0,49,107,0.3);
+    box-sizing: border-box;
+    text-align: center;
 }
 
 .card {
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-  max-width: 650rpx;
-  margin: auto;
-  margin-top:100rpx;
-  text-align: center;
-  padding-bottom: 50rpx; 
-  margin-bottom: 0rpx;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    max-width: 650rpx;
+    margin: auto;
+    text-align: center;
+    padding-bottom: 50rpx;
+    margin-bottom: 0rpx;
 }
 
-.avatar{
-  margin-top:-50rpx;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-}
-.p{
-  text-align: left;
-}
-.name{
-  font-weight: bold;
-  font-size:40rpx !important;
-  color:#000 !important;
-}
-.oneword{
-  vertical-align: middle; 
-  line-height: normal; 
-  white-space: nowrap; 
-  display: inline-block; 
-  font-size: 30rpx;
+.stamp {
+    max-width: 600rpx;
+    margin: auto;
+    padding: 20rpx;
+    padding-bottom: 35rpx;
+    position: relative;
+    background: radial-gradient(transparent 0px,transparent 4px,white 4px,white);
+    background-size: 40rpx 40rpx;
+    background-position: -20rpx 0;
 }
 
-.onefrom{
-  vertical-align: middle; 
-  line-height: normal; 
-  display: inline-block; 
-  font-size: 25rpx;
-  margin-bottom: 50rpx;
+.stamp:after {
+    content: '';
+    position: absolute;
+    left: 10rpx;
+    top: 10rpx;
+    right: 10rpx;
+    bottom: 10rpx;
+    box-shadow: 0 0 20px 1px rgba(0,0,0,0.5);
+    z-index: -1;
 }
 
-.icon{
-  margin-top:50rpx;
-  width: 50rpx;
-  height: 50rpx;
-  margin-bottom: 50rpx;
+.header-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 750rpx;
+    height: 228rpx;
+    z-index: 1;
 }
 
-.figure{
-  display: flex;
-  flex-direction: column;
-  align-content: center;
-  align-items: center;
+.userinfo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.group {
+    margin-top: 8%;
+    padding: 0 10%;
+    width: 600rpx;
+    box-shadow: 2px 2px 8px rgba(0,0,0,0.1);
+}
+
+.myCanvas {
+    z-index: -1;
+    background-color: #f4f4f4;
+}
+
+.downloadChart {
+    font-size: 16px;
+    background: #699fed;
+    border-radius: 6px;
+    color: #fff;
+    width: 70%;
+    margin-top: 32px;
+}
+
+.avatar {
+    margin-top: 30rpx;
+    z-index: 1;
+}
+
+.p {
+    text-align: left;
+}
+
+.name {
+    font-weight: 400;
+    z-index: 1;
+    margin-top: -15rpx!important;
+    font-size: 30rpx!important;
+    color: #e6ecf3!important;
+}
+
+.oneword {
+    vertical-align: middle;
+    line-height: normal;
+    white-space: nowrap;
+    display: inline-block;
+    font-size: 30rpx;
+}
+
+.onefrom {
+    vertical-align: middle;
+    line-height: normal;
+    display: inline-block;
+    font-size: 25rpx;
+    margin-bottom: 50rpx;
+}
+
+.icon {
+    margin-top: 50rpx;
+    width: 50rpx;
+    height: 50rpx;
+    margin-bottom: 50rpx;
+}
+
+.figure {
+    z-index: -1;
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    align-items: center;
 }

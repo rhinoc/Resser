@@ -3,8 +3,8 @@ const db = wx.cloud.database()
 
 Page({
   data: {
-    username: '',
-    avatar: '/images/user.svg',
+    username: wx.getStorageSync("username") || "点击头像登陆",
+    avatar: wx.getStorageSync("avatar") || "/images/user.svg"
   },
 
   onShow: function() {
@@ -26,6 +26,7 @@ Page({
   getUserInfoHandler: function(e) {
     console.log(e)
     let d = e.detail.userInfo
+    wx.setStorageSync("avatar", d.avatarUrl), wx.setStorageSync("username", d.nickName),
     this.setData({
       avatar: d.avatarUrl,
       username: d.nickName

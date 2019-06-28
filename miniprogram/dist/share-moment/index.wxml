@@ -1,0 +1,13 @@
+<view class="moment-root">
+    <canvas canvasId="myCanvas" class="canvas" style="height: {{canvasHeight}}px"></canvas>
+    <view class="share-model" wx:if="{{realShow}}">
+        <view bindtap="hideDialog" class="mask"></view>
+        <view class="share-conetent">
+            <image class="share-image" src="{{targetSharePath}}" style="width:{{imageWidth}}px;height:{{imageHeight}}px"></image>
+            <button bindtap="saveImageTap" class="btn-save-local">保存</button>
+        </view>
+        <view bindtap="closeModel" class="close-wrppper">
+            <image class="close-image" src="../../images/close.png"></image>
+        </view>
+    </view>
+</view>

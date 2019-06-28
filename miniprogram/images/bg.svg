@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="750px" height="232px" viewBox="0 0 750 232" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 51.2 (57519) - http://www.bohemiancoding.com/sketch -->
+    <title>Untitled</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <path d="M0,0 L750,0 L750,190 C750,213.195959 731.195959,232 708,232 L42,232 C18.8040405,232 2.84068575e-15,213.195959 0,190 L0,0 Z" id="path-1"></path>
+        <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-3">
+            <stop stop-color="#307BEC" stop-opacity="0" offset="0%"></stop>
+            <stop stop-color="#307BEC" offset="96.7598447%"></stop>
+        </linearGradient>
+        <polygon id="path-4" points="562.275957 31 645.246314 31 572.970357 168 490 168"></polygon>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <mask id="mask-2" fill="white">
+            <use xlink:href="#path-1"></use>
+        </mask>
+        <use id="Rectangle" fill="#3281FF" xlink:href="#path-1"></use>
+        <text id="阅-见" mask="url(#mask-2)" font-family="zcoolqingkehuangyouti-Regular, zcoolqingkehuangyouti" font-size="52" font-weight="normal" fill="#1E6CD9">
+            <tspan x="695" y="85">阅</tspan>
+            <tspan x="695" y="145">见</tspan>
+        </text>
+        <polygon id="Rectangle-2" fill="#307BEC" mask="url(#mask-2)" points="489.683594 168 773.800781 168 740.117187 232 456 232"></polygon>
+        <text id="Made-by-DeveSA" mask="url(#mask-2)" font-family="zcoolqingkehuangyouti-Regular, zcoolqingkehuangyouti" font-size="28" font-weight="normal" fill="#1E6CD9">
+            <tspan x="536" y="199">Made by </tspan>
+            <tspan x="620.448" y="199" font-family="Silom" font-weight="bold">DeveSA</tspan>
+        </text>
+        <mask id="mask-5" fill="white">
+            <use xlink:href="#path-4"></use>
+        </mask>
+        <use id="Rectangle-2" fill="url(#linearGradient-3)" xlink:href="#path-4"></use>
+    </g>
+</svg>

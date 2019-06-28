@@ -10,12 +10,14 @@ var source_stat = wx.getStorageSync('source_stat') || [];
 var openid = wx.getStorageSync('openid') || '';
 var rss_list = wx.getStorageSync('rss_list');
 var temp = {};
+var query = "";
 
 Page({
   /**
    * 页面的初始数据
    */
   data: {
+    searchMode: 0,
     isEmpty: false,
     userData: [],
     rss_list: rss_list,
@@ -379,6 +381,23 @@ Page({
     wx.navigateTo({
       url: '../global/article?rssData=' + rssData,
     })
+  },
+
+  handleSearch: function (e) {
+    if ("" != (query= e.detail.detail.value) && null != query) {
+      this.setData({
+        searchMode: 1
+      })
+      for (var t in rss_pool) {
+        var i = rss_pool[t], s = i.article.replace(/<[\s\S]*?>/g, "");
+        (i.source + i.tag + i.author + i.title + s + i.link).toLowerCase().match(query.toLowerCase()) ? rss_pool[t].matched = !0 : rss_pool[t].matched = !1;
+      }
+      this.setData({
+        rss_pool: rss_pool
+      });
+    } else this.setData({
+      searchMode: !1
+    });
   },
 
   //添加至稍后阅读

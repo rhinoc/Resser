@@ -1,0 +1,70 @@
+.moment-root {
+    width: 100%;
+    z-index: 11;
+}
+
+.canvas {
+    width: 100%;
+    position: fixed;
+    top: 9999rpx;
+    left: 0;
+}
+
+.share-model .mask {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    min-height: 100vh;
+    z-index: 99;
+    background: rgba(0,0,0,0.6);
+}
+
+.share-conetent {
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-top: 80rpx;
+    padding-bottom: 80rpx;
+    left: 15%;
+    z-index: 100;
+    top: 0;
+}
+
+.share-image {
+    border-radius: 10rpx;
+    margin: 0 auto;
+}
+
+.btn-save-local {
+    background: linear-gradient(45deg,#4777FF,#4892FF);
+    width: 80%;
+    height: 88rpx;
+    line-height: 88rpx;
+    border-radius: 44rpx;
+    margin-top: 40rpx;
+    color: #ffffff;
+    font-size: 32rpx;
+    border: none;
+}
+
+.close-wrppper {
+    position: fixed;
+    right: 5%;
+    top: 10rpx;
+    padding: 20rpx;
+    z-index: 101;
+}
+
+.qr-image {
+    width: 500rpx;
+    height: 142.8rpx;
+}
+
+.close-image {
+    width: 50rpx;
+    height: 50rpx;
+    border-radius: 50%;
+    box-shadow: 0px 0px 5px #999;
+}

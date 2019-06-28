@@ -1,23 +1,21 @@
-<view class="card">
-  <l-avatar open-data="{{['userAvatarUrl','userNickName']}}" placement="bottom" l-class="avatar" size="200" l-class-text="name"/>
-
-  <view class="container">
-
-    <text class="oneword">{{oneword}}</text>
-    <text class="onefrom">《{{onefrom}}》</text>
-    
-    <text class="p">自我们相识以来，你已经阅读{{allread}}了篇文章</text>
-    <text class="p">一次次订阅和取消，你最终留下了{{allrssnum}}个订阅源</text>
-    <text class="p">有{{allfavnum}}篇文章被精心保存在「收藏集」中</text>
-
-  </view>
-
+<view class="header">
+    <image class="header-bg" src="/images/bg.png"></image>
+    <l-avatar lClass="avatar" lClassText="name" openData="{{['userAvatarUrl','userNickName']}}" placement="bottom" size="150"></l-avatar>
 </view>
-
-<!-- 订阅源阅读分布图 -->
-<view class="figure">
-<image class='icon' src="{{'../../images/tab_activity.png'}}"></image>
-<canvas canvas-id="hisource" class="myCanvas" style="width:{{chartWidth}}px;height:{{chartHeight}}px;"/>
-<image class='icon' src="{{'../../images/tab_activity.png'}}"></image>
-<canvas canvas-id="fsource" class="myCanvas" style="width:{{chartWidth}}px;height:{{chartHeight}}px;"/>
+<view class="stamp">
+    <view class="container">
+        <text class="oneword">{{oneword}}</text>
+        <text class="onefrom">《{{onefrom}}》</text>
+        <text class="p">自我们相识以来，你已经阅读{{allread}}了篇文章</text>
+        <text class="p">一次次订阅和取消，你最终留下了{{allrssnum}}个订阅源</text>
+        <text class="p">有{{allfavnum}}篇文章被精心保存在「收藏集」中</text>
+    </view>
+    <button bindtap="onShare" class="share-button">生成我的阅历海报</button>
+</view>
+<share-moment avatar="{{shareOne.avatar}}" nickname="{{shareOne.nickname}}" showShareModel="{{shareOne.showShareModel}}"></share-moment>
+<view class="figure" wx:if="{{displayChart}}">
+    <image class="icon" src="{{'../../images/moreread.svg'}}" wx:if="{{canvass[0]}}"></image>
+    <canvas canvasId="hisource" class="myCanvas" style="width:{{chartWidth}}px;height:{{chartHeight}}px;" wx:if="{{canvass[0]}}"></canvas>
+    <image class="icon" src="{{'../../images/moreread.svg'}}" wx:if="{{canvass[1]}}"></image>
+    <canvas canvasId="fsource" class="myCanvas" style="width:{{chartWidth}}px;height:{{chartHeight}}px;" wx:if="{{canvass[1]}}"></canvas>
 </view>

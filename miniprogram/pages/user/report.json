@@ -3,6 +3,7 @@
   "usingComponents": {
     "l-list": "/dist/list/index",
     "l-icon": "/dist/icon/index",
-    "l-avatar": "/dist/avatar/index"
+    "l-avatar": "/dist/avatar/index",
+    "share-moment": "../../dist/share-moment/index"
   }
 }
