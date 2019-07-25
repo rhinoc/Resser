@@ -1,7 +1,6 @@
 page {
     background: #f4f6f9!important;
 }
-
 .card content {
     font-weight: 500;
 }

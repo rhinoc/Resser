@@ -3,6 +3,7 @@
   "usingComponents": {
     "l-list": "/dist/list/index",
     "l-icon": "/dist/icon/index",
+    "l-button": "/dist/button/index",
     "l-avatar": "/dist/avatar/index"
     }
 }
