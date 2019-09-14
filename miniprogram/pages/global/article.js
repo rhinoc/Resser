@@ -294,9 +294,7 @@ Page({
   getArticle: function (url) {
     var that = this;
     url = url.replace(/\*/g, "%2a");
-    // if (1){
     wx.vrequest({
-    // wx.request({
       data: {},
       header: {
         'Content-Type': 'application/xml',
@@ -318,28 +316,5 @@ Page({
         });
       }
     });
-    // }
-    // else {
-    // wx.request({
-    //   method: 'POST',
-    //   url: 'https://api.gugudata.com/news/fetchcontent',
-    // data: {
-    //   appkey: 'AQKWA6WSC945',
-    //   url: url,
-    //   contentwithhtml: true
-    // },
-    //   headers: {
-    //     "content-type": "application/json"
-    //   },
-    //   success: function(res) {
-    //     console.log(res);
-    //     var article = res.data.Data.Content;
-    //     article = app.towxml.toJson(article, 'html');
-    //     that.setData({
-    //       article: article,
-    //     });
-    //   }
-    // })
-    // }
   },
 })
