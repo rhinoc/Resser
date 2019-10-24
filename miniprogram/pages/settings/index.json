@@ -2,6 +2,9 @@
   "navigationBarTitleText": "设置",
   "usingComponents": {
     "l-list": "/dist/list/index",
-    "l-dialog": "/dist/dialog/index"
+    "l-dialog": "/dist/dialog/index",
+    "l-input": "/dist/input/index",
+    "l-message": "/dist/message/index",
+    "l-textarea": "/dist/textarea/index"
   }
 }

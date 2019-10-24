@@ -16,7 +16,7 @@ var name ='';
 var picker = '';
 var id = 0;
 const pickers = {
-  '微信公众号': ['瓦斯', '传送门'],
+  '微信公众号': ['二十次幂', '传送门'],
   '知乎': ['专栏', '用户回答'],
   '贴吧': ['帖子列表', '精品帖'],
   'B站': ['UP主专栏', 'UP主投稿', '分区视频', '话题'],
@@ -29,7 +29,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-    placeholder:'在「瓦斯阅读」搜索公众号, 输入网址后缀id',
+    placeholder:'在「二十次幂」搜索公众号, 输入网址尾部数字',
     pickers: [
       {
         values: Object.keys(pickers),
@@ -80,57 +80,57 @@ Page({
   setPlaceholder: function(){
     pick = picker.getValues();
     switch (pick[1]) {
-      case "瓦斯":
-        base = 'https://rsshub.app/wechat/wasi/'
-        this.setData({ placeholder: '在「瓦斯阅读」搜索公众号, 输入网址后缀id' })
+      case "二十次幂":
+        base = 'https://rsshub.wgjstc.comwechat/ershicimi/'
+        this.setData({ placeholder: '在「二十次幂」搜索公众号, 输入网址尾部数字' })
         break;
       case "传送门":
-        base = 'https://rsshub.app/wechat/csm/'
-        this.setData({ placeholder: '在「传送门」搜索公众号, 输入网址后缀id' })
+        base = 'https://rsshub.wgjstc.comwechat/csm/'
+        this.setData({ placeholder: '输入该公众号账号' })
         break;
       case "UP主专栏":
-        base = 'https://rsshub.app/bilibili/user/article/'
+        base = 'https://rsshub.wgjstc.combilibili/user/article/'
         this.setData({ placeholder: '输入UP主UID（UP主主页网址后缀）' })
         break;
       case "UP主投稿":
-        base = 'https://rsshub.app/bilibili/user/video/'
+        base = 'https://rsshub.wgjstc.combilibili/user/video/'
         this.setData({ placeholder: '输入UP主UID（UP主主页网址后缀）' })
         break;
       case "分区视频":
-        base = 'https://rsshub.app/bilibili/partion/'
+        base = 'https://rsshub.wgjstc.combilibili/partion/'
         this.setData({ placeholder: '输入分区id' })
         break;
       case "话题":
-        base = 'https://rsshub.app/bilibili/topic/'
+        base = 'https://rsshub.wgjstc.combilibili/topic/'
         this.setData({ placeholder: '输入话题名称' })
         break;
       case "博主":
         favicon = 'http://tp3.sinaimg.cn/ffaavvicon/50/1257422142/1'
-        base = 'https://rsshub.app/weibo/user/'
+        base = 'https://rsshub.wgjstc.comweibo/user/'
         this.setData({ placeholder: '输入博主UID（如何获取UID请查看帮助）' })
         break;
       case "关键词":
-        base = 'https://rsshub.app/weibo/keyword/'
+        base = 'https://rsshub.wgjstc.comweibo/keyword/'
         this.setData({ placeholder: '输入你想订阅的关键词' })
         break;
       case "超话":
-        base = 'https://rsshub.app/weibo/super_index/'
+        base = 'https://rsshub.wgjstc.comweibo/super_index/'
         this.setData({ placeholder: '输入超话id' })
         break;
       case "专栏":
-        base = 'https://rsshub.app/zhihu/zhuanlan/'
+        base = 'https://rsshub.wgjstc.comzhihu/zhuanlan/'
         this.setData({ placeholder: '输入专栏id（专栏页网址后缀）' })
         break;
       case "用户回答":
-        base = 'https://rsshub.app/zhihu/people/answers/'
+        base = 'https://rsshub.wgjstc.comzhihu/people/answers/'
         this.setData({ placeholder: '输入用户id（用户主页网址后缀）' })
         break;
       case "帖子列表":
-        base = 'https://rsshub.app/tieba/forum/'
+        base = 'https://rsshub.wgjstc.comtieba/forum/'
         this.setData({ placeholder: '输入贴吧名称' })
         break;
       case "精品帖":
-        base = 'https://rsshub.app/tieba/forum/good/'
+        base = 'https://rsshub.wgjstc.comtieba/forum/good/'
         this.setData({ placeholder: '输入贴吧名称' })
         break;
     }

@@ -24,7 +24,6 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onShow: function(options) {
-    // console.log(rssData);
     rss_list = wx.getStorageSync('rss_list') || [];
     if (rss_list.length > 0) {
       for (var i in rssData) {
@@ -85,7 +84,6 @@ Page({
 
   },
   onChange: function(event) {
-    // console.log(event);
     var that = this;
     var idx = event.currentTarget.dataset.cate;
     var id = event.currentTarget.dataset.item;

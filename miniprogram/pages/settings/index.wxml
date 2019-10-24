@@ -1,20 +1,19 @@
+<l-message />
 <view class="group">
-  <l-list title="自动开启夜间模式（开发中）" image="../../images/setting.png" is-link="{{false}}">
-    <view slot="right-section">
-      <switch />
-    </view>
-  </l-list>
-  <l-list title="全局开启全文抓取（开发中）" image="../../images/setting.png" is-link="{{false}}">
-    <view slot="right-section">
-      <switch />
-    </view>
-  </l-list>
-  <l-list title="NLP分析资讯内容（开发中）" image="../../images/setting.png" is-link="{{false}}">
-    <view slot="right-section">
-      <switch />
-    </view>
-  </l-list>
-    <l-list title="清除缓存记录" bind:lintap="onClear" image="../../images/setting.png" is-link="{{false}}" />
+  <l-input label="全文抓取" type="password" placeholder="输入url2io的Token（默认留空）" bind:linblur="onInputToken"/>
+  <l-list title="清除缓存记录" bind:lintap="onClear" image="../../images/setting.png" is-link="{{false}}" />
   <l-list title="清空所有数据" bind:lintap="onClearAll" image="../../images/setting.png" is-link="{{false}}" />
 </view>
 <l-dialog />
+
+<view class="text-container">
+  <form bindsubmit="onImportOPML">
+    <view>
+        <textarea class="opml-textarea" value='{{ opml }}' maxlength="-1" name="opml"></textarea>
+    </view>
+    <view class="buttons">
+      <button formType="submit" class="button">导入OPML</button>
+      <button bindtap='onCopyOPML' class="button">导出至剪切板</button>
+    </view>
+  </form>
+</view>

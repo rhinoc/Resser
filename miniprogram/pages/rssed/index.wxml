@@ -1,36 +1,37 @@
 <l-slide-view autoClose="true" bindtap="navToMore" data-id="{{index}}" height="140" key="{{index}}" slideWidth="300" width="750" wx:for="{{rss_list}}" wx:key="{{index}}">
-    <view class="left" slot="left">
-        <view class="left-con">
-            <text class="left-title">{{item.title}}</text>
-            <text class="left-time">{{item.description}}</text>
-        </view>
-        <view>
-            <image class="favicon" src="{{item.favicon}}"></image>
-        </view>
+  <view class="left" slot="left">
+    <view class="left-con">
+      <text class="left-title">{{item.title}}</text>
+      <text class="left-time">{{item.description}}</text>
     </view>
-    <view class="right" slot="right">
-        <view catchtap="onEdit" class="edit" data-id="{{index}}" data-type="edit">修改</view>
-        <view catchtap="onDel" class="del" data-id="{{index}}">取消订阅</view>
+    <view>
+      <image class="favicon" src="{{item.favicon}}"></image>
     </view>
+  </view>
+  <view class="right" slot="right">
+    <view catchtap="onEdit" class="edit" data-id="{{index}}" data-type="edit">修改</view>
+    <view catchtap="onDel" class="del" data-id="{{index}}">取消订阅</view>
+  </view>
 </l-slide-view>
 <view class="float-box">
-    <view bindtap="onHelp" class="float-button" style="background-color:#55C200">
-        <image class="float-img" src="../../images/help.png"></image>
-    </view>
-    <view bindtap="onAdd" class="float-button" style="background-color:#3281ff">
-        <image class="float-img" src="../../images/add.png"></image>
-    </view>
+  <view bindtap="onHelp" class="float-button" style="background-color:#55C200">
+    <image class="float-img" src="../../images/help.png"></image>
+  </view>
+  <view bindtap="onAdd" class="float-button" style="background-color:#3281ff">
+    <image class="float-img" src="../../images/add.png"></image>
+  </view>
 </view>
-<l-popup bind:lintap="onAdd" contentAlign="bottom" data-type="add" locked="{{true}}" show="{{show}}">
-    <l-message content="{{content}}" type="{{type}}"></l-message>
-    <view class="popup">
-        <l-input bind:linchange="onName" label="名称" placeholder="例：爱范儿" value="{{name}}"></l-input>
-        <l-input bind:linchange="onRss" bind:linvalidate="linvalidate" label="订阅地址" placeholder="例：https://www.ifanr.com/feed" rules="{{rssUrlRules}}" value="{{rssUrl}}"></l-input>
-        <l-input bind:linchange="onDes" label="备注" placeholder="例：聚焦创新及消费科技领域" value="{{description}}"></l-input>
-        <l-input bind:linchange="onTag" label="标签" placeholder="例：科技" value="{{tagstr}}"></l-input>
-        <view class="buttons">
-            <l-button bind:lintap="onSubmit" type="default">保存</l-button>
-            <l-button plain bind:lintap="onCancel" type="default">取消</l-button>
-        </view>
+<l-popup contentAlign="bottom" data-type="add" locked="{{true}}" show="{{show}}">
+
+  <l-message content="{{content}}" type="{{type}}"></l-message>
+  <view class="popup">
+    <l-input bind:linchange="onName" label="名称" placeholder="例：爱范儿" value="{{name}}"></l-input>
+    <l-input bind:linchange="onRss" bind:linvalidate="linvalidate" label="订阅地址" placeholder="例：https://www.ifanr.com/feed" rules="{{rssUrlRules}}" value="{{rssUrl}}"></l-input>
+    <l-input bind:linchange="onDes" label="备注" placeholder="例：聚焦创新及消费科技领域" value="{{description}}"></l-input>
+    <l-input bind:linchange="onTag" label="标签" placeholder="例：科技" value="{{tagstr}}"></l-input>
+    <view class="buttons">
+      <l-button bind:lintap="onSubmit" type="default">保存</l-button>
+      <l-button plain bind:lintap="onCancel" type="default">取消</l-button>
     </view>
+  </view>
 </l-popup>

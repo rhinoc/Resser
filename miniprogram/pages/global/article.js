@@ -2,6 +2,8 @@ const app = getApp() //获取应用实例
 var article = '';
 var favors = wx.getStorageSync('favors') || [];
 var backTop = false;
+var token = wx.getStorageSync('token')||'iLyhznUTQqyVkBiXmkyxhA';
+
 Page({
   /**
    * Page initial data
@@ -27,6 +29,7 @@ Page({
     var rssData = options.rssData;
     rssData = decodeURIComponent(rssData);
     rssData = JSON.parse(rssData);
+    // console.log(rssData)
     var title = rssData.title;
     for (var i in favors) {
       if (favors[i].title == title) {
@@ -36,8 +39,23 @@ Page({
         })
       }
     }
-    if (typeof(rssData.article)=='object'){
-      console.log('object type article');
+    if (rssData.article == undefined) {
+      console.log('this feed have no content')
+      wx.lin.showMessage({
+        type: 'success',
+        content: '正在获取全文',
+        duration: 3000,
+      })
+      this.setData({
+        title: rssData.title,
+        author: rssData.author,
+        pubTime: rssData.oriTime,
+        linkurl: rssData.link,
+        source: rssData.source,
+      });
+      this.getArticle(rssData.link)
+    }
+    else if (typeof(rssData.article)=='object'){
       this.setData({
         title: rssData.title,
         author: rssData.author,
@@ -48,7 +66,6 @@ Page({
       });
     }
     else {
-      console.log(typeof(rssData.article),' type article');
       var author = rssData.author;
       if (typeof(author)=='object') author = author.text;
       var pubTime = rssData.oriTime;
@@ -57,19 +74,6 @@ Page({
       article = rssData.article;
       article = this.htmlDecode(article);
       article = app.towxml.toJson(article, 'html');
-      // if(rssData.base!=''){
-      //   var temp = article;
-      //   try{
-      //     article = app.towxml.initData(article, {
-      //       base: rssData.base,
-      //       app:this,
-      //     })
-      //   }
-      //   catch (err) {
-      //     console.log(err);
-      //     article = temp;
-      //   }
-      // }
       try{
         this.setData({
           article,
@@ -89,13 +93,22 @@ Page({
    * Lifecycle function--Called when page is initially rendered
    */
   onReady: function () {
-
+    const linkurl = this.data.linkurl || '';
+    if (this.data.article.child && this.data.article.child.length <= 1) {
+      wx.lin.showMessage({
+        type: 'success',
+        content: '正在获取全文',
+        duration: 3000,
+      })
+      this.getArticle(linkurl);
+    }
   },
 
   /**
    * Lifecycle function--Called when page show
    */
   onShow: function () {
+    token = wx.getStorageSync('token') || 'iLyhznUTQqyVkBiXmkyxhA';
     this.animation = wx.createAnimation({
       duration: 300,
       timingFunction: 'ease-in',
@@ -262,6 +275,7 @@ Page({
     var s = "";
     if (content.length == 0) return "";
     s = content.replace(/&amp;/g, "&");
+    s = s.replace(/&#8211;/g, "–");
     s = s.replace(/<img src="https:\/\/c.statcounter.*?>/g, "");
     s = s.replace(/<img src="https:\/\/www.google-analytics.*?>/g,"");
     s = s.replace(/<img src="https:\/\/hm.baidu.*?>/g,"");
@@ -294,6 +308,8 @@ Page({
   getArticle: function (url) {
     var that = this;
     url = url.replace(/\*/g, "%2a");
+    url = url.replace(/&#38;/g, "%26");
+    
     wx.vrequest({
       data: {},
       header: {
@@ -301,16 +317,15 @@ Page({
         "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.103 Safari/537.36",
         "Accept": "text/html,application/xhtml+xml,application/xml; q=0.9,image/webp,*/*;q=0.8"
       },
-      url: 'http://api.url2io.com/article?token=iLyhznUTQqyVkBiXmkyxhA&url=' + url
+      url: 'http://url2api.applinzi.com/demo/article?'+'&url=' + url
       ,
       success: function (res) {
-        console.log(res);
         var r = JSON.parse(res.body);
         // var r = res.data
         var article = r["content"];
-        console.log(article);
+        // console.log(article);
         article = app.towxml.toJson(article, 'html');
-        console.log(article);
+        // console.log(article);
         that.setData({
           article: article,
         });

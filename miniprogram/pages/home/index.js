@@ -208,6 +208,7 @@ Page({
               obj.title = obj.title.replace(/&rdquo;/g, "”");
               obj.title = obj.title.replace(/&mdash;/g, "—");
               obj.title = obj.title.replace(/&ndash;/g, "–");
+              obj.title = obj.title.replace(/&#8211;/g, "–");
             }
             if ('content:encoded' in rssDataItem) obj.article = rssDataItem["content:encoded"].text;
             else obj.article = (rssDataItem.content || rssDataItem.description).text || rssDataItem.description.p || '';
@@ -254,6 +255,7 @@ Page({
                 obj.title = obj.title.replace(/&rdquo;/g, "”");
                 obj.title = obj.title.replace(/&mdash;/g, "—");
                 obj.title = obj.title.replace(/&ndash;/g, "–");
+                obj.title = obj.title.replace(/&#8211;/g, "–");
               } else continue;
               if ('content:encoded' in rssDataItem) obj.article = rssDataItem["content:encoded"].text;
               else {

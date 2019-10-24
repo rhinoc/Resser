@@ -19,6 +19,7 @@ Page({
     wx.cloud.callFunction({
       name:'getOpenId',
       complete: res => {
+        console.log(res);
         wx.setStorageSync('openid', res.result)
       }
     })
